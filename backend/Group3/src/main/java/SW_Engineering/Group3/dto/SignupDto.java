@@ -7,15 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignupDto {
-
-    private String id;
-
+    
     @NotNull
+    @Email
+    @Pattern(regexp = "^[a-zA-Z0-9]+@ajou.ac.kr")
     private String email;
     @NotNull
     private String password;

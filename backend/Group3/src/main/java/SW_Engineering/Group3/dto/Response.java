@@ -119,7 +119,9 @@ public class Response {
      * @return 응답 객체
      */
     public ResponseEntity<?> fail(String msg, HttpStatus status) {
-        return fail(Collections.emptyList(), msg, status);
+        return new ResponseEntity<>(Body.builder()
+                .state(status.value())
+                .massage(msg).build(), status);
     }
 
     public ResponseEntity<?> invalidFields(LinkedList<LinkedHashMap<String, String>> errors) {
@@ -130,6 +132,7 @@ public class Response {
                 .massage("")
                 .error(errors)
                 .build();
+
         return ResponseEntity.ok(body);
     }
 }
