@@ -95,7 +95,7 @@ class Group3ApplicationTests {
 					.password("a12345678!")
 					.build();
 
-			ResponseEntity responseEntity = authService.login(loginDto);
+			ResponseEntity responseEntity = authService.login(loginDto, false);
 
 			//then
 			Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -122,7 +122,7 @@ class Group3ApplicationTests {
 					.password("a12345678!")
 					.build();
 
-			ResponseEntity responseEntity = authService.login(loginDto);
+			ResponseEntity responseEntity = authService.login(loginDto, false);
 
 			//then
 			Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -149,7 +149,7 @@ class Group3ApplicationTests {
 					.password("a!")
 					.build();
 
-			ResponseEntity responseEntity = authService.login(loginDto);
+			ResponseEntity responseEntity = authService.login(loginDto, false);
 			System.out.println(responseEntity.getBody().toString());
 
 			//then

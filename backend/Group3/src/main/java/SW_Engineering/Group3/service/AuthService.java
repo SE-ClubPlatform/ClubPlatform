@@ -5,6 +5,7 @@ import SW_Engineering.Group3.domian.UserSession;
 import SW_Engineering.Group3.dto.LoginDto;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.SignupDto;
+import SW_Engineering.Group3.dto.UpdateDto;
 import SW_Engineering.Group3.repository.MemberRepository;
 import SW_Engineering.Group3.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +27,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final SessionRepository sessionRepository;
 
+    @Transactional
     public Long signupUser(SignupDto signupDto){
 
         Member member = signupDto.toMember(passwordEncoder);
@@ -38,7 +41,22 @@ public class AuthService {
 
     }
 
-    public ResponseEntity login(LoginDto loginDto){
+    @Transactional
+    public ResponseEntity updateMember(UpdateDto updateDto){
+        String email = updateDto.getEmail();
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+
+        findMember.get().setStudentId(updateDto.getStudentId());
+        findMember.get().setMajor(updateDto.getMajor());
+        findMember.get().setPhoneNumber(updateDto.getPhoneNumber());
+
+        memberRepository.save(findMember.get());
+
+        return response.success("회원가입에 성공했습니다");
+    }
+
+    @Transactional
+    public ResponseEntity login(LoginDto loginDto, boolean fromOauth){
 
         String loginEmail = loginDto.getEmail();
         String loginPassword = loginDto.getPassword();
@@ -49,7 +67,9 @@ public class AuthService {
         //2. 유저 정보가 존재하는지 확인
         if(findMember.isPresent()){ // 유저 정보가 존재하면
 
-            if(passwordEncoder.matches(loginPassword, findMember.get().getPassword())) {
+            // 조건 1. Google Login으로 가입한 User은 비밀번호 검증이 필요없음(구글에서 인증해줬으므로)
+            // 조건 2. 일반 이메일 가입 유저는 form에 입력한 비밀번호가 db에 저장된 비밀번호와 동일해야함
+            if(fromOauth || passwordEncoder.matches(loginPassword, findMember.get().getPassword())) {
                 String sessionId = UUID.randomUUID().toString();
                 Long userId = findMember.get().getId();
 
@@ -67,5 +87,4 @@ public class AuthService {
         }
 
     }
-
 }
