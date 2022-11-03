@@ -22,7 +22,8 @@ public class Member {
     private String phoneNumber; // 핸드폰 번호
 
     @Builder
-    public Member(String email, String password, String studentId, String major, String phoneNumber){
+    public Member(String email, String password, String studentId,
+                  String major, String phoneNumber){
 
         this.email = email;
         this.password = password;

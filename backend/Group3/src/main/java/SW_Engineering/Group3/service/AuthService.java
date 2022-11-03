@@ -38,7 +38,7 @@ public class AuthService {
 
     }
 
-    public ResponseEntity login(LoginDto loginDto){
+    public ResponseEntity login(LoginDto loginDto, boolean fromOauth){
 
         String loginEmail = loginDto.getEmail();
         String loginPassword = loginDto.getPassword();
@@ -49,7 +49,9 @@ public class AuthService {
         //2. 유저 정보가 존재하는지 확인
         if(findMember.isPresent()){ // 유저 정보가 존재하면
 
-            if(passwordEncoder.matches(loginPassword, findMember.get().getPassword())) {
+            // 조건 1. Google Login으로 가입한 User은 비밀번호 검증이 필요없음(구글에서 인증해줬으므로)
+            // 조건 2. 일반 이메일 가입 유저는 form에 입력한 비밀번호가 db에 저장된 비밀번호와 동일해야함
+            if(fromOauth || passwordEncoder.matches(loginPassword, findMember.get().getPassword())) {
                 String sessionId = UUID.randomUUID().toString();
                 Long userId = findMember.get().getId();
 
@@ -67,5 +69,4 @@ public class AuthService {
         }
 
     }
-
 }
