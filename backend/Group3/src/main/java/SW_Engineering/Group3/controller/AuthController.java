@@ -4,6 +4,7 @@ import SW_Engineering.Group3.domian.Member;
 import SW_Engineering.Group3.dto.LoginDto;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.SignupDto;
+import SW_Engineering.Group3.dto.UpdateDto;
 import SW_Engineering.Group3.service.AuthService;
 import SW_Engineering.Group3.service.GoogleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -78,6 +79,22 @@ public class AuthController {
 
     }
 
+    @ApiOperation(
+            value = "구글 로그인 유저를 대상으로 받은 추가 정보를 저장",
+            notes = "구글 로그인 시 구글은 유저의 이메일 정보만 반환하므로, 학번이나 전화번호같은 부가정보를 따로 요구한 후 저장해야함"
+    )
+    @ApiImplicitParam(
+            name = "updateDto",
+            value = "사용자가 입력하는 추가정보가 담긴 form"
+    )
+    @PostMapping("/update")
+    public ResponseEntity<?> updateMember(@Validated @RequestBody UpdateDto updateDto, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return response.fail("회원가입 정보를 모두 입력해주세요", HttpStatus.BAD_REQUEST);
+
+        return authService.updateMember(updateDto);
+    }
+
     /**
      * 프론트와 연결하면, Code는 front에서 받게 하고 받은 code를 서버에 Axios 하도록 해야 함.
      */
@@ -102,6 +119,5 @@ public class AuthController {
         // 3. IdToken을 이용해 유저 정보를 얻어옴
         return googleService.getUserProfile(idToken);
     }
-
 
 }

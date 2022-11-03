@@ -5,6 +5,7 @@ import SW_Engineering.Group3.domian.UserSession;
 import SW_Engineering.Group3.dto.LoginDto;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.SignupDto;
+import SW_Engineering.Group3.dto.UpdateDto;
 import SW_Engineering.Group3.repository.MemberRepository;
 import SW_Engineering.Group3.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +27,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final SessionRepository sessionRepository;
 
+    @Transactional
     public Long signupUser(SignupDto signupDto){
 
         Member member = signupDto.toMember(passwordEncoder);
@@ -38,6 +41,21 @@ public class AuthService {
 
     }
 
+    @Transactional
+    public ResponseEntity updateMember(UpdateDto updateDto){
+        String email = updateDto.getEmail();
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+
+        findMember.get().setStudentId(updateDto.getStudentId());
+        findMember.get().setMajor(updateDto.getMajor());
+        findMember.get().setPhoneNumber(updateDto.getPhoneNumber());
+
+        memberRepository.save(findMember.get());
+
+        return response.success("회원가입에 성공했습니다");
+    }
+
+    @Transactional
     public ResponseEntity login(LoginDto loginDto, boolean fromOauth){
 
         String loginEmail = loginDto.getEmail();
