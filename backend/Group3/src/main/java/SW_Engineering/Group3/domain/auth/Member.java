@@ -1,8 +1,12 @@
 package SW_Engineering.Group3.domain.auth;
 
+import SW_Engineering.Group3.domain.club.ClubMemberList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,16 +18,23 @@ public class Member {
 
     private String email; // 로그인 id
     private String password; // 로그인 pw
+
+    @Setter private String userName; // 이름
     @Setter private String studentId; // 학번
     @Setter private String major; // 전공
     @Setter private String phoneNumber; // 핸드폰 번호
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ClubMemberList> joinClubs; // 가입한 동아리 목록
+
     @Builder
-    public Member(String email, String password, String studentId,
-                  String major, String phoneNumber){
+    public Member(String email, String password, String userName,
+                  String studentId, String major, String phoneNumber){
 
         this.email = email;
         this.password = password;
+        this.userName = userName;
         this.studentId = studentId;
         this.major = major;
         this.phoneNumber = phoneNumber;

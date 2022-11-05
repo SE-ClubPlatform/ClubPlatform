@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.controller;
 
+import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
@@ -7,6 +8,7 @@ import SW_Engineering.Group3.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +42,16 @@ public class ClubController {
         ClubMainPageDto clubMainPageDto = clubService.getClubInfo(clubId);
 
         return clubMainPageDto;
-
     }
 
+    @PostMapping("/{clubId}/registration/{memberId}")
+    public ResponseEntity registerUserToClub(@PathVariable Long clubId, @PathVariable Long memberId){
+        return clubService.registerUser(clubId, memberId);
+    }
+
+    @GetMapping("/{clubId}/members")
+    public MainResult viewClubMembers(@PathVariable Long clubId){
+        return clubService.viewClubMembers(clubId);
+    }
 
 }

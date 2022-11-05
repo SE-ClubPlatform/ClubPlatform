@@ -22,6 +22,8 @@ public class SignupDto {
     @NotNull
     private String password;
     @NotNull
+    private String userName;
+    @NotNull
     private String studentId;
     @NotNull
     private String major;
@@ -33,6 +35,7 @@ public class SignupDto {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
+                .userName(userName)
                 .studentId(studentId)
                 .major(major)
                 .phoneNumber(phoneNumber)
@@ -40,9 +43,11 @@ public class SignupDto {
     }
 
     @Builder
-    public SignupDto(String email, String password, String studentId, String major, String phoneNumber){
+    public SignupDto(String email, String password, String userName,
+                     String studentId, String major, String phoneNumber){
         this.email = email;
         this.password = password;
+        this.userName = userName;
         this.studentId = studentId;
         this.major = major;
         this.phoneNumber = phoneNumber;

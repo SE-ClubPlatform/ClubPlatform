@@ -1,1 +1,8 @@
-INSERT INTO club_auth_token (club_name, president_name, token) VALUES ("동아리 1", "김우진", "11111");
+INSERT INTO member (email, major, password, phone_number, student_id, user_name)
+    VALUES ("dnwls813@ajou.ac.kr", "소프트웨어학과", "a12345678!", "010-1234-5678", "201820772", "김우진");
+
+INSERT INTO club (category, club_name, introduce, president_name)
+    VALUES ("코딩 동아리", "우진이의 동아리", "한 줄 소개입니다", "김우진");
+
+INSERT INTO club_auth_token (club_name, president_name, token)
+    VALUES ("동아리 1", "김우진", "11111");

@@ -18,6 +18,8 @@ public class UpdateDto {
     @Pattern(regexp = "^[a-zA-Z0-9]+@ajou.ac.kr")
     private String email;
     @NotNull
+    private String userName;
+    @NotNull
     private String studentId;
     @NotNull
     private String major;
@@ -27,6 +29,7 @@ public class UpdateDto {
     public Member toMember() {
         return Member.builder()
                 .email(email)
+                .userName(userName)
                 .studentId(studentId)
                 .major(major)
                 .phoneNumber(phoneNumber)

@@ -1,6 +1,8 @@
 package SW_Engineering.Group3.domain.club;
 
 import SW_Engineering.Group3.domain.auth.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +24,7 @@ public class Club {
     private String introduce; // 한 줄 소개
     private String category;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<ClubMemberList> clubMembers; // 동아리 부원들
 
