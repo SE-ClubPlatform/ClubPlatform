@@ -1,6 +1,6 @@
 package SW_Engineering.Group3.repository;
 
-import SW_Engineering.Group3.domian.Member;
+import SW_Engineering.Group3.domain.auth.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
