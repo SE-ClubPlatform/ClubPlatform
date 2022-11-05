@@ -36,14 +36,14 @@ public class ClubService {
     /**
      * 동아리 정보를 저장
      */
-    public Long registerClubInfo(ClubRegisterDto clubRegisterDto){
+    public Long registerClub(ClubRegisterDto clubRegisterDto){
 
         String clubName = clubRegisterDto.getClubName();
         String presidentName = clubRegisterDto.getPresidentName();
 
         ClubAuthToken savedToken = tokenRepository.findTokenByNameAndPresident(clubName, presidentName);
 
-        if(savedToken.getToken().equals(clubRegisterDto.getAuthenticationToken()))
+        if(savedToken != null && savedToken.getToken().equals(clubRegisterDto.getAuthenticationToken()))
             return clubRepository.save(clubRegisterDto.toClub()).getId();
         else
             return null;
@@ -110,7 +110,7 @@ public class ClubService {
             return null;
 
         //2. 전달받은 동아리 번호에 해당하는 동아리가 가진 모든 동아리-유저 정보를 db로부터 가져옴
-        List<ClubMemberList> joinList = clubMemberRepository.findByClubId(club.get());
+        List<ClubMemberList> joinList = clubMemberRepository.findByClub(club.get());
 
         //3. 동아리-유저 정보에서 유저 정보만 추출
         List<Member> memberList = joinList.stream()
