@@ -19,6 +19,8 @@ target 'SE_ClubPlatform_App' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'SE_ClubPlatform_AppTests' do
     inherit! :complete
     # Pods for testing
