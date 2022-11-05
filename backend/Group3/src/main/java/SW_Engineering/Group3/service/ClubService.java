@@ -10,6 +10,7 @@ import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.club.JoinMemberDto;
+import SW_Engineering.Group3.dto.club.MainPageDto;
 import SW_Engineering.Group3.repository.ClubMemberRepository;
 import SW_Engineering.Group3.repository.ClubRepository;
 import SW_Engineering.Group3.repository.MemberRepository;
@@ -122,4 +123,7 @@ public class ClubService {
                 .map(member -> JoinMemberDto.createJoinMemberDto(member)));
     }
 
+    public List<Club> getAllClubs() {
+        return clubRepository.findAll();
+    }
 }

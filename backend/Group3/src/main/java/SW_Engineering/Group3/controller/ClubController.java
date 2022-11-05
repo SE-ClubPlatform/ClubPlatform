@@ -4,6 +4,7 @@ import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
+import SW_Engineering.Group3.dto.club.MainPageDto;
 import SW_Engineering.Group3.service.ClubService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +23,21 @@ public class ClubController {
 
     private final Response response;
     private final ClubService clubService;
+
+    @ApiOperation(
+            value = "[동아리 정보가 궁금하다면?]에 노출될 모든 동아리 정보 반환"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "동아리 이름, 카테고리가 표시된 모든 동아리 정보 반환")
+    })
+    @GetMapping("/all")
+    public MainResult getAllClubs(){
+        List<MainPageDto> allClubs =  clubService.getAllClubs().stream()
+                .map(club -> new MainPageDto(club.getClubName(), club.getCategory()))
+                .collect(Collectors.toList());
+
+        return new MainResult(allClubs.size(), allClubs);
+    }
 
     @ApiOperation(
             value = "동아리 등록",
