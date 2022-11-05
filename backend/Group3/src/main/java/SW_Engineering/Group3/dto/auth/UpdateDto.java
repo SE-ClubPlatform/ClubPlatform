@@ -1,14 +1,16 @@
-package SW_Engineering.Group3.dto;
+package SW_Engineering.Group3.dto.auth;
 
-import SW_Engineering.Group3.domian.Member;
+import SW_Engineering.Group3.domain.auth.Member;
+import lombok.AccessLevel;
 import lombok.Data;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UpdateDto {
 
     @NotNull

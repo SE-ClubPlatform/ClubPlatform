@@ -24,6 +24,11 @@ public class Response {
         private Object error;
     }
 
+    public static class ApiResult<T>{
+        private int count;
+        private T data;
+    }
+
     public ResponseEntity<?> success(Object data, String msg, HttpStatus status) {
         Body body = Body.builder()
                 .state(status.value())

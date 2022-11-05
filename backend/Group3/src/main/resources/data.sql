@@ -1,0 +1,1 @@
+INSERT INTO club_auth_token (club_name, president_name, token) VALUES ("동아리 1", "김우진", "11111");

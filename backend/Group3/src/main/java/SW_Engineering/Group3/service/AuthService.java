@@ -1,11 +1,11 @@
 package SW_Engineering.Group3.service;
 
-import SW_Engineering.Group3.domian.Member;
-import SW_Engineering.Group3.domian.UserSession;
-import SW_Engineering.Group3.dto.LoginDto;
+import SW_Engineering.Group3.domain.auth.Member;
+import SW_Engineering.Group3.domain.auth.UserSession;
+import SW_Engineering.Group3.dto.auth.LoginDto;
 import SW_Engineering.Group3.dto.Response;
-import SW_Engineering.Group3.dto.SignupDto;
-import SW_Engineering.Group3.dto.UpdateDto;
+import SW_Engineering.Group3.dto.auth.SignupDto;
+import SW_Engineering.Group3.dto.auth.UpdateDto;
 import SW_Engineering.Group3.repository.MemberRepository;
 import SW_Engineering.Group3.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
