@@ -1,4 +1,4 @@
-package SW_Engineering.Group3.domian;
+package SW_Engineering.Group3.domain.auth;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

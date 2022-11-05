@@ -1,10 +1,9 @@
 package SW_Engineering.Group3.controller;
 
-import SW_Engineering.Group3.domian.Member;
-import SW_Engineering.Group3.dto.LoginDto;
+import SW_Engineering.Group3.dto.auth.LoginDto;
 import SW_Engineering.Group3.dto.Response;
-import SW_Engineering.Group3.dto.SignupDto;
-import SW_Engineering.Group3.dto.UpdateDto;
+import SW_Engineering.Group3.dto.auth.SignupDto;
+import SW_Engineering.Group3.dto.auth.UpdateDto;
 import SW_Engineering.Group3.service.AuthService;
 import SW_Engineering.Group3.service.GoogleService;
 import com.fasterxml.jackson.core.JsonProcessingException;

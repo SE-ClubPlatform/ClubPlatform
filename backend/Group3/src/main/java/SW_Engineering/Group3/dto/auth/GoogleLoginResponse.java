@@ -1,4 +1,4 @@
-package SW_Engineering.Group3.dto;
+package SW_Engineering.Group3.dto.auth;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
