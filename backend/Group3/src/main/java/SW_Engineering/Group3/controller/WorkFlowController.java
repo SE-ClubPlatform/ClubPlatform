@@ -1,8 +1,11 @@
 package SW_Engineering.Group3.controller;
 
 import SW_Engineering.Group3.domain.club.Club;
+import SW_Engineering.Group3.domain.workflow.Work;
+import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.workflow.RegisterWorkDto;
+import SW_Engineering.Group3.dto.workflow.WorkMainPageDto;
 import SW_Engineering.Group3.service.ClubService;
 import SW_Engineering.Group3.service.WorkService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,14 +37,22 @@ public class WorkFlowController {
 
         Club club = clubService.findClubById(clubId);
 
-        if(club == null) {
-            return response.fail("존재하지 않는 동아리입니다.", HttpStatus.BAD_REQUEST);
-        }
-
         workService.register(registerWorkDto.toWork(club));
 
         return response.success("업무 저장에 성공했습니다.");
 
+    }
+
+    @GetMapping("/mainpage")
+    public MainResult getClubMainPageWorkInfo(@PathVariable("club_id") Long clubId) {
+
+        Club club = clubService.findClubById(clubId);
+
+        List<Work> works = workService.findAllWorks(club);
+
+        return new MainResult(works.size(), works.stream()
+                .map(w -> new WorkMainPageDto(w.getId(), w.getTitle()))
+                .collect(Collectors.toList()));
     }
 
 }
