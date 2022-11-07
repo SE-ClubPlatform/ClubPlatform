@@ -1,12 +1,12 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import Topbar from './Topbar';
+import TopBar from './TopBar';
 import BottomBar from './BottomBar';
 
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Topbar style={styles.header}/>
+      <TopBar style={styles.header}/>
       <View style={styles.content}>
         {/* <Text style={styles.appTitle}>Hello Todolist</Text> */}
       </View>
