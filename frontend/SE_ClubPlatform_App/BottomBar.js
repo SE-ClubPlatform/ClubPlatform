@@ -1,17 +1,30 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const BottomBar = () => {
     return (
         <View style={styles.footer}>
-            <View style={styles.item1}>
-            <Icon name="notification" size={30} color="#900" />
-            </View>
-            <View style={styles.item2}></View>
-            <View style={styles.item3}></View>
-            <View style={styles.item4}></View>
-            <View style={styles.item5}></View>
+            <TouchableOpacity style={styles.item}>
+                <Icon name="notification" size={30} color="#FFF" />
+                <Text style={styles.font}>공지사항</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.item}>
+                <Icon name="wechat" size={30} color="#FFF" />
+                <Text style={styles.font}>소모임 모집</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.item}>
+                <Icon name="home" size={30} color="#FFF" />
+                <Text style={styles.font}>홈</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.item}>
+                <Icon name="unlock" size={30} color="#FFF" />
+                <Text style={styles.font}>동방 출입</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.item}>
+                <Icon name="unknowfile1" size={28} color="#FFF" />
+                <Text style={styles.font}>익명 신문고</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -24,25 +37,17 @@ const styles = StyleSheet.create({
         backgroundColor : "#FFA5A5",
         flexDirection : "row",
       },
-    item1 : {
+    item: {
         flex : 1,
-        backgroundColor : "cyan"
+        backgroundColor : "#FFA5A5",
+        justifyContent : "center",
+        alignItems : "center",
     },
-    item2 : {
-        flex : 1,
-        backgroundColor : "#BBBBBB"
-    },
-    item3 : {
-        flex : 1,
-        backgroundColor : "tomato"
-    },
-    item4 : {
-        flex : 1,
-        backgroundColor : "#CCCCCC"
-    },
-    item5 : {
-        flex : 1,
-        backgroundColor : "#DDDDDD"
+    font : {
+        margin : 3,
+        fontSize : 12,
+        color : "#FFF",
+        fontWeight : 'bold'
     }
   });
 
