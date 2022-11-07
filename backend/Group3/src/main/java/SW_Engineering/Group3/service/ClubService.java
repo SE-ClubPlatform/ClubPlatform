@@ -10,11 +10,10 @@ import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.club.JoinMemberDto;
-import SW_Engineering.Group3.dto.club.MainPageDto;
-import SW_Engineering.Group3.repository.ClubMemberRepository;
-import SW_Engineering.Group3.repository.ClubRepository;
-import SW_Engineering.Group3.repository.MemberRepository;
-import SW_Engineering.Group3.repository.TokenRepository;
+import SW_Engineering.Group3.repository.club.ClubMemberRepository;
+import SW_Engineering.Group3.repository.club.ClubRepository;
+import SW_Engineering.Group3.repository.member.MemberRepository;
+import SW_Engineering.Group3.repository.club.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -125,5 +124,9 @@ public class ClubService {
 
     public List<Club> getAllClubs() {
         return clubRepository.findAll();
+    }
+
+    public Club findClubById(Long clubId) {
+        return clubRepository.findById(clubId).orElse(null);
     }
 }

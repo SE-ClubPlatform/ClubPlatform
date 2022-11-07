@@ -2,10 +2,9 @@ package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.domain.club.ClubMemberList;
-import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.member.JoinClubDto;
-import SW_Engineering.Group3.repository.ClubMemberRepository;
-import SW_Engineering.Group3.repository.MemberRepository;
+import SW_Engineering.Group3.repository.club.ClubMemberRepository;
+import SW_Engineering.Group3.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

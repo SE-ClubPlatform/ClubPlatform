@@ -4,7 +4,7 @@ import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.dto.auth.GoogleLoginResponse;
 import SW_Engineering.Group3.dto.auth.LoginDto;
 import SW_Engineering.Group3.dto.Response;
-import SW_Engineering.Group3.repository.MemberRepository;
+import SW_Engineering.Group3.repository.member.MemberRepository;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

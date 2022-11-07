@@ -19,7 +19,7 @@ public class Response {
 
         private int state;
         private String result;
-        private String massage;
+        private String message;
         private Object data;
         private Object error;
     }
@@ -34,7 +34,7 @@ public class Response {
                 .state(status.value())
                 .data(data)
                 .result("success")
-                .massage(msg)
+                .message(msg)
                 .error(Collections.emptyList())
                 .build();
         return ResponseEntity.ok(body);
@@ -101,7 +101,7 @@ public class Response {
                 .state(status.value())
                 .data(data)
                 .result("fail")
-                .massage(msg)
+                .message(msg)
                 .error(Collections.emptyList())
                 .build();
         return ResponseEntity.ok(body);
@@ -126,7 +126,7 @@ public class Response {
     public ResponseEntity<?> fail(String msg, HttpStatus status) {
         return new ResponseEntity<>(Body.builder()
                 .state(status.value())
-                .massage(msg).build(), status);
+                .message(msg).build(), status);
     }
 
     public ResponseEntity<?> invalidFields(LinkedList<LinkedHashMap<String, String>> errors) {
@@ -134,7 +134,7 @@ public class Response {
                 .state(HttpStatus.BAD_REQUEST.value())
                 .data(Collections.emptyList())
                 .result("fail")
-                .massage("")
+                .message("")
                 .error(errors)
                 .build();
 

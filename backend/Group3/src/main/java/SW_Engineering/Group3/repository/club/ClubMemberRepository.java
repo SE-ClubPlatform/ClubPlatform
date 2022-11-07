@@ -1,4 +1,4 @@
-package SW_Engineering.Group3.repository;
+package SW_Engineering.Group3.repository.club;
 
 import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.domain.club.Club;

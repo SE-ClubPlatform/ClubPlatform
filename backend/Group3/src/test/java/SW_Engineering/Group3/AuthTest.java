@@ -4,7 +4,7 @@ import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.auth.LoginDto;
 import SW_Engineering.Group3.dto.auth.SignupDto;
-import SW_Engineering.Group3.repository.MemberRepository;
+import SW_Engineering.Group3.repository.member.MemberRepository;
 import SW_Engineering.Group3.service.AuthService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
