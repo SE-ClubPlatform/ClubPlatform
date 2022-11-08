@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WorkRepository extends JpaRepository<Work, Long> {
@@ -17,5 +18,12 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
      */
     @Query(value = "SELECT w FROM Work w WHERE w.club = :club")
     List<Work> findWorksByClub(@Param("club") Club club);
+
+    /**
+     * 전달받은 동아리가 가진 특정 업무를 반환
+     */
+    @Query(value = "SELECT w FROM Work w WHERE w.club = :club AND w.id = :work_id")
+    Work findWorkByClubAndWorkId(@Param("club") Club club,
+                                 @Param("work_id") Long workId);
 
 }

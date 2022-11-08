@@ -23,23 +23,33 @@ public class Work {
     @ManyToOne(fetch = FetchType.LAZY)
     private Club club;
 
-    @OneToMany(mappedBy = "work", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "work", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phase> phases;
 
     private String title;
     private String introduce;
     private LocalDate finishDate;
 
+    private int currentStep;
+
     @Builder
-    public Work(Club club, String title, String introduce, LocalDate finishDate){
+    public Work(Club club, String title, String introduce,
+                LocalDate finishDate, int currentStep) {
+
         this.club = club;
         this.title = title;
         this.introduce = introduce;
         this.finishDate = finishDate;
+        this.currentStep = currentStep;
+
     }
 
-    public void addPhase(Phase phase){
+    public void addPhase(Phase phase) {
         this.phases.add(phase);
+    }
+
+    public void updateStep() {
+        this.currentStep += 1;
     }
 
 }

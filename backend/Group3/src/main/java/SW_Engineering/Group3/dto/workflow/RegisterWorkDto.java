@@ -34,6 +34,7 @@ public class RegisterWorkDto {
                 .title(this.title)
                 .introduce(this.introduce)
                 .finishDate(this.finishDate)
+                .currentStep(0)
                 .build();
 
     }

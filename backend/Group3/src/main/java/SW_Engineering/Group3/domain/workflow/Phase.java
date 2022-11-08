@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,21 +23,20 @@ public class Phase {
     private Long clubId;
     private String title;
     private String content;
-    private int currentStep;
-    private LocalDateTime deadLine;
+    private int step;
+    private LocalDate finishDate;
     private boolean isFinish;
 
     @Builder
     public Phase(Work work, Long clubId, String title, String content,
-                 int currentStep, LocalDateTime deadLine, boolean isFinish) {
+                 int step, LocalDate finishDate) {
 
         this.work = work;
         this.clubId = clubId;
         this.title = title;
         this.content = content;
-        this.currentStep = currentStep;
-        this.deadLine = deadLine;
-        this.isFinish = isFinish;
+        this.step = step;
+        this.finishDate = finishDate;
 
     }
 
