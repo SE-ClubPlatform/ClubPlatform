@@ -25,7 +25,6 @@ public class Phase {
     private String content;
     private int step;
     private LocalDate finishDate;
-    private boolean isFinish;
 
     @Builder
     public Phase(Work work, Long clubId, String title, String content,

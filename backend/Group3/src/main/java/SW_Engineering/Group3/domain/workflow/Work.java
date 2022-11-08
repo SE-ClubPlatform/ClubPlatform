@@ -29,7 +29,6 @@ public class Work {
     private String title;
     private String introduce;
     private LocalDate finishDate;
-
     private int currentStep;
 
     @Builder

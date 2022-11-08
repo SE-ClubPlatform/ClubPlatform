@@ -5,6 +5,7 @@ import SW_Engineering.Group3.domain.workflow.Phase;
 import SW_Engineering.Group3.domain.workflow.Work;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
+import SW_Engineering.Group3.dto.workflow.DetailWorkDto;
 import SW_Engineering.Group3.dto.workflow.RegisterPhaseDto;
 import SW_Engineering.Group3.dto.workflow.RegisterWorkDto;
 import SW_Engineering.Group3.dto.workflow.WorkMainPageDto;
@@ -66,6 +67,25 @@ public class WorkFlowController {
         return new MainResult(works.size(), works.stream()
                                             .map(w -> new WorkMainPageDto(w.getId(), w.getTitle()))
                                             .collect(Collectors.toList()));
+    }
+
+    /**
+     * [활동별 진행상황 보기]에서 반환되는 활동 정보 반환
+     */
+    @GetMapping("/all")
+    public MainResult getClubAllWorks(@PathVariable("club_id") Long clubId) {
+
+        Club club = clubService.findClubById(clubId);
+
+        List<Work> works = workService.findAllWorks(club);
+
+        return new MainResult(works.size(), works.stream()
+                .map(w -> DetailWorkDto.builder()
+                        .title(w.getTitle())
+                        .introduce(w.getIntroduce())
+                        .phaseStep(w.getCurrentStep())
+                        .build())
+                .collect(Collectors.toList()));
     }
 
     /**
