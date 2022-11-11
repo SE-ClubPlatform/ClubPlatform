@@ -1,18 +1,28 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TopBar from './screens/Bar/Topbar';
 import BottomBar from './BottomBar';
+import {Dimensions} from 'react-native';
 
 import Register from './screens/AuthScreen/Register';
 import Login from './screens/AuthScreen/Login';
 import Splash from './screens/AuthScreen/Splash';
+import Home from './screens/MainScreen/Home';
+import Group from './screens/MainScreen/Group';
+import Clubroom from './screens/MainScreen/Clubroom';
+import News from './screens/MainScreen/News';
+import Notice from './screens/MainScreen/Notice';
+import Main from './screens/MainScreen/Main';
 
-const Tab = createBottomTabNavigator(); // 탭 네비게이터 선언
-const Stack = createStackNavigator(); // 인증 페이지 스택 선언
-const ClubMainStack = createStackNavigator(); // 메인 페이지 스택 선언
+const Height = Dimensions.get('window').height;
+const Width = Dimensions.get('window').width;
+
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+const ClubMainStack = createBottomTabNavigator();
 
 // Stack Navigator for Login and Register and Logout Screen
 const Auth = () => {
@@ -32,6 +42,69 @@ const Auth = () => {
   );
 };
 
+const ClubMainStackScreen = ({navigation, route}) => {
+  return (
+    <ClubMainStack.Navigator
+      style={styles.top}
+      initialRouteName="홈"
+      tabBarOptions={{
+        labelStyle: {color: '#FFAAB3', fontWeight: '500', fontSize: 11},
+      }}>
+      <ClubMainStack.Screen
+        name="공지사항"
+        component={Notice}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <Image source={require('./icons/Notice.png')} />;
+          },
+        }}
+      />
+      <ClubMainStack.Screen
+        name="소모임 모집"
+        component={Group}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <Image source={require('./icons/Group.png')} />;
+          },
+        }}
+      />
+      <ClubMainStack.Screen
+        name="홈"
+        component={Home}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <Image source={require('./icons/Home.png')} />;
+          },
+        }}
+      />
+
+      <ClubMainStack.Screen
+        name="동아리방 현황"
+        component={Clubroom}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <Image source={require('./icons/Clubroom.png')} />;
+          },
+        }}
+      />
+      <ClubMainStack.Screen
+        name="익명 신문고"
+        component={News}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <Image source={require('./icons/News.png')} />;
+          },
+        }}
+      />
+    </ClubMainStack.Navigator>
+  );
+};
+
 const App = () => {
   return (
     <NavigationContainer>
@@ -46,7 +119,16 @@ const App = () => {
           component={Auth}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen name="Main" component={Main} options={{headerShown:false}}/> */}
+        <Stack.Screen
+          name="ClubMain"
+          component={ClubMainStackScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -74,6 +156,29 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
+  },
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
+  },
+  input: {
+    width: '200px',
+    marginBottom: '25px',
+  },
+  top: {
+    backgroundColor: '#FFAAB3',
   },
 });
 

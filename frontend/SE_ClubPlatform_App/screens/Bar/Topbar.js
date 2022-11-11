@@ -19,17 +19,17 @@ function Topbar({navigation}) {
     <View style={styles.block}>
       <Text style={styles.text}>ClubPlatform</Text>
       <View style={styles.StatusBarIcon}>
-        <TouchableOpacity
-          style={{marginRight: Width * 0.77, marginTop: Width * 0.005}}
+        {/* <TouchableOpacity
+          style={{marginRight: Width * 0.85, marginTop: Width * 0.005}}
           activeOpacity={0.7}
           onPress={() => navigation.pop()}>
           <Image source={require('../../icons/Back.png')} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => navigation.navigate('Notice')}>
-          <Image source={require('../../icons/Notice.png')} />
+          <Image source={require('../../icons/Alarm.png')} />
         </TouchableOpacity>
       </View>
     </View>
