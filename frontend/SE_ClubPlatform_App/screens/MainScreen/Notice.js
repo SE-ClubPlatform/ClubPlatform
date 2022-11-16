@@ -5,7 +5,7 @@ import Topbar from '../Bar/Topbar';
 function Notice({navigation}) {
   return (
     <View>
-      <Topbar />
+      <Topbar navigation={navigation} />
       <Text>This is Notice screen !</Text>
     </View>
   );

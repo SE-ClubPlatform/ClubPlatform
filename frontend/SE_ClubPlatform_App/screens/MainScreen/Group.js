@@ -5,7 +5,7 @@ import Topbar from '../Bar/Topbar';
 function Group({navigation}) {
   return (
     <View>
-      <Topbar />
+      <Topbar navigation={navigation} />
       <Text>This is Group screen !</Text>
     </View>
   );

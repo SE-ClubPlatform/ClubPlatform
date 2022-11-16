@@ -19,12 +19,12 @@ function Topbar({navigation}) {
     <View style={styles.block}>
       <Text style={styles.text}>ClubPlatform</Text>
       <View style={styles.StatusBarIcon}>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{marginRight: Width * 0.85, marginTop: Width * 0.005}}
           activeOpacity={0.7}
           onPress={() => navigation.pop()}>
           <Image source={require('../../icons/Back.png')} />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.7}

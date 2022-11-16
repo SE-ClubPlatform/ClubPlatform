@@ -5,7 +5,7 @@ import Topbar from '../Bar/Topbar';
 function News({navigation}) {
   return (
     <View>
-      <Topbar />
+      <Topbar navigation={navigation} />
       <Text>This is News screen !</Text>
     </View>
   );

@@ -2,13 +2,13 @@ import React from 'react';
 import {View, Text, Button} from 'react-native';
 import Topbar from '../Bar/Topbar';
 
-function Clubroom({navigation}) {
+function AddClub({navigation}) {
   return (
     <View>
       <Topbar navigation={navigation} />
-      <Text>This is Clubroom screen !</Text>
+      <Text>This is AddClub screen !</Text>
     </View>
   );
 }
 
-export default Clubroom;
+export default AddClub;

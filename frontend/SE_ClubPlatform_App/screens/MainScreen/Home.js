@@ -5,7 +5,7 @@ import Topbar from '../Bar/Topbar';
 function Home({navigation}) {
   return (
     <View>
-      <Topbar />
+      <Topbar navigation={navigation} />
       <Text>This is Home screen !</Text>
     </View>
   );
