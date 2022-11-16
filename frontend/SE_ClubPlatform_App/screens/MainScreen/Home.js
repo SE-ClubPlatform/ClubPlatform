@@ -6,6 +6,7 @@ import Topbar from '../Bar/Topbar';
 function Home({navigation}) {
   return (
     <View>
+<<<<<<< HEAD
       <Topbar />
       <ScrollView>
         <View style={styles.card}>
@@ -31,6 +32,10 @@ function Home({navigation}) {
           <TextInput style={styles.input} placeholder="Add an item!" />
         </View>
       </ScrollView>
+=======
+      <Topbar navigation={navigation} />
+      <Text>This is Home screen !</Text>
+>>>>>>> f02942d8659b6f97db9f7708e538f73420499d57
     </View>
   );
 }
