@@ -17,6 +17,7 @@ import News from './screens/MainScreen/News';
 import Notice from './screens/MainScreen/Notice';
 import Main from './screens/MainScreen/Main';
 import AddClub from './screens/SubScreen/AddClub';
+import Anonymous from './screens/MainScreen/Anonymous';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -94,7 +95,7 @@ const ClubMainStackScreen = ({navigation, route}) => {
       />
       <ClubMainStack.Screen
         name="익명 신문고"
-        component={News}
+        component={Anonymous}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => {
