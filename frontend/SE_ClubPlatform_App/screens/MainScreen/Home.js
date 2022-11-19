@@ -9,7 +9,7 @@ const Width = Dimensions.get('window').width;
 
 function Home({navigation}) {
   return (
-    <View>
+    <View style= {{flex:1,}}>
       <Topbar navigation={navigation} />
       <ScrollView>
         <View style={styles.card}>
@@ -238,6 +238,7 @@ const styles = StyleSheet.create({
   container_sub : {
     flexDirection: 'row',
     alignItems: 'center',
+    margin : 3,
     padding: 5,
   },
   container_right :{
