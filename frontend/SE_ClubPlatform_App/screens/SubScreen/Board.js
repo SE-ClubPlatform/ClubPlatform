@@ -17,7 +17,7 @@ function Board({navigation, title}) {
   return (
     <View style={{flex: 1,}}>
       <Topbar navigation={navigation} />
-      <View style={{flex: 1, margin: Width * 0.05}}>
+      <View style={{flex: 1, margin: Width * 0.05, marginBottom : 0}}>
         <Text style={styles.fontStyle}>{title}</Text>
         <View style={{flex: 1}}>
           <ScrollView style={{flex: 1}}>
