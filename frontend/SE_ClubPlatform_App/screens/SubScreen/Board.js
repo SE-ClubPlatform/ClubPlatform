@@ -15,9 +15,9 @@ const Width = Dimensions.get('window').width;
 
 function Board({navigation, title}) {
   return (
-    <View style={{flex: 1,}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
-      <View style={{flex: 1, margin: Width * 0.05}}>
+      <View style={{flex: 1, padding: Width * 0.05}}>
         <Text style={styles.fontStyle}>{title}</Text>
         <View style={{flex: 1}}>
           <ScrollView style={{flex: 1}}>
@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
   postStyle: {
     borderRadius: 10,
     height: Height * 0.1,
-    backgroundColor : "#FFFFFF",
-    elevation : 3,
-    margin : 7,
+    backgroundColor: '#FFFFFF',
+    elevation: 3,
+    margin: 7,
     marginVertical: Height * 0.005,
   },
   fontStyle: {
