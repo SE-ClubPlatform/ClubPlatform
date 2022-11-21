@@ -16,7 +16,7 @@ function Notice({navigation}) {
     //     <Board></Board>
     //   </View>
     // </View>
-    <Board title={'공지사항 📢'} />
+    <Board navigation={navigation} title={'공지사항 📢'} />
   );
 }
 
