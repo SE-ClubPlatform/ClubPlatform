@@ -80,7 +80,7 @@ function Login({navigation}) {
           <TouchableOpacity
             style={styles.btn}
             // onPress={() => postData(userId, userPassword)}
-            onPress={() => navigation.navigate('Main')}>
+            onPress={() => navigation.navigate('HomeStack')}>
             <Text style={{color: 'white'}}>로그인</Text>
           </TouchableOpacity>
         </View>

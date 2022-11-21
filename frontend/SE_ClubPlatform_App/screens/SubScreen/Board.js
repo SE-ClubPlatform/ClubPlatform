@@ -17,8 +17,20 @@ function Board({navigation, title}) {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
-      <View style={{flex: 1, margin: Width * 0.05, marginBottom : 0}}>
-        <Text style={styles.fontStyle}>{title}</Text>
+      <View style={{flex: 1, margin: Width * 0.05, marginBottom: 0}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingRight: Width * 0.02,
+          }}>
+          <Text style={styles.fontStyle}>{title}</Text>
+          <TouchableOpacity
+            style={styles.postButton}
+            onPress={() => navigation.navigate('Post')}>
+            <Text>글쓰기</Text>
+          </TouchableOpacity>
+        </View>
         <View style={{flex: 1}}>
           <ScrollView style={{flex: 1}}>
             <TouchableOpacity style={styles.postStyle}></TouchableOpacity>
@@ -49,6 +61,14 @@ const styles = StyleSheet.create({
   fontStyle: {
     fontSize: 28,
     marginBottom: Height * 0.03,
+  },
+  postButton: {
+    width: Width * 0.2,
+    height: Height * 0.05,
+    borderWidth: 0.2,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

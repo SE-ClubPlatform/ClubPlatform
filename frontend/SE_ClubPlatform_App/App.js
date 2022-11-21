@@ -18,12 +18,14 @@ import Notice from './screens/MainScreen/Notice';
 import Main from './screens/MainScreen/Main';
 import AddClub from './screens/SubScreen/AddClub';
 import Anonymous from './screens/MainScreen/Anonymous';
+import Post from './screens/SubScreen/Post';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
 const ClubMainStack = createBottomTabNavigator();
 
 // Stack Navigator for Login and Register and Logout Screen
@@ -41,6 +43,38 @@ const Auth = () => {
         options={{title: '', headerTransparent: true}}
       />
     </Stack.Navigator>
+  );
+};
+
+const HomeStackScreen = ({navigation}) => {
+  return (
+    <HomeStack.Navigator
+      style={styles.top}
+      initialRouteName="Main"
+      topBarOptions={{
+        labelStyle: {color: '#FFAAB3', fontWeight: '500', fontSize: 11},
+      }}>
+      <HomeStack.Screen
+        name="Main"
+        component={Main}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="Post"
+        component={Post}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="ClubMain"
+        component={ClubMainStackScreen}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="AddClub"
+        component={AddClub}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+    </HomeStack.Navigator>
   );
 };
 
@@ -121,21 +155,21 @@ const App = () => {
           component={Auth}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ClubMain"
           component={ClubMainStackScreen}
           options={{headerShown: false}}
-        />
+        /> */}
         <Stack.Screen
-          name="Main"
-          component={Main}
+          name="HomeStack"
+          component={HomeStackScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="AddClub"
           component={AddClub}
           options={{headerShown: false}}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
