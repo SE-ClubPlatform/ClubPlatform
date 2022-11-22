@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Dimensions} from 'react-native';
 import Topbar from '../Bar/Topbar';
+import PostComponent from './PostComponent';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -33,7 +34,7 @@ function Board({navigation, title}) {
         </View>
         <View style={{flex: 1}}>
           <ScrollView style={{flex: 1}}>
-            <TouchableOpacity style={styles.postStyle}></TouchableOpacity>
+            <PostComponent />
             <TouchableOpacity style={styles.postStyle}></TouchableOpacity>
             <TouchableOpacity style={styles.postStyle}></TouchableOpacity>
             <TouchableOpacity style={styles.postStyle}></TouchableOpacity>
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: Height * 0.007,
   },
 });
 
