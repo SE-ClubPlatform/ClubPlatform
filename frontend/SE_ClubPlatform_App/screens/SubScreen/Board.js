@@ -18,12 +18,13 @@ function Board({navigation, title}) {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
-      <View style={{flex: 1, margin: Width * 0.05, marginBottom: 0}}>
+      <View style={{flex: 1, margin: Width * 0.05}}>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingRight: Width * 0.02,
+            marginBottom: Height * 0.02,
           }}>
           <Text style={styles.fontStyle}>{title}</Text>
           <TouchableOpacity
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   postButton: {
     width: Width * 0.2,
     height: Height * 0.05,
-    borderWidth: 0.2,
+    borderWidth: 0.3,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
