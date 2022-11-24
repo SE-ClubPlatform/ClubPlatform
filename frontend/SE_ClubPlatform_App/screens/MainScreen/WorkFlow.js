@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
+import * as Progress from 'react-native-progress';
 import Topbar from '../Bar/Topbar';
 
 const Height = Dimensions.get('window').height;
@@ -26,7 +27,7 @@ function WorkFlow({navigation}) {
       <ScrollView>
       <View style={styles.card}>
           <View style={styles.container_title}>
-            <Text style={styles.cardTitle}>활동 1</Text>
+            <Text style={styles.cardTitle}>활동 11</Text>
             <View style={styles.gray_card}>
                 <View>
                   <Text style={styles.gray_card_title}>진행단계</Text>
@@ -51,6 +52,48 @@ function WorkFlow({navigation}) {
               </View>
             </TouchableOpacity>
           </View>
+          <Progress.Bar 
+            progress={0.8}
+            width={Width*0.8} 
+            height={Height*0.012} 
+            borderRadius={10}
+            color={"#B2AC8A"}
+            />
+        </View>
+        <View style={styles.card}>
+          <View style={styles.container_title}>
+            <Text style={styles.cardTitle}>활동 22</Text>
+            <View style={styles.gray_card}>
+                <View>
+                  <Text style={styles.gray_card_title}>진행단계</Text>
+                </View>
+                <View>
+                  <Text style={styles.gray_card_content}>내부검토</Text>
+                </View>
+              </View>
+          </View>
+          <View style={styles.container_sub}>
+              <Text>동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. 동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. </Text>
+          </View>
+          <View style={styles.container_sub}>
+            <TouchableOpacity>
+              <View style={styles.btn_gray}>
+                <Text>투표하기</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.container_sub}>
+              <View style={styles.btn_gray}>
+                <Text>공지보기</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Progress.Bar 
+            progress={0.4}
+            width={Width*0.8} 
+            height={Height*0.012} 
+            borderRadius={10}
+            color={"#B2AC8A"}
+            />
         </View>
       </ScrollView>
     </View>
