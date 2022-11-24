@@ -119,6 +119,8 @@ function Home({navigation}) {
           <View style={styles.container_title}>
             <Text style={styles.cardTitle}>활동 모아보기</Text>
             <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={()=> navigation.navigate('WorkFlow')}
               style={{
                 flex: 1,
                 flexDirection: 'row',

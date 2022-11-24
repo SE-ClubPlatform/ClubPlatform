@@ -19,6 +19,7 @@ import Main from './screens/MainScreen/Main';
 import AddClub from './screens/SubScreen/AddClub';
 import Anonymous from './screens/MainScreen/Anonymous';
 import Post from './screens/SubScreen/Post';
+import WorkFlow from './screens/MainScreen/WorkFlow';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -165,11 +166,16 @@ const App = () => {
           component={HomeStackScreen}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="AddClub"
           component={AddClub}
           options={{headerShown: false}}
-        /> */}
+        />
+        <Stack.Screen
+          name="WorkFlow"
+          component={WorkFlow}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
