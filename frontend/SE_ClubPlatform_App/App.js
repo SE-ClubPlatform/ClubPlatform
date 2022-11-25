@@ -75,6 +75,21 @@ const HomeStackScreen = ({navigation}) => {
         component={AddClub}
         options={{title: '', headerTransparent: true, headerShown: false}}
       />
+      <HomeStack.Screen
+        name="WorkFlow"
+        component={WorkFlow}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="Notice"
+        component={Notice}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="Group"
+        component={Group}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
     </HomeStack.Navigator>
   );
 };

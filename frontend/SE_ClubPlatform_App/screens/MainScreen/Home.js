@@ -12,6 +12,7 @@ import {
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
 import Topbar from '../Bar/Topbar';
+import Notice from './Notice';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -67,7 +68,8 @@ function Home({navigation}) {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-              }}>
+              }}
+              onPress={() => navigation.navigate('Notice')}>
               <Text style={{margin: 5}}>더 보기</Text>
               <Image
                 style={{width: 10, height: 13}}
@@ -122,7 +124,7 @@ function Home({navigation}) {
             <Text style={styles.cardTitle}>활동 모아보기</Text>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={()=> navigation.navigate('WorkFlow')}
+              onPress={() => navigation.navigate('WorkFlow')}
               style={{
                 flex: 1,
                 flexDirection: 'row',
@@ -187,7 +189,8 @@ function Home({navigation}) {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-              }}>
+              }}
+              onPress={() => navigation.navigate('Group')}>
               <Text style={{margin: 5}}>더 보기</Text>
               <Image
                 style={{width: 10, height: 13}}
