@@ -21,8 +21,22 @@ function WorkFlow({navigation}) {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation}/>
-      <View style={{margin : Width * 0.05}}>
+      <View style={{
+        margin : Width * 0.05, 
+        flexDirection:"row", 
+        justifyContent:"space-between",
+        alignItems : "center",
+        }}>
         <Text style={styles.fontStyle}>활동별 진행상황 보기</Text>
+        <TouchableOpacity>
+          <Image 
+            source={require("../../icons/ic_add.png")}
+            style ={{
+              width : Width*0.06,
+              height : Width*0.06,
+            }}
+          />
+        </TouchableOpacity>
       </View>
       <ScrollView>
       <View style={styles.card}>

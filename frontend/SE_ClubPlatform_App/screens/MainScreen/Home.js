@@ -60,6 +60,8 @@ function Home({navigation}) {
           <View style={styles.container_title}>
             <Text style={styles.cardTitle}>공지사항</Text>
             <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={()=> navigation.navigate('Notice')}
               style={{
                 flex: 1,
                 flexDirection: 'row',
