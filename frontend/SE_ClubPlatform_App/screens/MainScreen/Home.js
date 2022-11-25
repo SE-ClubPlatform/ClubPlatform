@@ -68,8 +68,7 @@ function Home({navigation}) {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-              }}
-              onPress={() => navigation.navigate('Notice')}>
+              }}q>
               <Text style={{margin: 5}}>더 보기</Text>
               <Image
                 style={{width: 10, height: 13}}
