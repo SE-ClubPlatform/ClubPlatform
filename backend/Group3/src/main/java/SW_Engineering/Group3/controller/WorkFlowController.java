@@ -32,7 +32,6 @@ public class WorkFlowController {
     private final WorkService workService;
     private final Response response;
 
-
     /**
      * 활동 저장
      */
