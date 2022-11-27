@@ -20,6 +20,7 @@ import AddClub from './screens/SubScreen/AddClub';
 import Anonymous from './screens/MainScreen/Anonymous';
 import Post from './screens/SubScreen/Post';
 import WorkFlow from './screens/MainScreen/WorkFlow';
+import MemberList from './screens/MainScreen/MemberList';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -88,6 +89,11 @@ const HomeStackScreen = ({navigation}) => {
       <HomeStack.Screen
         name="Group"
         component={Group}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="MemberList"
+        component={MemberList}
         options={{title: '', headerTransparent: true, headerShown: false}}
       />
     </HomeStack.Navigator>

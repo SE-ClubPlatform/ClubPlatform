@@ -34,14 +34,16 @@ function Home({navigation}) {
                   <Text style={styles.gray_card_content}>김두잇</Text>
                 </View>
               </View>
-              <View style={styles.gray_card}>
+              <TouchableOpacity
+                style={styles.gray_card}
+                onPress={() => navigation.navigate('MemberList')}>
                 <View>
                   <Text style={styles.gray_card_title}>부원</Text>
                 </View>
                 <View>
                   <Text style={styles.gray_card_content}>00명</Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.container}>
@@ -62,13 +64,14 @@ function Home({navigation}) {
             <Text style={styles.cardTitle}>공지사항</Text>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={()=> navigation.navigate('Notice')}
+              onPress={() => navigation.navigate('Notice')}
               style={{
                 flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-              }}q>
+              }}
+              q>
               <Text style={{margin: 5}}>더 보기</Text>
               <Image
                 style={{width: 10, height: 13}}
@@ -295,7 +298,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 5,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'baseline',
   },
   cardTitle: {
     flex: 1,
@@ -305,9 +308,11 @@ const styles = StyleSheet.create({
   },
   gray_card_title: {
     flex: 1,
+    marginRight: 10,
   },
   gray_card_content: {
     flex: 1,
+    marginLeft: 15,
   },
 });
 
