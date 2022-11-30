@@ -28,7 +28,7 @@ function Register({navigation}) {
         }}>
         <Text
           style={{
-            fontFamily: 'NanumSquareNeo-eHv',
+            fontFamily: 'NanumSquareNeo-cBd',
             fontSize: 30,
             color: 'white',
           }}>
@@ -36,11 +36,18 @@ function Register({navigation}) {
         </Text>
       </View>
       <ScrollView style={{flex: 0.94}}>
-        <View>
+        {/* <View>
           <Text style={styles.titleText}>User ID</Text>
           <TextInput
             style={styles.inputArea}
             placeholder="아이디(5자 이상, 영문, 숫자 포함)"
+          />
+        </View> */}
+        <View>
+          <Text style={styles.titleText}>Email</Text>
+          <TextInput
+            style={styles.inputArea}
+            placeholder="아주대학교 이메일 (ex.helloworld@ajou.ac.kr)"
           />
         </View>
 
@@ -76,10 +83,6 @@ function Register({navigation}) {
             style={styles.inputArea}
             placeholder="연락처 (ex.0102225555)"
           />
-        </View>
-        <View>
-          <Text style={styles.titleText}>Email</Text>
-          <TextInput style={styles.inputArea} placeholder="이메일" />
         </View>
 
         <TouchableOpacity style={styles.btn}>
@@ -164,9 +167,9 @@ const styles = StyleSheet.create({
   inputArea: {
     borderRadius: 7,
     width: '100%',
-    height: Height * 0.065,
+    height: Height * 0.075,
     backgroundColor: 'white',
-    marginBottom: Height * 0.01,
+    marginBottom: Height * 0.015,
     paddingHorizontal: Width * 0.03,
     fontFamily: 'NanumSquareNeo-bRg',
   },
