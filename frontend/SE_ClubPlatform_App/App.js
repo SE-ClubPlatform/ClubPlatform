@@ -106,7 +106,7 @@ const ClubMainStackScreen = ({navigation, route}) => {
       style={styles.top}
       initialRouteName="홈"
       tabBarOptions={{
-        labelStyle: {color: '#FFAAB3', fontWeight: '500', fontSize: 11},
+        labelStyle: {color: '#5362b2', fontWeight: '500', fontSize: 11},
       }}>
       <ClubMainStack.Screen
         name="공지사항"
@@ -197,6 +197,11 @@ const App = () => {
           component={WorkFlow}
           options={{headerShown: false}}
         />
+        {/* <Stack.Screen
+          name="MemberList"
+          component={MemberList}
+          options={{headerShown: false}}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

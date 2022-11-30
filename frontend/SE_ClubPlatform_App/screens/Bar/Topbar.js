@@ -10,13 +10,18 @@ import {
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Topbar({navigation}) {
   return (
-    <View style={styles.block}>
+    <LinearGradient
+      colors={['#a49ee5', '#7181c4']}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 0}}
+      style={styles.block}>
       <Text style={styles.text}>ClubPlatform</Text>
       <View style={styles.StatusBarIcon}>
         <TouchableOpacity
@@ -32,16 +37,16 @@ function Topbar({navigation}) {
           <Image source={require('../../icons/Alarm.png')} />
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   statusBarPlaceholder: {
-    backgroundColor: '#FFCDD2',
+    backgroundColor: '#a49ee5',
   },
   block: {
-    backgroundColor: '#FFCDD2',
+    backgroundColor: '#a49ee5',
     paddingVertical: Height * 0.0146,
     borderBottomRightRadius: 23,
     marginBottom: Height * 0.006,

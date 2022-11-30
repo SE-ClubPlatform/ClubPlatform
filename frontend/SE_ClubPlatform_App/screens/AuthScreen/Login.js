@@ -1,16 +1,23 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+
 import {TextInput} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 
 import axios from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '@react-navigation/native';
+
+const Height = Dimensions.get('window').height;
+const Width = Dimensions.get('window').width;
 
 function Login({navigation}) {
   const [userId, setUserId] = useState('');
@@ -52,12 +59,25 @@ function Login({navigation}) {
   //   }
 
   return (
-    <LinearGradient colors={['#FFCDD2', '#FFAAB3']} style={styles.container}>
+    <LinearGradient colors={['#a49ee5', '#5362b2']} style={styles.container}>
       <View style={styles.topArea}>
-        <Image
+        {/* <Image
           source={require('../../icons/Login_logo.png')}
           style={{width: wp(25), resizeMode: 'contain'}}
-        />
+        /> */}
+        <Text style={styles.introText}>안녕하세요 :)</Text>
+        <Text style={styles.introText}>아주대학교 동아리 관리 플랫폼</Text>
+        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+          <Text
+            style={{
+              marginTop: Height * 0.01,
+              fontSize: 30,
+              fontFamily: 'NanumSquareNeo-eHv',
+            }}>
+            Club Ajou
+          </Text>
+          <Text style={styles.introText}> 입니다.</Text>
+        </View>
       </View>
 
       <View style={styles.formArea}>
@@ -102,66 +122,50 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    paddingLeft: wp(7),
-    paddingRight: wp(7),
+    paddingHorizontal: Width * 0.04,
   },
   topArea: {
     flex: 1,
-    marginTop: wp(30),
+    marginTop: Height * 0.2,
     justifyContent: 'center',
     // backgroundColor: 'red',
-    marginBottom: wp(7),
-  },
-  titleArea: {
-    flex: 1,
-    // backgroundColor: 'white',
-    justifyContent: 'center',
-    paddingTop: wp(0.3),
-  },
-  textArea: {
-    flex: 1,
-    // backgroundColor: 'green',
-    justifyContent: 'center',
-    paddingTop: wp(3),
-  },
-  text: {
-    fontSize: wp('4%'),
+    marginBottom: Height * 0.05,
   },
   formArea: {
     flex: 2,
     justifyContent: 'center',
     // backgroundColor: '',
-    marginBottom: 2,
+    marginBottom: Height * 0.02,
   },
   textFormTop: {
-    borderWidth: 2,
-    borderBottomWidth: 1,
+    // borderWidth: 2,
+    // borderBottomWidth: 1,
     borderColor: 'black',
-    borderTopLeftRadius: 7,
-    borderTopRightRadius: 7,
+    borderRadius: 7,
     width: '100%',
-    height: hp(9),
+    height: Height * 0.095,
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: 'white',
+    marginBottom: Height * 0.01,
   },
   textFormBottom: {
-    borderWidth: 2,
-    borderTopWidth: 1,
+    // borderWidth: 2,
+    // borderTopWidth: 1,
     borderColor: 'black',
-    borderBottomLeftRadius: 7,
-    borderBottomRightRadius: 7,
+    borderRadius: 7,
     width: '100%',
-    height: hp(9),
+    height: Height * 0.095,
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: 'white',
+    marginBottom: Height * 0.01,
   },
   btnArea: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp(8),
-    paddingBottom: hp(0.5),
+    height: Height * 0.095,
+    marginBottom: Height * 0.01,
   },
   btn: {
     flex: 1,
@@ -169,7 +173,12 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: '#31346d',
+  },
+  introText: {
+    fontSize: 25,
+    fontFamily: 'NanumSquareNeoTTF-bRg',
+    marginTop: Height * 0.002,
   },
 });
 
