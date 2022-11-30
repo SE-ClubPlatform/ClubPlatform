@@ -73,6 +73,7 @@ function Login({navigation}) {
               marginTop: Height * 0.01,
               fontSize: 30,
               fontFamily: 'NanumSquareNeo-eHv',
+              color: 'white',
             }}>
             Club Ajou
           </Text>
@@ -101,14 +102,18 @@ function Login({navigation}) {
             style={styles.btn}
             // onPress={() => postData(userId, userPassword)}
             onPress={() => navigation.navigate('HomeStack')}>
-            <Text style={{color: 'white'}}>로그인</Text>
+            <Text style={{color: 'black', fontFamily: 'NanumSquareNeo-bRg'}}>
+              로그인
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.btnArea}>
           <TouchableOpacity
             style={styles.btn}
             onPress={() => navigation.navigate('Register')}>
-            <Text style={{color: 'white'}}>회원가입</Text>
+            <Text style={{color: 'black', fontFamily: 'NanumSquareNeo-bRg'}}>
+              회원가입
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -148,6 +153,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     backgroundColor: 'white',
     marginBottom: Height * 0.01,
+    fontFamily: 'NanumSquareNeo-bRg',
   },
   textFormBottom: {
     // borderWidth: 2,
@@ -160,6 +166,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     backgroundColor: 'white',
     marginBottom: Height * 0.01,
+    fontFamily: 'NanumSquareNeo-bRg',
   },
   btnArea: {
     justifyContent: 'center',
@@ -173,12 +180,13 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#31346d',
+    backgroundColor: '#dbe1f9',
   },
   introText: {
     fontSize: 25,
     fontFamily: 'NanumSquareNeoTTF-bRg',
     marginTop: Height * 0.002,
+    color: 'white',
   },
 });
 
