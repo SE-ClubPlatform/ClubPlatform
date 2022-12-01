@@ -1,86 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
-    Button,
-    ScrollView,
     StyleSheet,
-    TextInput,
     Image,
     Dimensions,
   } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 import {back} from 'react-native/Libraries/Animated/Easing';
-import Topbar from '../Bar/Topbar';
+import { removeOrientationListener } from 'react-native-responsive-screen';
 
 
-function Home_Contents({navigation, title}) {
-    return (
-        <View>
-            <View style={styles.card}>
-          <View style={styles.container_title}>
-            <Text style={styles.cardTitle}>{title}</Text>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => navigation.navigate('Notice')}
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-              >
-              <Text style={{margin: 5}}>더 보기</Text>
-              <Image
-                style={{width: 10, height: 13}}
-                resizeMode="stretch"
-                source={require('../../icons/ic_right_arrow.png')}
-              />
-            </TouchableOpacity>
+function Home_Contents(Props) {
+  const navigation = useNavigation()
+  return (
+      <View>
+          <View style={styles.card}>
+        <View style={styles.container_title}>
+          <Text style={styles.cardTitle}>{Props.title}</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+                navigation.navigate(Props.location)
+            }}
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+            >
+            <Text style={{margin: 5}}>더 보기</Text>
+            <Image
+              style={{width: 10, height: 13}}
+              resizeMode="stretch"
+              source={require('../../icons/ic_right_arrow.png')}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.container_sub}>
+          <View style={{marginRight: 15}}>
+            <Text>1</Text>
           </View>
-          <View style={styles.container_sub}>
-            <View style={{marginRight: 15}}>
-              <Text>1</Text>
-            </View>
-            <View>
-              <Text>공지사항 제목만 보여줄 예정입니다 1111</Text>
-            </View>
-          </View>
-          <View style={styles.container_sub}>
-            <View style={{marginRight: 15}}>
-              <Text>2</Text>
-            </View>
-            <View>
-              <Text>공지사항 제목만 보여줄 예정입니다 2222</Text>
-            </View>
-          </View>
-          <View style={styles.container_sub}>
-            <View style={{marginRight: 15}}>
-              <Text>3</Text>
-            </View>
-            <View>
-              <Text>공지사항 제목만 보여줄 예정입니다 3333</Text>
-            </View>
-          </View>
-          <View style={styles.container_sub}>
-            <View style={{marginRight: 15}}>
-              <Text>4</Text>
-            </View>
-            <View>
-              <Text>공지사항 제목만 보여줄 예정입니다 4444</Text>
-            </View>
-          </View>
-          <View style={styles.container_sub}>
-            <View style={{marginRight: 15}}>
-              <Text>5</Text>
-            </View>
-            <View>
-              <Text>공지사항 제목만 보여줄 예정입니다 5555</Text>
-            </View>
+          <View>
+            <Text>공지사항 제목만 보여줄 예정입니다 1111</Text>
           </View>
         </View>
+        <View style={styles.container_sub}>
+          <View style={{marginRight: 15}}>
+            <Text>2</Text>
+          </View>
+          <View>
+            <Text>공지사항 제목만 보여줄 예정입니다 2222</Text>
+          </View>
         </View>
-    );
+        <View style={styles.container_sub}>
+          <View style={{marginRight: 15}}>
+            <Text>3</Text>
+          </View>
+          <View>
+            <Text>공지사항 제목만 보여줄 예정입니다 3333</Text>
+          </View>
+        </View>
+        <View style={styles.container_sub}>
+          <View style={{marginRight: 15}}>
+            <Text>4</Text>
+          </View>
+          <View>
+            <Text>공지사항 제목만 보여줄 예정입니다 4444</Text>
+          </View>
+        </View>
+        <View style={styles.container_sub}>
+          <View style={{marginRight: 15}}>
+            <Text>5</Text>
+          </View>
+          <View>
+            <Text>공지사항 제목만 보여줄 예정입니다 5555</Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
 }
 const styles = StyleSheet.create({
     container: {

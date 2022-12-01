@@ -25,9 +25,9 @@ function Home({navigation}) {
       <Topbar navigation={navigation} />
       <ScrollView>
         <Home_Profile/>
-        <Home_Contents title="공지사항"/>
-        <Home_Contents title="활동 모아보기"/>
-        <Home_Contents title="소모임 모집"/>
+        <Home_Contents  title="공지사항" location="Notice"/>
+        <Home_Contents title="활동 모아보기" location="WorkFlow"/>
+        <Home_Contents title="소모임 모집" location="Group"/>
       </ScrollView>
     </View>
   );

@@ -104,11 +104,9 @@ const styles = StyleSheet.create({
       borderRadius: 7,
       marginLeft: 5,
       marginRight: 5,
-      alignSelf: 'baseline',
-      marginTop: 10,
+      alignSelf: 'center',
       padding: 5,
       justifyContent: 'space-between',
-      alignItems: 'baseline',
     },
     cardTitle: {
       flex: 1,
