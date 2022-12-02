@@ -5,15 +5,24 @@ import Topbar from '../Bar/Topbar';
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
-function PostComponent({navigation}) {
-  const [boardType, setBoardType] = useState('공지사항');
-  const [name, setName] = useState('GM우현');
-  const [date, setDate] = useState('2022/11/04');
-  const [time, setTime] = useState('09:15');
-  const [content, setContent] = useState('동아리방 사용 관련 공지사항');
-  const [commentCount, setCommentCount] = useState(5);
-  const [isWorkFlow, setIsWorkFlow] = useState(true);
-  const [isRecruit, setIsRecruit] = useState(false);
+function PostComponent({
+  navigation,
+  postType,
+  title,
+  author,
+  date,
+  time,
+  commentCount,
+  isFinish,
+}) {
+  // const [boardType, setBoardType] = useState('공지사항');
+  // const [name, setName] = useState('GM우현');
+  // const [date, setDate] = useState('2022/11/04');
+  // const [time, setTime] = useState('09:15');
+  // const [content, setContent] = useState('동아리방 사용 관련 공지사항');
+  // const [commentCount, setCommentCount] = useState(5);
+  // const [isWorkFlow, setIsWorkFlow] = useState(true);
+  // const [isRecruit, setIsRecruit] = useState(false);
 
   return (
     <View style={styles.postStyle}>
@@ -24,16 +33,20 @@ function PostComponent({navigation}) {
             source={require('../../icons/User.png')}
             resizeMode="contain"
           />
-          <Text style={{fontSize: 15, fontWeight: 'bold'}}>{name}</Text>
-          <View style={styles.recruitIcon}>
-            <Text
-              style={{
-                fontSize: 12,
-                color: 'white',
-              }}>
-              {isRecruit ? '모집중' : '모집완료'}
-            </Text>
-          </View>
+          <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+            {postType === 'anonymous' ? '익명' : author}
+          </Text>
+          {postType === 'group' ? (
+            <View style={styles.recruitIcon}>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: 'white',
+                }}>
+                {isFinish ? '모집완료' : '모집중'}
+              </Text>
+            </View>
+          ) : null}
         </View>
         <View style={{alignItems: 'flex-end'}}>
           <Text style={styles.dateStyle}>{date}</Text>
@@ -49,20 +62,20 @@ function PostComponent({navigation}) {
             flex: 1,
             paddingTop: Height * 0.01,
           }}>
-          <Text style={{}}>{content}</Text>
+          <Text style={{}}>{title}</Text>
           <View style={{flexDirection: 'row'}}>
-            <Image
+            {/* <Image
               style={styles.bottomIcon}
               source={isWorkFlow ? require('../../icons/Workflow.png') : null}
               resizeMode="contain"
-            />
+            /> */}
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
                 style={styles.bottomIcon}
                 source={require('../../icons/Comment.png')}
                 resizeMode="contain"
               />
-              <Text style={{color: '#FFA5A5'}}>{commentCount}</Text>
+              <Text style={{color: '#7181c4'}}>{commentCount}</Text>
             </View>
           </View>
         </View>
@@ -78,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     elevation: 3,
     margin: 7,
-    marginVertical: Height * 0.002,
+    marginVertical: Height * 0.005,
     paddingHorizontal: Width * 0.02,
     paddingVertical: Height * 0.01,
   },
@@ -101,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   recruitIcon: {
-    backgroundColor: '#FFA5A5',
+    backgroundColor: '#7181c4',
     borderRadius: 15,
     width: Width * 0.15,
     height: Height * 0.026,
