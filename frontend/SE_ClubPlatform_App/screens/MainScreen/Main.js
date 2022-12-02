@@ -1,6 +1,6 @@
-import React from 'react';
-import {View, Text, Button, Image, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import {View, Text, Button, Image, StyleSheet, Modal, Fressable} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import Topbar from '../Bar/Topbar';
 import {Dimensions} from 'react-native';
 import {Platform} from 'react-native';
@@ -9,6 +9,7 @@ const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Main({navigation}) {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -46,7 +47,7 @@ function Main({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.myClubButton}
-            onPress={() => navigation.navigate('AddClub')}>
+            onPress={() => setModalVisible(true)}>
             <Image
               style={styles.clubImage}
               resizeMode="stretch"
@@ -69,6 +70,26 @@ function Main({navigation}) {
           </TouchableOpacity>
         </View>
       </View>
+      {/* 모달 레이아웃 구성 */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+      >
+        <View style={{backgroundColor:(0,0,0,0), width: Width , height : Height}}>
+          <View style={{backgroundColor:"white"}}>
+            <Text>Hello World!</Text>
+            <TouchableOpacity
+              style={{backgroundColor:"tomato"}}
+              onPress={() => {
+                setModalVisible(false)
+              }}
+            >
+              <Text>Hide Modal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
