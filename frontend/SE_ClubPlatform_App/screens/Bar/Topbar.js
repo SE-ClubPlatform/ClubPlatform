@@ -22,7 +22,7 @@ function Topbar({navigation}) {
       start={{x: 0, y: 0}}
       end={{x: 1, y: 0}}
       style={styles.block}>
-      <Text style={styles.text}>ClubPlatform</Text>
+      <Text style={styles.text}>Club Ajou</Text>
       <View style={styles.StatusBarIcon}>
         <TouchableOpacity
           style={{marginRight: Width * 0.85, marginTop: Width * 0.005}}
