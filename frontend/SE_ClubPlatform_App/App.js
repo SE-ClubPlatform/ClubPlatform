@@ -21,6 +21,7 @@ import Anonymous from './screens/MainScreen/Anonymous';
 import Post from './screens/SubScreen/Post';
 import WorkFlow from './screens/MainScreen/WorkFlow';
 import MemberList from './screens/MainScreen/MemberList';
+import PostContent from './screens/SubScreen/PostContent';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -94,6 +95,11 @@ const HomeStackScreen = ({navigation}) => {
       <HomeStack.Screen
         name="MemberList"
         component={MemberList}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="PostContent"
+        component={PostContent}
         options={{title: '', headerTransparent: true, headerShown: false}}
       />
     </HomeStack.Navigator>

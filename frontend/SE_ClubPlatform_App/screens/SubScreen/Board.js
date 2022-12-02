@@ -17,44 +17,55 @@ const Width = Dimensions.get('window').width;
 
 const postData = [
   {
-    title: '동아리방 사용 관련 공지사항',
-    author: 'GM우현',
-    date: '2022/11/04',
-    time: '09:15',
-    commentCount: 5,
+    post_id: 1, // 게시물 ID(인덱스)
+    title: '동아리방 사용 관련 공지사항', // 게시물 제목
+    author: 'GM우현', // 게시물 작성자
+    date: '2022/11/04', // 게시물 작성 날짜
+    time: '09:15', // 게시물 작성 시간
+    commentCount: 5, // 게시물 댓글 수
+    isFinish: false, // 게시물 모집완료 여부
   },
   {
+    post_id: 2,
     title: 'MT 관련 공지사항',
     author: 'GM준수',
     date: '2022/10/25',
     time: '11:10',
     commentCount: 10,
+    isFinish: false,
   },
   {
+    post_id: 3,
     title: '대여사업 관련 공지사항',
     author: 'GM지영',
     date: '2022/10/11',
     time: '16:17',
     commentCount: 3,
+    isFinish: false,
   },
   {
+    post_id: 4,
     title: '개강총회 관련 공지사항',
     author: 'GM우진',
     date: '2022/10/09',
     time: '12:11',
     commentCount: 14,
+    isFinish: false,
   },
   {
+    post_id: 5,
     title: '정기모임 관련 공지사항',
     author: 'GM상훈',
     date: '2022/07/21',
     time: '10:12',
     commentCount: 10,
+    isFinish: false,
   },
 ];
 
 const postData2 = [
   {
+    post_id: 6,
     title: '텔레토비 동산 피크닉 갈 사람 구합니다',
     author: '김채원',
     date: '2022/12/02',
@@ -63,6 +74,7 @@ const postData2 = [
     isFinish: false,
   },
   {
+    post_id: 7,
     title: '아웃닭 파티원 구해요',
     author: '장원영',
     date: '2022/11/25',
@@ -71,6 +83,7 @@ const postData2 = [
     isFinish: false,
   },
   {
+    post_id: 8,
     title: '저녁식사 팟 구함',
     author: '백종원',
     date: '2022/10/10',
@@ -79,22 +92,25 @@ const postData2 = [
     isFinish: false,
   },
   {
+    post_id: 9,
     title: '동아리 박람회 구경갈 사람 구해요',
-    author: '박민수',
+    author: '주지훈',
     date: '2022/10/01',
     time: '14:11',
     commentCount: 14,
     isFinish: true,
   },
   {
+    post_id: 10,
     title: '벚꽃 보러갈 멤버 구함',
-    author: '임준철',
+    author: '박보검',
     date: '2022/09/21',
     time: '17:12',
     commentCount: 8,
     isFinish: false,
   },
   {
+    post_id: 11,
     title: '피시방 롤 내전 팟 구합니당',
     author: '차은우',
     date: '2022/08/22',
@@ -106,6 +122,7 @@ const postData2 = [
 
 const postData3 = [
   {
+    post_id: 12,
     title: '동아리방 청결 문제에 대해 건의드립니다.',
     author: '최연우',
     date: '2022/12/01',
@@ -114,6 +131,7 @@ const postData3 = [
     isFinish: false,
   },
   {
+    post_id: 13,
     title: '정기모임 활동에 관련하여 질문드립니다.',
     author: '이연지',
     date: '2022/11/05',
@@ -122,6 +140,7 @@ const postData3 = [
     isFinish: false,
   },
   {
+    post_id: 14,
     title: '히터 사용 관련하여 건의드립니다.',
     author: '김민수',
     date: '2022/10/25',
@@ -156,6 +175,8 @@ function Board({navigation, club_id, boardType}) {
 
   const postList = postData.map(post => (
     <PostComponent
+      navigation={navigation}
+      post_id={post.post_id}
       postType={boardType}
       title={post.title}
       author={post.author}
@@ -167,6 +188,8 @@ function Board({navigation, club_id, boardType}) {
 
   const postList2 = postData2.map(post => (
     <PostComponent
+      navigation={navigation}
+      post_id={post.post_id}
       postType={boardType}
       title={post.title}
       author={post.author}
@@ -178,6 +201,8 @@ function Board({navigation, club_id, boardType}) {
 
   const postList3 = postData3.map(post => (
     <PostComponent
+      navigation={navigation}
+      post_id={post.post_id}
       postType={boardType}
       title={post.title}
       author={post.author}
@@ -186,16 +211,6 @@ function Board({navigation, club_id, boardType}) {
       commentCount={post.commentCount}
       isFinish={post.isFinish}></PostComponent>
   ));
-
-  // function postListComponent() {
-  //   if (boardType === 'notice') {
-  //     return <View>{postList}</View>;
-  //   } else if (boardType === 'group') {
-  //     return <View>{postList2}</View>;
-  //   } else {
-  //     return <View>{postList3}</View>;
-  //   }
-  // }
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
