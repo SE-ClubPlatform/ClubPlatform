@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -27,7 +27,20 @@ const Sample = [
     context: '010-1234-5678',
   },
 ];
-//인덱스가 1일때만 view를 row로 만들어야함..
+
+function ApplyButtonComponent() {
+  const buttonRef = useRef();
+  //  const [, setState] = useState();
+
+  return (
+    <View ref={buttonRef} style={styles.apply_button_container}>
+      <TouchableOpacity style={styles.apply_button}>
+        <Text style={styles.apply_button_text}>승인</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 function JoinComponent() {
   return (
     <View>
@@ -76,6 +89,8 @@ function JoinComponent() {
             </View>
           </View>
         </View>
+      </View>
+      <View style={{flexDirection: 'row'}}>
         <View style={styles.text_box}>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.apply_text_container}>
@@ -83,12 +98,14 @@ function JoinComponent() {
                 {Sample[3]['attribute']}
               </Text>
             </View>
-            <View style={styles.apply_text_container}>
+            <View style={[styles.apply_text_container, {marginRight: 20}]}>
               <Text style={styles.apply_context_text}>
                 {Sample[3]['context']}
               </Text>
             </View>
           </View>
+          <ApplyButtonComponent />
+          <ApplyButtonComponent />
         </View>
       </View>
     </View>
@@ -141,6 +158,22 @@ const styles = StyleSheet.create({
   },
   test: {
     borderWidth: 2,
+  },
+  apply_button_container: {
+    height: Height * 0.03,
+    width: Width * 0.15,
+    //borderWidth: 1,
+    marginHorizontal: 5,
+  },
+  apply_button: {
+    borderRadius: 8,
+    backgroundColor: '#E58E8E',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //marginHorizontal: 10,
+  },
+  apply_button_text: {
+    color: '#000000',
   },
 });
 export default JoinBlock;
