@@ -21,6 +21,7 @@ import Anonymous from './screens/MainScreen/Anonymous';
 import Post from './screens/SubScreen/Post';
 import WorkFlow from './screens/MainScreen/WorkFlow';
 import MemberList from './screens/MainScreen/MemberList';
+import PostContent from './screens/SubScreen/PostContent';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -96,6 +97,11 @@ const HomeStackScreen = ({navigation}) => {
         component={MemberList}
         options={{title: '', headerTransparent: true, headerShown: false}}
       />
+      <HomeStack.Screen
+        name="PostContent"
+        component={PostContent}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
     </HomeStack.Navigator>
   );
 };
@@ -106,7 +112,7 @@ const ClubMainStackScreen = ({navigation, route}) => {
       style={styles.top}
       initialRouteName="홈"
       tabBarOptions={{
-        labelStyle: {color: '#FFAAB3', fontWeight: '500', fontSize: 11},
+        labelStyle: {color: '#5362b2', fontWeight: '500', fontSize: 11},
       }}>
       <ClubMainStack.Screen
         name="공지사항"
@@ -197,6 +203,11 @@ const App = () => {
           component={WorkFlow}
           options={{headerShown: false}}
         />
+        {/* <Stack.Screen
+          name="MemberList"
+          component={MemberList}
+          options={{headerShown: false}}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
