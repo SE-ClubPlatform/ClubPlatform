@@ -175,6 +175,7 @@ function Board({navigation, club_id, boardType}) {
 
   const postList = postData.map(post => (
     <PostComponent
+      key={post.post_id}
       navigation={navigation}
       post_id={post.post_id}
       postType={boardType}
@@ -188,6 +189,7 @@ function Board({navigation, club_id, boardType}) {
 
   const postList2 = postData2.map(post => (
     <PostComponent
+      key={post.post_id}
       navigation={navigation}
       post_id={post.post_id}
       postType={boardType}
@@ -201,6 +203,7 @@ function Board({navigation, club_id, boardType}) {
 
   const postList3 = postData3.map(post => (
     <PostComponent
+      key={post.post_id}
       navigation={navigation}
       post_id={post.post_id}
       postType={boardType}

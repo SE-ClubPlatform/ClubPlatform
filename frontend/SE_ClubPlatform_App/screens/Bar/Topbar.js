@@ -36,6 +36,8 @@ function Topbar({navigation}) {
           onPress={() => navigation.navigate('Notice')}>
           <Image source={require('../../icons/Alarm.png')} />
         </TouchableOpacity>
+
+        <TouchableOpacity></TouchableOpacity>
       </View>
     </LinearGradient>
   );
