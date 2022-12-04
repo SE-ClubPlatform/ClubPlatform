@@ -175,7 +175,7 @@ function Home({navigation}) {
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <ScrollView>
-        <Home_Profile />
+        <Home_Profile navigation={navigation} />
         <Home_Contents
           title="공지사항"
           location="Notice"

@@ -75,7 +75,7 @@ function Login({navigation}) {
               fontFamily: 'NanumSquareNeo-eHv',
               color: 'white',
             }}>
-            Club Ajou
+            Mo-Ajou !
           </Text>
           <Text style={styles.introText}> 입니다.</Text>
         </View>
@@ -116,6 +116,19 @@ function Login({navigation}) {
             </Text>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.btnArea}>
+          <TouchableOpacity>
+            <Image
+              style={{
+                resizeMode: 'stretch',
+                width: Width * 1,
+                height: Height * 0.105,
+              }}
+              source={require('../../icons/googleLogin.png')}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={{flex: 3}} />
     </LinearGradient>
@@ -131,7 +144,7 @@ const styles = StyleSheet.create({
   },
   topArea: {
     flex: 1,
-    marginTop: Height * 0.2,
+    marginTop: Height * 0.15,
     justifyContent: 'center',
     // backgroundColor: 'red',
     marginBottom: Height * 0.05,
@@ -171,7 +184,7 @@ const styles = StyleSheet.create({
   btnArea: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: Height * 0.095,
+    height: Height * 0.09,
     marginBottom: Height * 0.01,
   },
   btn: {

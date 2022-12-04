@@ -27,9 +27,7 @@ function MemberList({navigation}) {
       <View style={{padding: Width * 0.05, paddingBottom: Width * 0.02}}>
         <Text style={styles.fontStyle}>동아리원 관리</Text>
       </View>
-      <View style={styles.tag_container}>
-        <Text>탭 위치</Text>
-      </View>
+      <View style={styles.tag_container}>{/* <Text>탭 위치</Text> */}</View>
       <ScrollView style={styles.context_container}></ScrollView>
     </View>
   );
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   context_container: {
-    backgroundColor: '#777777',
+    // backgroundColor: '#777777',
     flex: 1,
     marginLeft: 15,
     marginRight: 15,
