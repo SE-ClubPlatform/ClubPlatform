@@ -125,7 +125,9 @@ function Main({navigation}) {
                 style={styles.textInput} 
                 onChangeText={(text) => {setSearchClub(text)}}
                 placeholder="동아리명을 입력해주세요."/>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>console.log({searchClub})}
+                >
                   <Image
                   style={{
                     flex:1,
