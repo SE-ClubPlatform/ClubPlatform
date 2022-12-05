@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
-import {View, Text, Button, Image, StyleSheet, Modal, TextInput} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  StyleSheet,
+  Modal,
+  TextInput,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import Topbar from '../Bar/Topbar';
 import {Dimensions} from 'react-native';
@@ -61,85 +69,84 @@ function Main({navigation}) {
         <Text style={styles.fontStyle}>동아리 정보가 궁금하다면?</Text>
         <View style={{flex: 1}}>
           <TouchableOpacity style={styles.otherClubButton}>
-            <Text>동아리 이름 1</Text>
+            <Text>SOUL</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.otherClubButton}>
-            <Text>동아리 이름 2</Text>
+            <Text>ZENITH</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.otherClubButton}>
-            <Text>동아리 이름 3</Text>
+            <Text>5분 쉼표</Text>
           </TouchableOpacity>
         </View>
       </View>
       {/* 모달 레이아웃 구성 */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-      >
-        <View style={{
-          backgroundColor:'rgba(60, 60, 60, 0.5)',
-          width: Width, 
-          height : Height,
-          display:"flex",
-          justifyContent:"center",
-          alignItems:"center",
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View
+          style={{
+            backgroundColor: 'rgba(60, 60, 60, 0.5)',
+            width: Width,
+            height: Height,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <View style={{
-            backgroundColor:"white",
-            width : Width*0.7,
-            borderRadius:10,
-            padding : 15,
+          <View
+            style={{
+              backgroundColor: 'white',
+              width: Width * 0.7,
+              borderRadius: 10,
+              padding: 15,
             }}>
-              <View style={{
-                flexDirection:"row",
-                display:"flex",
-                justifyContent:"space-between",
-                alignItems:"center",
-              }}
-              >
-                <Text style={{fontSize:20, flex:1}}>동아리 가입신청</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    setModalVisible(false)
-                  }}
-                >
-                  <Image
-                  source={require("../../icons/ic_close.png")}
-                  resizeMode="contain"
-                  style={{
-                    flex:1,
-                    height:Height*0.05,
-                    width:Height*0.05,
-                  }}/>
-                </TouchableOpacity>
-              </View>
-              <View
+            <View
               style={{
-                flexDirection:"row",
-                alignItems:"center",
-                alignContent : "space-between",
-                justifyContent:"center",
+                flexDirection: 'row',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}>
-                <TextInput
-                style={styles.textInput} 
-                onChangeText={(text) => {setSearchClub(text)}}
-                placeholder="동아리명을 입력해주세요."/>
-                <TouchableOpacity
-                onPress={()=>console.log({searchClub})}
-                >
-                  <Image
-                  style={{
-                    flex:1,
-                    height:Height*0.04,
-                    width:Height*0.04,
-                    margin:5,
-                  }}
-                  source={require("../../icons/ic_search.png")}
+              <Text style={{fontSize: 20, flex: 1}}>동아리 가입신청</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(false);
+                }}>
+                <Image
+                  source={require('../../icons/ic_close.png')}
                   resizeMode="contain"
-                  />
-                </TouchableOpacity>
-              </View>
+                  style={{
+                    flex: 1,
+                    height: Height * 0.05,
+                    width: Height * 0.05,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                alignContent: 'space-between',
+                justifyContent: 'center',
+              }}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={text => {
+                  setSearchClub(text);
+                }}
+                placeholder="동아리명을 입력해주세요."
+              />
+              <TouchableOpacity>
+                <Image
+                  style={{
+                    flex: 1,
+                    height: Height * 0.04,
+                    width: Height * 0.04,
+                    margin: 5,
+                  }}
+                  source={require('../../icons/ic_search.png')}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -159,11 +166,11 @@ const styles = StyleSheet.create({
     marginRight: Width * 0.02,
   },
   textInput: {
-    flex:1,
+    flex: 1,
     marginTop: 20,
     marginBottom: 10,
     paddingHorizontal: 10,
-    height: Height*0.05,
+    height: Height * 0.05,
     borderRadius: 10,
     borderColor: 'gray',
     borderWidth: 1,
