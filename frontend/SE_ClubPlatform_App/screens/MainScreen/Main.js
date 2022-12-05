@@ -12,6 +12,7 @@ import {TouchableOpacity} from 'react-native';
 import Topbar from '../Bar/Topbar';
 import {Dimensions} from 'react-native';
 import {Platform} from 'react-native';
+import AddClubCard from '../Container/AddClubCard';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -80,7 +81,7 @@ function Main({navigation}) {
         </View>
       </View>
       {/* 모달 레이아웃 구성 */}
-      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View
           style={{
             backgroundColor: 'rgba(60, 60, 60, 0.5)',
@@ -134,7 +135,9 @@ function Main({navigation}) {
                 }}
                 placeholder="동아리명을 입력해주세요."
               />
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={
+                ()=>console.log({searchClub})}>
                 <Image
                   style={{
                     flex: 1,
@@ -146,6 +149,9 @@ function Main({navigation}) {
                   resizeMode="contain"
                 />
               </TouchableOpacity>
+            </View>
+            <View>
+              <AddClubCard/>
             </View>
           </View>
         </View>
