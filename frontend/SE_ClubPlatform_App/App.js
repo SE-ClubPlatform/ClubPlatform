@@ -111,8 +111,12 @@ const ClubMainStackScreen = ({navigation, route}) => {
     <ClubMainStack.Navigator
       style={styles.top}
       initialRouteName="홈"
-      tabBarOptions={{
-        labelStyle: {color: '#5362b2', fontWeight: '500', fontSize: 11},
+      screenOptions={{
+        tabBarLabelStyle: {
+          color: '#5362b2',
+          fontWeight: '500',
+          fontSize: 11,
+        },
       }}>
       <ClubMainStack.Screen
         name="공지사항"
