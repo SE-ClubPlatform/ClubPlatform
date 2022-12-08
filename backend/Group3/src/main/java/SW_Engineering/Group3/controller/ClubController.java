@@ -5,9 +5,8 @@ import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
-import SW_Engineering.Group3.dto.club.MainPageDto;
+import SW_Engineering.Group3.dto.MainPage.UnjoinClubDto;
 import SW_Engineering.Group3.service.ClubService;
-import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,15 +31,16 @@ public class ClubController {
      */
     @GetMapping("/all")
     public MainResult getAllClubs(){
-        List<MainPageDto> allClubs =  clubService.getAllClubs().stream()
-                .map(club -> new MainPageDto(club.getClubName(), club.getCategory()))
+        List<UnjoinClubDto> allClubs =  clubService.getAllClubs().stream()
+                .map(club -> new UnjoinClubDto(club.getClubName(), club.getCategory()))
                 .collect(Collectors.toList());
 
         return new MainResult(allClubs.size(), allClubs);
     }
 
+
     /**
-     * 동아리 가입
+     * 동아리 등록
      */
     @PostMapping
     public ResponseEntity registerClub(@Validated @RequestBody ClubRegisterDto clubRegisterDto, BindingResult bindingResult){
@@ -70,9 +70,15 @@ public class ClubController {
     /**
      * 유저의 동아리 가입
      */
-    @PostMapping("/{club_id}/registration/{member_id}")
-    public ResponseEntity registerUserToClub(@PathVariable("club_id") Long clubId, @PathVariable("member_id") Long memberId){
-        return clubService.registerUser(clubId, memberId);
+    @PostMapping("/{club_id}/registration")
+    public ResponseEntity registerUserToClub(@PathVariable("club_id") Long clubId, Principal principal){
+        try {
+            Long memberId = Long.parseLong(principal.getName());
+
+            return clubService.registerUser(clubId, memberId);
+        } catch(NullPointerException e) {
+            return response.fail("유저 정보가 없습니다", HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
@@ -91,6 +97,5 @@ public class ClubController {
 
         return response.fail("조회 권한이 없거나 존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST);
     }
-
 
 }

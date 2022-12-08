@@ -1,4 +1,4 @@
-package SW_Engineering.Group3.dto.club;
+package SW_Engineering.Group3.dto.MainPage;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MainPageDto {
+public class JoinClubDto {
 
     private String clubName;
-    private String category;
+    private String image; // rds 만든 후 추가할 예정입니다
 
-    public MainPageDto(String clubName, String category){
+    public JoinClubDto(String clubName, String image){
         this.clubName = clubName;
-        this.category = category;
     }
+
 }
