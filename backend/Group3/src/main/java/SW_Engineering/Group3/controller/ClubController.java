@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.controller;
 
+import SW_Engineering.Group3.domain.auth.Authority;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -124,8 +127,18 @@ public class ClubController {
             @ApiResponse(code = 400, message = "올바르지 않은 동아리 번호")
     })
     @GetMapping("/{clubId}/members")
-    public MainResult viewClubMembers(@PathVariable Long clubId){
-        return clubService.viewClubMembers(clubId);
+    public ResponseEntity<?> viewClubMembers(Principal principal, @PathVariable Long clubId){
+
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_MANAGER)) {
+            MainResult mainResult = clubService.viewClubMembers(clubId);
+
+            return response.success(mainResult);
+        }
+
+        return response.fail("조회 권한이 없거나 존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST);
     }
+
 
 }

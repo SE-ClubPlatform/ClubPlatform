@@ -18,7 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.security.Principal;
 import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -120,6 +123,34 @@ public class ClubService {
         //4. 추출한 유저 정보를 반환
         return new MainResult(memberList.size(), memberList.stream()
                 .map(member -> JoinMemberDto.createJoinMemberDto(member)));
+    }
+
+    /**
+     * 유저가 동아리의 특정 페이지에 접근할 권한이 있는지 검증
+     */
+    public boolean checkUserClubAuthority(Long memberId, Long clubId, Authority requiredAuthority) {
+
+        //1. Member_id로 저장된 Member 찾기
+        Member member = memberRepository.findById(memberId).orElseGet(null);
+
+        //2. 반환된 Member가 없으면 요청값 오류
+        if(member == null) {
+            return false;
+        }
+
+        //3. 유저-동아리 테이블에서 유저 정보를 기준으로 전달된 동아리 번호와 일치하는 동아리원 정보를 가져온다
+        ClubMemberList clubMember = clubMemberRepository.findByMember(member).stream()
+                .filter(c -> c.getClub().getId() == clubId)
+                .findAny()
+                .orElse(null);
+
+        //4. 전달된 동아리 번호에 해당하는 동아리가 존재하지 않거나(유저의 동아리 미가입)
+        //   유저의 접근 권한이 없으면 오류
+        if(clubMember == null || clubMember.getAuthority().getRank() < requiredAuthority.getRank()) {
+            return false;
+        }
+
+        return true;
     }
 
     public List<Club> getAllClubs() {
