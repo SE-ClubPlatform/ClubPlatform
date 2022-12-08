@@ -40,4 +40,5 @@ public class MemberService {
                 .collect(Collectors.toList());
 
     }
+
 }

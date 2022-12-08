@@ -24,18 +24,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @ApiOperation(
-            value = "유저가 속한 모든 동아리 조회"
-    )
-    @ApiImplicitParam(
-            name = "member_id",
-            type = "Long",
-            value = "조회를 원하는 유저 번호"
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "유저가 속한 동아리 정보(이름, 카테고리)"),
-            @ApiResponse(code = 400, message = "올바르지 않은 유저 번호")
-    })
+    /**
+     * 유저가 속한 모든 동아리 조회
+     */
     @GetMapping("/{member_id}/join-clubs")
     public MainResult getJoinClubs(@PathVariable("member_id") Long memberId){
 

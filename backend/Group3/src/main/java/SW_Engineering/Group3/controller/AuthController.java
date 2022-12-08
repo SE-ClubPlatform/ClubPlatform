@@ -28,19 +28,9 @@ public class AuthController {
     private final GoogleService googleService;
     private final Response response;
 
-
-    @ApiOperation(
-            value = "사용자 회원가입",
-            notes = "사용자의 이메일을 기준으로 회원가입을 시킨다"
-    )
-    @ApiImplicitParam(
-            name = "signupDto",
-            value = "사용자가 입력하는 회원가입 form"
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "회원가입 성공"),
-            @ApiResponse(code = 400, message = "이메일 중복 혹은 필드값 오류로 회원가입 실패")
-    })
+    /**
+     * 회원가입
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Validated @RequestBody SignupDto signupDto, BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
@@ -57,18 +47,9 @@ public class AuthController {
             return response.fail("입력하신 이메일은 이미 사용 중입니다.", HttpStatus.BAD_REQUEST);
     }
 
-    @ApiOperation(
-            value = "사용자 로그인",
-            notes = "아주대학교 이메일과 비밀번호를 이용해 로그인을 시킴"
-    )
-    @ApiImplicitParam(
-            name = "loginDto",
-            value = "사용자가 입력하는 로그인 form"
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "로그인 성공 및 SessionId 발급"),
-            @ApiResponse(code = 400, message = "올바르지 않은 아이디(이메일) 입력\n올바르지 않은 비밀번호 입력\n로그인 정보를 모두 입력하지 않음")
-    })
+    /**
+     * 로그인
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody LoginDto loginDto, BindingResult bindingResult){
         if(bindingResult.hasErrors())
@@ -78,14 +59,9 @@ public class AuthController {
 
     }
 
-    @ApiOperation(
-            value = "구글 로그인 유저를 대상으로 받은 추가 정보를 저장",
-            notes = "구글 로그인 시 구글은 유저의 이메일 정보만 반환하므로, 학번이나 전화번호같은 부가정보를 따로 요구한 후 저장해야함"
-    )
-    @ApiImplicitParam(
-            name = "updateDto",
-            value = "사용자가 입력하는 추가정보가 담긴 form"
-    )
+    /**
+     * 사용자 정보 수정
+     */
     @PostMapping("/update")
     public ResponseEntity<?> updateMember(@Validated @RequestBody UpdateDto updateDto, BindingResult bindingResult){
         if(bindingResult.hasErrors())
@@ -95,17 +71,17 @@ public class AuthController {
     }
 
     /**
+     * 구글 로그인 URL 반환
      * 프론트와 연결하면, Code는 front에서 받게 하고 받은 code를 서버에 Axios 하도록 해야 함.
      */
-    @ApiOperation(
-            value = "구글 로그인창으로 이동하는 URL",
-            notes = "구글 로그인 화면을 띄움"
-    )
     @GetMapping("/google/authorization-url")
     public String googleOauthUrl(){
         return googleService.getGoogleUrl();
     }
 
+    /**
+     * 구글로부터 code를 redirect받음
+     */
     @GetMapping("/code/google")
     public ResponseEntity googleCallback(@RequestParam Map<String,Object> paramMap) throws JsonProcessingException {
 
