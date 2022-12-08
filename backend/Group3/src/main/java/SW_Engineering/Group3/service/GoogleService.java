@@ -65,7 +65,6 @@ public class GoogleService {
 
         if(responseEntity.getStatusCode()== HttpStatus.OK) {
             // ObjectMapper를 통해 String to Object로 변환
-            System.out.println("dfsdfsdf");
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
             objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // NULL이 아닌 값만 응답받기(NULL인 경우는 생략)

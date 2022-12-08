@@ -21,7 +21,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final ClubMemberRepository clubMemberRepository;
 
-    public Member findMember(Long memberId){
+    public Member findMemberById(Long memberId){
         Optional<Member> findMember = memberRepository.findById(memberId);
 
         return findMember.orElse(null);
@@ -29,7 +29,7 @@ public class MemberService {
 
     public List<JoinClubDto> getJoinClubs(Long memberId) {
 
-        Member member = findMember(memberId);
+        Member member = findMemberById(memberId);
 
         if(member == null)
             return null;

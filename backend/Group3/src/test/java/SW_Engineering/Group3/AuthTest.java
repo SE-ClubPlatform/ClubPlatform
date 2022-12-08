@@ -51,24 +51,24 @@ public class AuthTest {
 
             //given
             SignupDto signupDto = SignupDto.builder()
-                    .email("dnwls813@ajou.ac.kr")
+                    .email("ajou@ajou.ac.kr")
                     .password("a12345678!")
-                    .studentId("201820772")
+                    .studentId("12345678")
                     .major("소프트웨어학과")
                     .phoneNumber("010-1234-5678")
                     .build();
 
             SignupDto signupDto2 = SignupDto.builder()
-                    .email("dnwls813@ajou.ac.kr")
+                    .email("ajou2@ajou.ac.kr")
                     .password("a12345678!")
-                    .studentId("201820772")
+                    .studentId("12345678")
                     .major("소프트웨어학과")
                     .phoneNumber("010-1234-5678")
                     .build();
 
             //when
             Long memberId = authService.signupUser(signupDto);
-            Long member2Id = authService.signupUser(signupDto);
+            Long member2Id = authService.signupUser(signupDto2);
 
             //then
             Assertions.assertThat(memberId).isNotNull();

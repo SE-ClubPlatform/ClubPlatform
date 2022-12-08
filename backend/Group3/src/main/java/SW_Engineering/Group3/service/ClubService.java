@@ -1,7 +1,7 @@
 package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.auth.Member;
-import SW_Engineering.Group3.domain.club.Authority;
+import SW_Engineering.Group3.domain.auth.Authority;
 import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.domain.club.ClubAuthToken;
 import SW_Engineering.Group3.domain.club.ClubMemberList;
