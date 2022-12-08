@@ -9,13 +9,15 @@ import {
     TextInput,
     Modal,
 } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function ActivityCard() {
-    const [voteVisible, setVoteVisible] = useState(false);
+    const [voteVisible, setVoteVisible] = useState(false)
+    const [checked, setChecked] = useState('first')
     return(
     <View style={styles.card}>
         <View style={styles.container_title}>
@@ -75,6 +77,7 @@ function ActivityCard() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                marginBottom : 10,
               }}>
               <Text style={{fontSize: 20, flex: 1}}>투표하기</Text>
               <TouchableOpacity
@@ -99,28 +102,34 @@ function ActivityCard() {
                 alignContent: 'space-between',
                 justifyContent: 'center',
               }}>
-              <TextInput
-                style={{flex:1, }}
-                onChangeText={text => {
-                  console.log(text)
-                }}
-                placeholder="동아리명을 입력해주세요."
-              />
-              <TouchableOpacity
-              onPress={
-                ()=>console.log()}>
-                <Image
-                  style={{
-                    flex: 1,
-                    height: Height * 0.04,
-                    width: Height * 0.04,
-                    margin: 5,
-                  }}
-                  source={require('../../icons/ic_search.png')}
-                  resizeMode="contain"
+              <RadioButton
+                value="part"
+                status={ checked === 'part' ? 'checked' : 'unchecked' }
+                onPress={() => setChecked('part')}
                 />
-              </TouchableOpacity>
+              <Text style={{flex:1,}}>참가</Text>
             </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                alignContent: 'space-between',
+                justifyContent: 'center',
+              }}>
+              <RadioButton
+                value="unpart"
+                status={ checked === 'unpart' ? 'checked' : 'unchecked' }
+                onPress={() => setChecked('unpart')}
+                />
+              <Text style={{flex:1,}}>불참</Text>
+            </View>
+            <TouchableOpacity style={styles.btn_gray}
+            onPress={()=> {
+                console.log(checked)
+                setVoteVisible(false)
+                }}>
+              <Text style={{textAlign:"center"}}>완료</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
