@@ -3,6 +3,7 @@ package SW_Engineering.Group3.domain.clubroom;
 import SW_Engineering.Group3.domain.auth.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class ClubRoomLog {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,16 +3,19 @@ package SW_Engineering.Group3.service;
 import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.domain.clubroom.ClubRoom;
 import SW_Engineering.Group3.domain.clubroom.ClubRoomLog;
-import SW_Engineering.Group3.dto.Response;
+import SW_Engineering.Group3.dto.clubroom.ClubRoomLogDto;
 import SW_Engineering.Group3.repository.ClubRoom.ClubRoomLogRepository;
 import SW_Engineering.Group3.repository.ClubRoom.ClubRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,4 +63,26 @@ public class ClubRoomService {
 
         return true;
     }
+
+    /**
+     * 동아리방 모든 출입기록 가져오기
+     */
+    public List<ClubRoomLogDto> getClubRoomLogs(Long clubId) {
+
+        //1. 동아리 정보 가져옴
+        ClubRoom clubRoom = clubRoomRepository.findByClubId(clubId);
+
+        if(clubRoom == null) {
+            return null;
+        }
+
+        Sort sort = Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(0, 10, sort);
+
+        return clubRoomLogRepository.findAll(pageable).stream()
+                .map(c -> ClubRoomLogDto.createClubRoomLogsDto(c))
+                .collect(Collectors.toList());
+
+    }
+
 }
