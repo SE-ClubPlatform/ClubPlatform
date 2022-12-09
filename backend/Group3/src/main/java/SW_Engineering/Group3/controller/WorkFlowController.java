@@ -43,8 +43,6 @@ public class WorkFlowController {
             return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
         }
 
-        System.out.println("club_id = {}" + clubId);
-
         Club club = clubService.findClubById(clubId);
 
         workService.register(registerWorkDto.toWork(club));
@@ -56,7 +54,7 @@ public class WorkFlowController {
     /**
      * 메인페이지에 사용되는 활동 기본 정보 반환
      */
-    @GetMapping("/mainpage")
+    @GetMapping()
     public MainResult getClubMainPageWorkInfo(@PathVariable("club_id") Long clubId) {
 
         Club club = clubService.findClubById(clubId);
@@ -83,6 +81,7 @@ public class WorkFlowController {
                         .title(w.getTitle())
                         .introduce(w.getIntroduce())
                         .phaseStep(w.getCurrentStep())
+                        .voteActivate(phaseService.showPhaseVoteActivate(club, w, w.getCurrentStep()))
                         .build())
                 .collect(Collectors.toList()));
     }
@@ -101,22 +100,7 @@ public class WorkFlowController {
         Club club = clubService.findClubById(clubId);
         Work work = workService.findWorkById(club, workId);
 
-        try {
-            phaseService.savePhase(work,
-                    Phase.builder()
-                            .work(work)
-                            .clubId(clubId)
-                            .title(registerPhaseDto.getTitle())
-                            .content(registerPhaseDto.getContent())
-                            .finishDate(registerPhaseDto.getFinishDate())
-                            .step(work.getCurrentStep() + 1)
-                            .build());
-        } catch(IllegalArgumentException e) {
-            return response.fail("더 이상 단계 정보를 등록하실 수 없습니다.", HttpStatus.BAD_REQUEST);
-        }
-
-        return response.success(work.getCurrentStep() + "단계 정보를 성공적으로 저장했습니다");
-
+        return phaseService.savePhase(registerPhaseDto, club, work);
     }
 
 }

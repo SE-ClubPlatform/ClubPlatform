@@ -25,10 +25,11 @@ public class Phase {
     private String content;
     private int step;
     private LocalDate finishDate;
+    private boolean voteActivate;
 
     @Builder
     public Phase(Work work, Long clubId, String title, String content,
-                 int step, LocalDate finishDate) {
+                 int step, LocalDate finishDate, boolean voteActivate) {
 
         this.work = work;
         this.clubId = clubId;
@@ -36,6 +37,7 @@ public class Phase {
         this.content = content;
         this.step = step;
         this.finishDate = finishDate;
+        this.voteActivate = voteActivate;
 
     }
 

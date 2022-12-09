@@ -20,4 +20,7 @@ public class RegisterPhaseDto {
     @NotNull
     private LocalDate finishDate;
 
+    @NotNull
+    private boolean voteActivate;
+
 }
