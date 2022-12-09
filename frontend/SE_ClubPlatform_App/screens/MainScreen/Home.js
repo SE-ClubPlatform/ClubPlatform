@@ -186,15 +186,6 @@ function Home({navigation}) {
           title5={postData[4].title}
         />
         <Home_Contents
-          title="소모임 모집"
-          location="Group"
-          title1={postData2[0].title}
-          title2={postData2[1].title}
-          title3={postData2[2].title}
-          title4={postData2[3].title}
-          title5={postData2[4].title}
-        />
-        <Home_Contents
           title="활동 모아보기"
           location="WorkFlow"
           title1={postData3[0].title}
@@ -202,6 +193,15 @@ function Home({navigation}) {
           title3={postData3[2].title}
           title4={postData3[3].title}
           title5={postData3[4].title}
+        />
+        <Home_Contents
+          title="소모임 모집"
+          location="Group"
+          title1={postData2[0].title}
+          title2={postData2[1].title}
+          title3={postData2[2].title}
+          title4={postData2[3].title}
+          title5={postData2[4].title}
         />
       </ScrollView>
     </View>

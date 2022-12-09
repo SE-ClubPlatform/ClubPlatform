@@ -20,15 +20,12 @@ function AddClubCard(){
                 alignItems : "center",
             }}>
                 <View style={{
-                        flexDirection : "row",
-                        alignItems :"center",
-                        
-                    }}>
+                    flexDirection : "row",
+                    alignItems :"center",}}>
                         <Image
                             style={styles.clubImg}
                             resizeMode='stretch'
-                            source={require('../../images/Sweat.png')}
-                        />
+                            source={require('../../images/Sweat.png')}/>
                         <Text style={{fontSize:20, fontWeight:"500"}}>SWeat</Text>
                 </View>
                 <TouchableOpacity>
