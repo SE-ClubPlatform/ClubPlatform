@@ -1,7 +1,6 @@
 package SW_Engineering.Group3.domain.club;
 
-import SW_Engineering.Group3.domain.auth.Member;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import SW_Engineering.Group3.domain.clubroom.ClubRoom;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,6 +26,10 @@ public class Club {
     @JsonManagedReference
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<ClubMemberList> clubMembers; // 동아리 부원들
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "room_id")
+    private ClubRoom clubRoom;
 
     @Builder
     public Club(String clubName, String presidentName, String introduce, String category){
