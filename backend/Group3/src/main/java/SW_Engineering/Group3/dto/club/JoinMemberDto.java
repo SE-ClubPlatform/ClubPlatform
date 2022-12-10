@@ -1,38 +1,29 @@
 package SW_Engineering.Group3.dto.club;
 
 import SW_Engineering.Group3.domain.auth.Member;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JoinMemberDto {
 
-    private Long id;
-    private String email;
+    @Setter private Long order;
     private String userName;
     private String studentId;
     private String major;
     private String phoneNumber;
 
     @Builder
-    private JoinMemberDto(Long id, String email, String userName,
-                         String studentId, String major, String phoneNumber){
-        this.id = id;
-        this.email = email;
+    private JoinMemberDto(String userName, String studentId, String major, String phoneNumber){
         this.userName = userName;
         this.studentId = studentId;
         this.major = major;
         this.phoneNumber = phoneNumber;
     }
 
-    public static JoinMemberDto createJoinMemberDto(Member member){
+    public static JoinMemberDto createJoinMemberDto(Member member) {
 
         return JoinMemberDto.builder()
-                .id(member.getId())
-                .email(member.getEmail())
                 .userName(member.getUserName())
                 .studentId(member.getStudentId())
                 .major(member.getMajor())

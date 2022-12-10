@@ -76,9 +76,11 @@ public class ClubRoomService {
             return null;
         }
 
+        //2. limit을 위한 pageable 정의
         Sort sort = Sort.by("id").descending();
         Pageable pageable = PageRequest.of(0, 10, sort);
 
+        //3. 상위 10개 로그를 dto로 변환 후 반환
         return clubRoomLogRepository.findAll(pageable).stream()
                 .map(c -> ClubRoomLogDto.createClubRoomLogsDto(c))
                 .collect(Collectors.toList());

@@ -86,7 +86,7 @@ public class ClubController {
      */
     @GetMapping("/{clubId}/members")
     public ResponseEntity<?> viewClubMembers(Principal principal, @PathVariable Long clubId){
-
+        /*
         Long memberId = Long.parseLong(principal.getName());
 
         if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_MANAGER)) {
@@ -94,8 +94,13 @@ public class ClubController {
 
             return response.success(mainResult);
         }
+        */
 
-        return response.fail("조회 권한이 없거나 존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST);
+        MainResult mainResult = clubService.viewClubMembers(clubId);
+
+        return response.success(mainResult);
+
+        //return response.fail("조회 권한이 없거나 존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -120,9 +120,17 @@ public class ClubService {
                 .map(listRow -> listRow.getMember())
                 .collect(Collectors.toList());
 
-        //4. 추출한 유저 정보를 반환
-        return new MainResult(memberList.size(), memberList.stream()
-                .map(member -> JoinMemberDto.createJoinMemberDto(member)));
+        //4. 추출한 유저 정보를 dto로 전환
+        List<JoinMemberDto> dtos = memberList.stream()
+                .map(member -> JoinMemberDto.createJoinMemberDto(member))
+                .collect(Collectors.toList());
+
+        //5. dto에 id값 심은 후 반환
+        for(int order = 0; order < dtos.size(); order++) {
+            dtos.get(order).setOrder(Long.valueOf(order) + 1);
+        }
+
+        return new MainResult(dtos.size(), dtos);
     }
 
     /**
