@@ -1,6 +1,7 @@
 package SW_Engineering.Group3.controller;
 
 import SW_Engineering.Group3.domain.auth.Authority;
+import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
@@ -8,13 +9,17 @@ import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.MainPage.UnjoinClubDto;
 import SW_Engineering.Group3.dto.club.DealUserSignupRequestDto;
 import SW_Engineering.Group3.service.ClubService;
+import SW_Engineering.Group3.service.FileService;
+import SW_Engineering.Group3.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +31,8 @@ public class ClubController {
 
     private final Response response;
     private final ClubService clubService;
+    private final FileService fileService;
+
 
     /**
      * 모든 동아리 조회
@@ -138,8 +145,8 @@ public class ClubController {
     /**
      * 동아리 멤버 조회
      */
-    @GetMapping("/{clubId}/members")
-    public ResponseEntity<?> viewClubMembers(Principal principal, @PathVariable Long clubId){
+    @GetMapping("/{club_id}/members")
+    public ResponseEntity<?> viewClubMembers(Principal principal, @PathVariable("club_id") Long clubId){
         /*
         Long memberId = Long.parseLong(principal.getName());
 
@@ -155,6 +162,29 @@ public class ClubController {
         return response.success(mainResult);
 
         //return response.fail("조회 권한이 없거나 존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST);
+    }
+
+    /* 이미지 저장
+    @PostMapping("/{club_id}/image")
+    public String saveClubImage(MultipartFile image, @PathVariable("club_id") Long clubId) throws IOException {
+
+        Club club = clubService.findClubById(clubId);
+
+        fileService.saveClubImage(club, image);
+
+        return fileService.getClubImage(club);
+    }
+    */
+
+    /**
+     * 동아리 이미지 불러오기
+     */
+    @GetMapping("/{club_id}/image")
+    public String saveClubImage(@PathVariable("club_id") Long clubId) throws IOException {
+
+        Club club = clubService.findClubById(clubId);
+
+        return fileService.getClubImage(club);
     }
 
 }

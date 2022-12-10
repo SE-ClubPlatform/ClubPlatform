@@ -14,3 +14,5 @@ INSERT INTO club (category, club_name, introduce, room_id, president_name)
 
 INSERT INTO club_member_list (authority, club_id, student_id)
     VALUES (3, 1, 1);
+
+INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("/home/ubuntu/img-files/", "chunsik.png", 1);
