@@ -68,14 +68,14 @@ public class ClubController {
     }
 
     /**
-     * 유저의 동아리 가입
+     * 유저의 동아리 가입 신청
      */
-    @PostMapping("/{club_id}/registration")
-    public ResponseEntity registerUserToClub(@PathVariable("club_id") Long clubId, Principal principal){
+    @PostMapping("/{club_id}/application")
+    public ResponseEntity signUpForClub(Principal principal, @PathVariable("club_id") Long clubId){
         try {
             Long memberId = Long.parseLong(principal.getName());
 
-            return clubService.registerUser(clubId, memberId);
+            return clubService.signUpForClub(memberId, clubId);
         } catch(NullPointerException e) {
             return response.fail("유저 정보가 없습니다", HttpStatus.BAD_REQUEST);
         }

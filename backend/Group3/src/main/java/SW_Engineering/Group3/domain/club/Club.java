@@ -29,7 +29,10 @@ public class Club {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
-    private ClubRoom clubRoom;
+    private ClubRoom clubRoom; // 동아리방
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<ClubApplication> applications; // 동아리 가입 신청 목록
 
     @Builder
     public Club(String clubName, String presidentName, String introduce, String category){

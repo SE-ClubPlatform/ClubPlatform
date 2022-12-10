@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.domain.auth;
 
+import SW_Engineering.Group3.domain.club.ClubApplication;
 import SW_Engineering.Group3.domain.club.ClubMemberList;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
@@ -31,6 +32,9 @@ public class Member {
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ClubMemberList> joinClubs; // 가입한 동아리 목록
+    
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ClubApplication> registerRequestClubs; // 가입 신청한 동아리 목록
 
     @Builder
     public Member(String email, String password, String userName,

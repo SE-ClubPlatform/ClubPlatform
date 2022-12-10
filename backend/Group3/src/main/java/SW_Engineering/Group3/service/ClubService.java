@@ -3,6 +3,7 @@ package SW_Engineering.Group3.service;
 import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.domain.auth.Authority;
 import SW_Engineering.Group3.domain.club.Club;
+import SW_Engineering.Group3.domain.club.ClubApplication;
 import SW_Engineering.Group3.domain.club.ClubAuthToken;
 import SW_Engineering.Group3.domain.club.ClubMemberList;
 import SW_Engineering.Group3.dto.MainResult;
@@ -10,6 +11,7 @@ import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.club.JoinMemberDto;
+import SW_Engineering.Group3.repository.club.ClubApplicationRepository;
 import SW_Engineering.Group3.repository.club.ClubMemberRepository;
 import SW_Engineering.Group3.repository.club.ClubRepository;
 import SW_Engineering.Group3.repository.member.MemberRepository;
@@ -18,10 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.security.Principal;
 import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +31,7 @@ public class ClubService {
 
     private final MemberRepository memberRepository;
     private final ClubMemberRepository clubMemberRepository;
+    private final ClubApplicationRepository clubApplicationRepository;
     private final ClubRepository clubRepository;
     private final TokenRepository tokenRepository;
     private final Response response;
@@ -75,9 +75,38 @@ public class ClubService {
     }
 
     /**
+     * 전달된 동아리 번호에 해당하는 동아리에, 유저 번호에 해당하는 유저를 동아리 가입 신청 목록에 추가
+     */
+    public ResponseEntity<?> signUpForClub(Long memberId, Long clubId) {
+
+        // 1. 동아리, 유저 조회
+        Optional<Club> findClub = clubRepository.findById(clubId);
+        Optional<Member> findMember = memberRepository.findById(memberId);
+
+        if(findClub.isEmpty())
+            return response.fail("존재하지 않는 동아리입니다. 동아리 번호를 다시 확인해주세요.", HttpStatus.BAD_REQUEST);
+        else if(findMember.isEmpty())
+            return response.fail("존재하지 않는 유저입니다. 유저 번호를 다시 확인해주세요.", HttpStatus.BAD_REQUEST);
+
+        Club signUpClub = findClub.get();
+        Member requestMember = findMember.get();
+
+        // 2. 동아리와 유저에 각각 정보를 저장
+        ClubApplication clubApplication = new ClubApplication(requestMember, signUpClub);
+        signUpClub.getApplications().add(clubApplication);
+        requestMember.getRegisterRequestClubs().add(clubApplication);
+
+        // 3. 동아리-유저 신청 정보에 생성한 정보를 저장
+        clubApplicationRepository.save(clubApplication);
+
+        return response.success("성공적으로 " + signUpClub.getClubName() + " 신청명단에 " + requestMember.getUserName() +"님을 추가했습니다.");
+
+    }
+
+    /**
      * 전달된 동아리 번호에 해당하는 동아리에, 유저 번호에 해당하는 유저를 등록시킴
      */
-    public ResponseEntity registerUser(Long clubId, Long memberId) {
+    public ResponseEntity<?> registerUser(Long clubId, Long memberId) {
 
         // 1. 동아리, 유저 조회
         Optional<Club> findClub = clubRepository.findById(clubId);
