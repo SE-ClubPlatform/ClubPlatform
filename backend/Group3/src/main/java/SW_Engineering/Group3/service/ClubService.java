@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ClubService {
 
     private final MemberRepository memberRepository;
@@ -39,6 +41,7 @@ public class ClubService {
     /**
      * 동아리 정보를 저장
      */
+    @Transactional
     public Long registerClub(ClubRegisterDto clubRegisterDto){
 
         String clubName = clubRegisterDto.getClubName();
@@ -50,7 +53,6 @@ public class ClubService {
             return clubRepository.save(clubRegisterDto.toClub()).getId();
         else
             return null;
-
     }
 
     /**
@@ -77,6 +79,7 @@ public class ClubService {
     /**
      * 전달된 동아리 번호에 해당하는 동아리에, 유저 번호에 해당하는 유저를 동아리 가입 신청 목록에 추가
      */
+    @Transactional
     public ResponseEntity<?> signUpForClub(Long memberId, Long clubId) {
 
         // 1. 동아리, 유저 조회
@@ -106,11 +109,27 @@ public class ClubService {
     /**
      * 전달된 동아리 번호에 해당하는 동아리에, 유저 번호에 해당하는 유저를 등록시킴
      */
-    public ResponseEntity<?> registerUser(Long clubId, Long memberId) {
+    @Transactional
+    public void registerUser(Club joinClub, Member registerMember) {
+
+        // 1. 동아리와 유저에 각각 정보를 저장
+        ClubMemberList clubMemberList = new ClubMemberList(registerMember, joinClub, Authority.ROLE_MEMBER);
+        joinClub.getClubMembers().add(clubMemberList);
+        registerMember.getJoinClubs().add(clubMemberList);
+
+        // 2. 동아리-유저 정보에 생성한 정보를 저장
+        clubMemberRepository.save(clubMemberList);
+    }
+
+    /**
+     * 동아리 가입 신청 승인/거절 처리
+     */
+    @Transactional
+    public ResponseEntity<?> dealUserRequest(Long clubId, String studentId, boolean approve) {
 
         // 1. 동아리, 유저 조회
         Optional<Club> findClub = clubRepository.findById(clubId);
-        Optional<Member> findMember = memberRepository.findById(memberId);
+        Optional<Member> findMember = memberRepository.findByStudentId(studentId);
 
         if(findClub.isEmpty())
             return response.fail("존재하지 않는 동아리입니다. 동아리 번호를 다시 확인해주세요.", HttpStatus.BAD_REQUEST);
@@ -120,15 +139,22 @@ public class ClubService {
         Club joinClub = findClub.get();
         Member registerMember = findMember.get();
 
-        // 2. 동아리와 유저에 각각 정보를 저장
-        ClubMemberList clubMemberList = new ClubMemberList(registerMember, joinClub, Authority.ROLE_MEMBER);
-        joinClub.getClubMembers().add(clubMemberList);
-        registerMember.getJoinClubs().add(clubMemberList);
+        //2. 승인 상태이면 유저를 동아리에 등록시킴
+        if(approve) {
+            registerUser(joinClub, registerMember);
+        }
 
-        // 3. 동아리-유저 정보에 생성한 정보를 저장
-        clubMemberRepository.save(clubMemberList);
+        //3. 승인/거절 상태에 상관없이 신청 테이블에서 해당 유저의 요청기록 삭제
+        ClubApplication clubApplication = clubApplicationRepository.findByClubAndMember(joinClub, registerMember);
 
-        return response.success("성공적으로 " + joinClub.getClubName() + "에 " + registerMember.getUserName() +"님이 등록됐습니다.");
+        System.out.println(clubApplication.getClub().getId() + " " +clubApplication.getMember().getId());
+        clubApplicationRepository.delete(clubApplication);
+
+        if(approve) {
+            return response.success(registerMember.getUserName() +"님이 성공적으로 " + joinClub.getClubName() +"에 등록되었습니다");
+        }
+
+        return response.success(registerMember.getUserName() +"님의 요청이 성공적으로 거절되었습니다.");
     }
 
     /**
@@ -165,6 +191,7 @@ public class ClubService {
     /**
      * 유저가 동아리의 특정 페이지에 접근할 권한이 있는지 검증
      */
+    @Transactional
     public boolean checkUserClubAuthority(Long memberId, Long clubId, Authority requiredAuthority) {
 
         //1. Member_id로 저장된 Member 찾기

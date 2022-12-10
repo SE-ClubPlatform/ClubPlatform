@@ -6,6 +6,7 @@ import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.MainPage.UnjoinClubDto;
+import SW_Engineering.Group3.dto.club.DealUserSignupRequestDto;
 import SW_Engineering.Group3.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -76,6 +77,36 @@ public class ClubController {
             Long memberId = Long.parseLong(principal.getName());
 
             return clubService.signUpForClub(memberId, clubId);
+        } catch(NullPointerException e) {
+            return response.fail("유저 정보가 없습니다", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * 동아리 가입 신청 승인
+     */
+    @PostMapping("/{club_id}/application-members")
+    public ResponseEntity allowUserSignupRequest(Principal principal, @PathVariable("club_id") Long clubId,
+                                                 @RequestBody DealUserSignupRequestDto dto){
+        try {
+            /*
+            Long memberId = Long.parseLong(principal.getName());
+
+            if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_PRESIDENT)) {
+                if(dto.getStatus().equals("approve"))
+                    return clubService.dealUserRequest(clubId, dto.getStudentId(), true);
+
+                return clubService.dealUserRequest(clubId, dto.getStudentId(), false);
+            }
+
+            return response.fail("접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            */
+
+            if(dto.getStatus().equals("approve"))
+                return clubService.dealUserRequest(clubId, dto.getStudentId(), true);
+
+            return clubService.dealUserRequest(clubId, dto.getStudentId(), false);
+
         } catch(NullPointerException e) {
             return response.fail("유저 정보가 없습니다", HttpStatus.BAD_REQUEST);
         }
