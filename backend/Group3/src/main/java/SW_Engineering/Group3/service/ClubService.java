@@ -8,6 +8,7 @@ import SW_Engineering.Group3.domain.club.ClubAuthToken;
 import SW_Engineering.Group3.domain.club.ClubMemberList;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
+import SW_Engineering.Group3.dto.club.ApplicationMemberDto;
 import SW_Engineering.Group3.dto.club.ClubMainPageDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.club.JoinMemberDto;
@@ -155,6 +156,27 @@ public class ClubService {
         }
 
         return response.success(registerMember.getUserName() +"님의 요청이 성공적으로 거절되었습니다.");
+    }
+
+    /**
+     * 모든 동아리 가입 신청 목록 조회
+     */
+    public ResponseEntity<?> showAllApplicationMember(Long clubId) {
+
+        // 1. 동아리 조회
+        Optional<Club> findClub = clubRepository.findById(clubId);
+
+        if(findClub.isEmpty())
+            return response.fail("존재하지 않는 동아리입니다. 동아리 번호를 다시 확인해주세요.", HttpStatus.BAD_REQUEST);
+
+        Club club = findClub.get();
+
+        // 2. 동아리를 기준으로 신청 목록 조회 후, dto로 변환해 반환
+        List<ApplicationMemberDto> dtos = clubApplicationRepository.findByClub(club).stream()
+                .map(clubApplication -> ApplicationMemberDto.createApplicationMemberDto(clubApplication.getMember()))
+                .collect(Collectors.toList());
+
+        return response.success(dtos);
     }
 
     /**

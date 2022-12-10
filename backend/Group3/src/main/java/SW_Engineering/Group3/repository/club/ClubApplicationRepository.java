@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ClubApplicationRepository extends JpaRepository<ClubApplication, Long> {
 
@@ -17,4 +19,6 @@ public interface ClubApplicationRepository extends JpaRepository<ClubApplication
     @Query(value = "SELECT c FROM ClubApplication c WHERE c.club = :club AND c.member = :member")
     ClubApplication findByClubAndMember(@Param("club") Club club,
                                         @Param("member") Member member);
+
+    List<ClubApplication> findByClub(Club club);
 }

@@ -113,6 +113,29 @@ public class ClubController {
     }
 
     /**
+     * 동아리 가입 신청 목록 조회
+     */
+    @GetMapping("/{club_id}/application-members")
+    public ResponseEntity showAllSignupRequest(Principal principal, @PathVariable("club_id") Long clubId){
+        try {
+            /*
+            Long memberId = Long.parseLong(principal.getName());
+
+            if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_PRESIDENT)) {
+                return clubService.showAllApplicationMember(clubId);
+            }
+
+            return response.fail("접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
+
+             */
+            return clubService.showAllApplicationMember(clubId);
+
+        } catch(NullPointerException e) {
+            return response.fail("유저 정보가 없습니다", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
      * 동아리 멤버 조회
      */
     @GetMapping("/{clubId}/members")
