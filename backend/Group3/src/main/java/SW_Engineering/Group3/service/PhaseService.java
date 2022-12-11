@@ -7,6 +7,7 @@ import SW_Engineering.Group3.domain.workflow.VoteContent;
 import SW_Engineering.Group3.domain.workflow.Work;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.workflow.RegisterPhaseDto;
+import SW_Engineering.Group3.dto.workflow.VoteDto;
 import SW_Engineering.Group3.repository.workflow.PhaseRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -97,9 +98,20 @@ public class PhaseService {
      */
     public boolean showPhaseVoteActivate(Club club, Work work, int step) {
 
-        Phase phase = phaseRepository.findPhaseByClubAndWorkId(club.getId(), work, step);
+        Phase phase = phaseRepository.findPhaseByClubAndWork(club.getId(), work, step);
 
         return phase.isVoteActivate();
+    }
+
+    /**
+     * 동아리 번호, 활동 번호, 단계 스텝으로 특정 투표 조회
+     */
+    public Vote getVoteInfo(Club club, Work work, int step) {
+
+        Phase phase = phaseRepository.findPhaseByClubAndWork(club.getId(), work, step);
+
+        return phase.getVote();
+
     }
 
 }
