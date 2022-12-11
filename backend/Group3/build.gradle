@@ -42,6 +42,10 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
 	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	implementation 'com.google.code.gson:gson'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 }
 
 tasks.named('test') {

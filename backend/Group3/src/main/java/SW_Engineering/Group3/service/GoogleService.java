@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class GoogleService {
                 "&access_type=offline";
     }
 
-    public String getIdToken(String code) throws JsonProcessingException {
+    public String getIdToken(String code) throws IOException {
         String GOOGLE_TOKEN_REQUEST_URL="https://oauth2.googleapis.com/token";
 
         RestTemplate restTemplate=new RestTemplate();

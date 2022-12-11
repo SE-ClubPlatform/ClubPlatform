@@ -1,30 +1,36 @@
 package SW_Engineering.Group3.controller;
 
 import SW_Engineering.Group3.domain.club.Club;
-import SW_Engineering.Group3.domain.workflow.Phase;
+import SW_Engineering.Group3.domain.workflow.Vote;
+import SW_Engineering.Group3.domain.workflow.VoteContent;
 import SW_Engineering.Group3.domain.workflow.Work;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.workflow.DetailWorkDto;
-import SW_Engineering.Group3.dto.workflow.RegisterPhaseDto;
 import SW_Engineering.Group3.dto.workflow.RegisterWorkDto;
 import SW_Engineering.Group3.dto.workflow.WorkMainPageDto;
 import SW_Engineering.Group3.service.ClubService;
 import SW_Engineering.Group3.service.PhaseService;
 import SW_Engineering.Group3.service.WorkService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.*;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spring.web.json.Json;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/club/{club_id}/work")
+@RequestMapping(value = "/club/{club_id}/work", produces = "application/json; charset=utf8")
 public class WorkFlowController {
 
     private final PhaseService phaseService;
@@ -89,18 +95,17 @@ public class WorkFlowController {
     /**
      * 활동 단계 정보 등록
      */
-    @PostMapping("/{work_id}/phase")
-    public ResponseEntity registerPhase(@Validated @RequestBody RegisterPhaseDto registerPhaseDto, BindingResult bindingResult,
-                              @PathVariable("club_id") Long clubId, @PathVariable("work_id") Long workId) {
+    @PostMapping(value = "/{work_id}/phase")
+    public ResponseEntity registerPhase(@Validated @RequestBody Map<String, Object> map,
+                                        @PathVariable("club_id") Long clubId, @PathVariable("work_id") Long workId) throws JsonProcessingException {
 
-        if(bindingResult.hasErrors()){
-            return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
-        }
-
+        // club, work
         Club club = clubService.findClubById(clubId);
         Work work = workService.findWorkById(club, workId);
 
-        return phaseService.savePhase(registerPhaseDto, club, work);
+        return phaseService.savePhase(map, club, work);
     }
+
+
 
 }

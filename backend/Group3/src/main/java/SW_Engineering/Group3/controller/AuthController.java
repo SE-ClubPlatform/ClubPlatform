@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -83,7 +84,7 @@ public class AuthController {
      * 구글로부터 code를 redirect받음
      */
     @GetMapping("/code/google")
-    public ResponseEntity googleCallback(@RequestParam Map<String,Object> paramMap) throws JsonProcessingException {
+    public ResponseEntity googleCallback(@RequestParam Map<String,Object> paramMap) throws IOException {
 
         // 1. code는 프론트측으로부터 받을 예정
         String code = String.valueOf(paramMap.get("code"));
