@@ -2,6 +2,7 @@ package SW_Engineering.Group3.controller;
 
 import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.domain.workflow.Vote;
+import SW_Engineering.Group3.domain.workflow.VoteContent;
 import SW_Engineering.Group3.domain.workflow.Work;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
@@ -114,12 +115,18 @@ public class WorkFlowController {
 
         VoteDto voteDto = new VoteDto(findVote.getTitle(), findVote.getFinishDate(),
                 findVote.getContents().stream()
-                        .map(voteContent -> new VoteContentDto(voteContent.getContent(), voteContent.getCount()))
+                        .map(voteContent -> new VoteContentDto(voteContent.getId(), voteContent.getContent(), voteContent.getCount()))
                         .collect(Collectors.toList()));
 
         return response.success(voteDto);
     }
 
-
+    /**
+     * 투표 선택 기능 - 각 투표 컨텐츠의 카운트가 올라감
+     */
+    @PostMapping("{work_id}/vote/{vote_content_id}")
+    public ResponseEntity<?> addContentCount(@PathVariable("vote_content_id") Long voteContentId) {
+        return phaseService.addContentCount(voteContentId);
+    }
 
 }

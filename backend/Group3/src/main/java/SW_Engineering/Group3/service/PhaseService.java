@@ -7,8 +7,8 @@ import SW_Engineering.Group3.domain.workflow.VoteContent;
 import SW_Engineering.Group3.domain.workflow.Work;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.workflow.RegisterPhaseDto;
-import SW_Engineering.Group3.dto.workflow.VoteDto;
 import SW_Engineering.Group3.repository.workflow.PhaseRepository;
+import SW_Engineering.Group3.repository.workflow.VoteContentRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +28,7 @@ public class PhaseService {
 
     private final Response response;
     private final PhaseRepository phaseRepository;
+    private final VoteContentRepository voteContentRepository;
 
     /**
      * 단계 등록
@@ -107,11 +108,25 @@ public class PhaseService {
      * 동아리 번호, 활동 번호, 단계 스텝으로 특정 투표 조회
      */
     public Vote getVoteInfo(Club club, Work work, int step) {
-
         Phase phase = phaseRepository.findPhaseByClubAndWork(club.getId(), work, step);
 
         return phase.getVote();
+    }
 
+    /**
+     * 투표 컨텐츠의 투표 카운트 수를 올림
+     */
+    @Transactional
+    public ResponseEntity<?> addContentCount(Long voteContentId) {
+        VoteContent voteContent = voteContentRepository.findById(voteContentId).orElse(null);
+
+        if(voteContent == null) {
+            return response.fail("존재하지 않는 투표 내용입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        voteContent.addCount();
+
+        return response.success("현재 투표 수", String.valueOf(voteContent.getCount()), HttpStatus.OK);
     }
 
 }
