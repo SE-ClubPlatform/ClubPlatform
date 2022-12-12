@@ -7,24 +7,63 @@ import {
   StyleSheet,
   Modal,
   TextInput,
+  Alert,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import Topbar from '../Bar/Topbar';
 import {Dimensions} from 'react-native';
 import {Platform} from 'react-native';
 import AddClubCard from '../Container/AddClubCard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import userName from '../../recoils/userName';
+import {useRecoilValue} from 'recoil';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Main({navigation}) {
+  const name = useRecoilValue(userName);
   const [modalVisible, setModalVisible] = useState(false);
   const [searchClub, setSearchClub] = useState(null);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <View style={{margin: Width * 0.05, flex: 0.6}}>
-        <Text style={styles.fontStyle}>내 동아리</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+          }}>
+          <Text style={styles.fontStyle}>내 동아리</Text>
+          <TouchableOpacity
+            style={{
+              width: Width * 0.17,
+              height: Height * 0.03,
+              marginBottom: Height * 0.012,
+              borderRadius: 5,
+              backgroundColor: '#7181c4',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => {
+              Alert.alert('로그아웃 하시겠습니까?', '', [
+                {
+                  text: '네',
+                  onPress: () => {
+                    AsyncStorage.removeItem('user_id');
+                    navigation.replace('Auth');
+                  },
+                },
+                {
+                  text: '아니오',
+                },
+              ]);
+            }}>
+            <Text style={{color: 'white'}}>로그아웃</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={{flexDirection: 'row', marginBottom: Height * 0.02}}>
           <TouchableOpacity
             style={styles.myClubButton}
@@ -135,9 +174,7 @@ function Main({navigation}) {
                 }}
                 placeholder="동아리명을 입력해주세요."
               />
-              <TouchableOpacity
-              onPress={
-                ()=>console.log({searchClub})}>
+              <TouchableOpacity onPress={() => console.log({searchClub})}>
                 <Image
                   style={{
                     flex: 1,
@@ -151,7 +188,7 @@ function Main({navigation}) {
               </TouchableOpacity>
             </View>
             <View>
-              <AddClubCard/>
+              <AddClubCard />
             </View>
           </View>
         </View>

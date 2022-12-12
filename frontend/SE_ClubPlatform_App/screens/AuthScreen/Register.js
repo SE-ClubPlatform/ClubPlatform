@@ -12,12 +12,81 @@ import {
   Platform,
   Dimensions,
 } from 'react-native';
+import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
+import userid from '../../recoils/userId';
+import userName from '../../recoils/userName';
+import userStudentId from '../../recoils/userStudentId';
+import userMajor from '../../recoils/userMajor';
+import userContact from '../../recoils/userContact';
+import {useRecoilState} from 'recoil';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Register({navigation}) {
+  const [email, setEmail] = useRecoilState(userid);
+  const [password, setPassword] = useState('');
+  const [name, setName] = useRecoilState(userName);
+  const [studentId, setStudentId] = useRecoilState(userStudentId);
+  const [major, setMajor] = useRecoilState(userMajor);
+  const [contact, setContact] = useRecoilState(userContact);
+
+  async function registerData(
+    email,
+    password,
+    userName,
+    studentId,
+    major,
+    phoneNumber,
+  ) {
+    if (!email) {
+      alert('이메일을 입력해주세요 .');
+      return;
+    }
+    if (!password) {
+      alert('비밀번호를 입력해주세요 .');
+      return;
+    }
+    if (!userName) {
+      alert('이름을 입력해주세요 .');
+      return;
+    }
+    if (!studentId) {
+      alert('학번을 입력해주세요 .');
+      return;
+    }
+    if (!major) {
+      alert('학과를 입력해주세요 .');
+      return;
+    }
+    if (!phoneNumber) {
+      alert('연락처를 입력해주세요 .');
+      return;
+    }
+
+    if (password.length < 8) {
+      alert('비밀번호는 8자 이상이어야 합니다 .');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://sogong-group3.kro.kr/auth/signup',
+        {email, password, userName, studentId, major, phoneNumber},
+      );
+      console.log(response.data);
+      if (response.data.state === 200) {
+        navigation.navigate('Login');
+      } else {
+        alert('동일한 이메일이 존재합니다 .');
+      }
+    } catch (e) {
+      alert('동일한 이메일이 존재합니다 .');
+      console.log(e);
+    }
+  }
+
   return (
     <LinearGradient colors={['#a49ee5', '#5362b2']} style={styles.container}>
       <View
@@ -36,18 +105,13 @@ function Register({navigation}) {
         </Text>
       </View>
       <ScrollView style={{flex: 0.94}}>
-        {/* <View>
-          <Text style={styles.titleText}>User ID</Text>
-          <TextInput
-            style={styles.inputArea}
-            placeholder="아이디(5자 이상, 영문, 숫자 포함)"
-          />
-        </View> */}
         <View>
           <Text style={styles.titleText}>Email</Text>
           <TextInput
             style={styles.inputArea}
             placeholder="아주대학교 이메일 (ex.helloworld@ajou.ac.kr)"
+            onChangeText={email => setEmail(email)}
+            autoCapitalize="none"
           />
         </View>
 
@@ -56,38 +120,56 @@ function Register({navigation}) {
           <TextInput
             style={styles.inputArea}
             placeholder="비밀번호(8자 이상)"
+            secureTextEntry={true}
+            onChangeText={password => setPassword(password)}
+            autoCapitalize="none"
           />
         </View>
-        {/* <View>
-          <Text style={{color: 'white'}}>Password Check</Text>
-          <TextInput style={styles.inputArea} placeholder="비밀번호 확인" />
-        </View> */}
+
         <View>
           <Text style={styles.titleText}>Name</Text>
-          <TextInput style={styles.inputArea} placeholder="이름" />
+          <TextInput
+            style={styles.inputArea}
+            placeholder="이름"
+            onChangeText={name => setName(name)}
+            autoCapitalize="none"
+          />
         </View>
         <View>
           <Text style={styles.titleText}>Student ID</Text>
           <TextInput
             style={styles.inputArea}
             placeholder="학번 (ex.203220845)"
+            onChangeText={studentId => setStudentId(studentId)}
+            autoCapitalize="none"
           />
         </View>
         <View>
           <Text style={styles.titleText}>Major</Text>
-          <TextInput style={styles.inputArea} placeholder="소속 학과" />
+          <TextInput
+            style={styles.inputArea}
+            placeholder="소속 학과"
+            onChangeText={major => setMajor(major)}
+            autoCapitalize="none"
+          />
         </View>
         <View>
           <Text style={styles.titleText}>Contact</Text>
           <TextInput
             style={styles.inputArea}
-            placeholder="연락처 (ex.0102225555)"
+            placeholder="연락처 (ex.01022225555)"
+            onChangeText={contact => setContact(contact)}
+            autoCapitalize="none"
           />
         </View>
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() =>
+            registerData(email, password, name, studentId, major, contact)
+          }>
           <Text style={{color: 'black', fontFamily: 'NanumSquareNeo-bRg'}}>
-            로그인
+            회원가입
           </Text>
         </TouchableOpacity>
       </ScrollView>

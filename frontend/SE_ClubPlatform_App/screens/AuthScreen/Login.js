@@ -15,6 +15,9 @@ import axios from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '@react-navigation/native';
+import userid from '../../recoils/userId';
+import userToken from '../../recoils/userToken';
+import {useRecoilState} from 'recoil';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -22,41 +25,53 @@ const Width = Dimensions.get('window').width;
 function Login({navigation}) {
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [userId_R, setUserId_R] = useRecoilState(userid);
+  const [userToken_R, setUserToken_R] = useRecoilState(userToken);
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
 
-  //   async function postData(id, password) {
-  //     setErrortext('');
-  //     if (!id) {
-  //       alert('아이디를 입력해주세요 .');
-  //       return;
-  //     }
-  //     if (!password) {
-  //       alert('비밀번호를 입력해주세요 .');
-  //       return;
-  //     }
-  //     setLoading(true);
+  async function postData(email, password) {
+    setErrortext('');
+    if (!email) {
+      alert('아이디를 입력해주세요 .');
+      return;
+    }
+    if (!password) {
+      alert('비밀번호를 입력해주세요 .');
+      return;
+    }
+    setLoading(true);
 
-  //     try {
-  //       const response = await axios.post('http://10.0.2.2:80/signin', {
-  //         id,
-  //         password,
-  //       });
+    try {
+      const response = await axios.post(
+        'http://sogong-group3.kro.kr/auth/login',
+        {
+          email,
+          password,
+        },
+      );
 
-  //       // console.log(response.data);
-  //       if (response.data.msg === 'login success') {
-  //         AsyncStorage.setItem('user_id', userId);
-  //         setLoading(false);
-  //         navigation.replace('Main');
-  //       } else {
-  //         alert('아이디와 비밀번호를 다시 확인해주세요 .');
-  //         setLoading(false);
-  //       }
-  //     } catch (e) {
-  //       setLoading(false);
-  //       console.log(e);
-  //     }
-  //   }
+      console.log(response.data);
+      console.log(response.data.data.accessToken);
+      console.log(response.data.state);
+
+      if (response.data.state === 200) {
+        AsyncStorage.setItem('user_id', email);
+        AsyncStorage.setItem(`${userId}_token`, response.data.data.accessToken);
+        setUserId_R(email);
+        setUserToken_R(response.data.data.accessToken);
+        setLoading(false);
+        navigation.replace('HomeStack');
+      } else {
+        alert('아이디와 비밀번호를 다시 확인해주세요 .');
+        setLoading(false);
+      }
+    } catch (e) {
+      alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      setLoading(false);
+      console.log(e);
+    }
+  }
 
   return (
     <LinearGradient colors={['#a49ee5', '#5362b2']} style={styles.container}>
@@ -100,8 +115,9 @@ function Login({navigation}) {
         <View style={styles.btnArea}>
           <TouchableOpacity
             style={styles.btn}
-            // onPress={() => postData(userId, userPassword)}
-            onPress={() => navigation.navigate('HomeStack')}>
+            onPress={() => postData(userId, userPassword)}
+            // onPress={() => navigation.navigate('HomeStack')}
+          >
             <Text style={{color: 'black', fontFamily: 'NanumSquareNeo-bRg'}}>
               로그인
             </Text>
@@ -117,13 +133,19 @@ function Login({navigation}) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.btnArea}>
+        <View
+          style={{
+            ...styles.btnArea,
+            borderTopWidth: 0.2,
+            paddingTop: Height * 0.02,
+            borderColor: 'white',
+          }}>
           <TouchableOpacity>
             <Image
               style={{
                 resizeMode: 'stretch',
                 width: Width * 1,
-                height: Height * 0.105,
+                height: Height * 0.1,
               }}
               source={require('../../icons/googleLogin.png')}
             />
