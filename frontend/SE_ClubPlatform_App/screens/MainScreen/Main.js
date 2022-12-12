@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -16,15 +16,35 @@ import {Platform} from 'react-native';
 import AddClubCard from '../Container/AddClubCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userName from '../../recoils/userName';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
+
+import axios from 'axios'
+import userToken from '../../recoils/userToken';
+import { getDynamicThemeElevations } from 'react-native-paper/lib/typescript/core/theming';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Main({navigation}) {
   const name = useRecoilValue(userName);
+  const [userToken_R, setUserToken] = useRecoilState(userToken)
   const [modalVisible, setModalVisible] = useState(false);
   const [searchClub, setSearchClub] = useState(null);
+  const [user_id, setUserId] = useState()
+  
+  useEffect(() => {
+    const getData = async () => {
+        const id = 
+          JSON.stringify(await AsyncStorage.getItem("user_id"))
+        if(id) {
+            console.log({id});
+            setUserId(id)
+        }
+    }
+    // AsyncStorage에 저장된 데이터가 있다면, 불러온다.
+    getData();
+  }, []);
+
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
