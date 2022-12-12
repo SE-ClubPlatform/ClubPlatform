@@ -176,15 +176,4 @@ public class ClubController {
     }
     */
 
-    /**
-     * 동아리 이미지 불러오기
-     */
-    @GetMapping("/{club_id}/image")
-    public String saveClubImage(@PathVariable("club_id") Long clubId) throws IOException {
-
-        Club club = clubService.findClubById(clubId);
-
-        return fileService.getClubImage(club);
-    }
-
 }

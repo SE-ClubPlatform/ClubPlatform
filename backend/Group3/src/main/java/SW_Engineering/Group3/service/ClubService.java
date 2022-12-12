@@ -66,6 +66,7 @@ public class ClubService {
             Club club = optionalClub.get();
 
             return ClubMainPageDto.builder()
+                    .clubId(club.getId())
                     .clubName(club.getClubName())
                     .presidentName(club.getPresidentName())
                     .category(club.getCategory())
