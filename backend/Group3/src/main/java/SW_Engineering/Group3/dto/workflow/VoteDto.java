@@ -12,11 +12,13 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VoteDto {
 
+    private Long voteId;
     private String title;
     private String finishDate;
     private List<VoteContentDto> contents;
 
-    public VoteDto(String title, LocalDate finishDate, List<VoteContentDto> contents) {
+    public VoteDto(Long voteId, String title, LocalDate finishDate, List<VoteContentDto> contents) {
+        this.voteId = voteId;
         this.title = title;
         this.finishDate = finishDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.contents = contents;

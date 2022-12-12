@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VoteContentDto {
 
-    private Long id;
+    private Long voteContentId;
     private String content;
     private int count;
 
-    public VoteContentDto(Long id, String content, int count) {
-        this.id = id;
+    public VoteContentDto(Long voteContentId, String content, int count) {
+        this.voteContentId = voteContentId;
         this.content = content;
         this.count = count;
     }

@@ -40,7 +40,7 @@ public class ClubController {
     @GetMapping("/all")
     public MainResult getAllClubs(){
         List<UnjoinClubDto> allClubs =  clubService.getAllClubs().stream()
-                .map(club -> new UnjoinClubDto(club.getClubName(), club.getCategory()))
+                .map(club -> new UnjoinClubDto(club.getId(), club.getClubName(), club.getCategory()))
                 .collect(Collectors.toList());
 
         return new MainResult(allClubs.size(), allClubs);

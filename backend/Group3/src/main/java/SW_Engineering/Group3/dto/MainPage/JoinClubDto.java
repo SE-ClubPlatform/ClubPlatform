@@ -8,11 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JoinClubDto {
 
+    private Long clubId;
     private String clubName;
-    private String image; // rds 만든 후 추가할 예정입니다
+    private String image;
 
-    public JoinClubDto(String clubName, String image){
+    public JoinClubDto(Long clubId, String clubName, String image){
+        this.clubId = clubId;
         this.clubName = clubName;
+        this.image = image;
     }
 
 }

@@ -11,11 +11,8 @@ import lombok.NoArgsConstructor;
 public class ApplicationMemberDto {
 
     private String name; // 신청한 학생 이름
-
     private String studentId; // 신청한 학생 학번
-
     private String major; // 신청한 학생 전공
-
     private String phoneNumber; // 신청한 학생 핸드폰 번호
 
     @Builder

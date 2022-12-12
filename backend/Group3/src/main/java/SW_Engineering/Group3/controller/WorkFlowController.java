@@ -113,7 +113,7 @@ public class WorkFlowController {
 
         Vote findVote = phaseService.getVoteInfo(club, work, step);
 
-        VoteDto voteDto = new VoteDto(findVote.getTitle(), findVote.getFinishDate(),
+        VoteDto voteDto = new VoteDto(findVote.getId(), findVote.getTitle(), findVote.getFinishDate(),
                 findVote.getContents().stream()
                         .map(voteContent -> new VoteContentDto(voteContent.getId(), voteContent.getContent(), voteContent.getCount()))
                         .collect(Collectors.toList()));

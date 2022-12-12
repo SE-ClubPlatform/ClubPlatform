@@ -12,6 +12,7 @@ import java.util.Arrays;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DetailWorkDto {
 
+    private Long workId; // 활동 번호
     private String title; // 활동 제목
     private String introduce; // 개괄적인 활동 설명
     private PhaseName phaseName; // 현재 활동 단계 이름
@@ -22,7 +23,8 @@ public class DetailWorkDto {
     private boolean voteActivate; // 해당 단계가 투표를 받는지 여부
 
     @Builder
-    public DetailWorkDto(String title, String introduce, int phaseStep, boolean voteActivate) {
+    public DetailWorkDto(Long workId, String title, String introduce, int phaseStep, boolean voteActivate) {
+        this.workId = workId;
         this.title = title;
         this.introduce = introduce;
         this.phaseStep = phaseStep;

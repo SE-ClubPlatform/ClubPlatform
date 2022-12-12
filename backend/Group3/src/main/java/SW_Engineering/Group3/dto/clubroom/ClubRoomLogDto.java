@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClubRoomLogDto {
 
-    private Long id;
+    private Long clubRoomId;
     private String time;
     private String studentId;
     private String name;
@@ -20,7 +20,7 @@ public class ClubRoomLogDto {
     public static ClubRoomLogDto createClubRoomLogsDto(ClubRoomLog clubRoomLog) {
         ClubRoomLogDto clubRoomLogsDto = new ClubRoomLogDto();
 
-        clubRoomLogsDto.setId(clubRoomLog.getId());
+        clubRoomLogsDto.setClubRoomId(clubRoomLog.getId());
         clubRoomLogsDto.setTime(clubRoomLog.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         clubRoomLogsDto.setStudentId(clubRoomLog.getMember().getStudentId());
         clubRoomLogsDto.setName(clubRoomLog.getMember().getUserName());
