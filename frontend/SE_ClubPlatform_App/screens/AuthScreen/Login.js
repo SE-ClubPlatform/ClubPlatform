@@ -51,6 +51,7 @@ function Login({navigation}) {
         },
       );
 
+      console.log(email);
       console.log(response.data);
       console.log(response.data.data.accessToken);
       console.log(response.data.state);
@@ -58,7 +59,7 @@ function Login({navigation}) {
       if (response.data.state === 200) {
         AsyncStorage.setItem('user_id', email);
         AsyncStorage.setItem(`${userId}_token`, response.data.data.accessToken);
-        
+
         setUserId_R(email);
         setUserToken_R(response.data.data.accessToken);
         setLoading(false);

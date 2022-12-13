@@ -18,33 +18,44 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import userName from '../../recoils/userName';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
-import axios from 'axios'
+import axios, {AxiosHeaders} from 'axios';
+import userid from '../../recoils/userId';
 import userToken from '../../recoils/userToken';
-import { getDynamicThemeElevations } from 'react-native-paper/lib/typescript/core/theming';
+import {getDynamicThemeElevations} from 'react-native-paper/lib/typescript/core/theming';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Main({navigation}) {
   const name = useRecoilValue(userName);
-  const [userToken_R, setUserToken] = useRecoilState(userToken)
+  const [userId, setUserId] = useRecoilState(userid);
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [modalVisible, setModalVisible] = useState(false);
   const [searchClub, setSearchClub] = useState(null);
-  const [user_id, setUserId] = useState()
-  
-  useEffect(() => {
-    const getData = async () => {
-        const id = 
-          JSON.stringify(await AsyncStorage.getItem("user_id"))
-        if(id) {
-            console.log({id});
-            setUserId(id)
-        }
-    }
-    // AsyncStorage에 저장된 데이터가 있다면, 불러온다.
-    getData();
-  }, []);
+  const [clubList, setClubList] = useState();
 
+  async function getJoin(token) {
+    try {
+      console.log(token);
+      const response = await axios.get(
+        'http://sogong-group3.kro.kr/member/join-clubs',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      setClubList(response.data.data.content);
+      // console.log(response.data.data.content[0]);
+      console.log(clubList[0].clubName);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  useEffect(() => {
+    getJoin(`Bearer ${userToken_R}`);
+  }, []);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -55,7 +66,7 @@ function Main({navigation}) {
             justifyContent: 'space-between',
             alignItems: 'flex-end',
           }}>
-          <Text style={styles.fontStyle}>내 동아리</Text>
+          <Text style={styles.fontStyle}>{userId}님의 동아리</Text>
           <TouchableOpacity
             style={{
               width: Width * 0.17,
@@ -91,8 +102,9 @@ function Main({navigation}) {
             <Image
               style={styles.clubImage}
               resizeMode="stretch"
-              source={require('../../images/DoiT.png')}
+              source={{uri: `data:image/png;base64,${clubList[0].image}`}}
             />
+            <Text>{clubList[0].clubName}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.myClubButton}
@@ -224,9 +236,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   myClubButton: {
-    elevation: 3,
+    // elevation: 3,
     borderRadius: 10,
     marginRight: Width * 0.02,
+    alignItems: 'center',
   },
   textInput: {
     flex: 1,
@@ -239,7 +252,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   fontStyle: {
-    fontSize: 25,
+    fontSize: 20,
     marginBottom: Height * 0.01,
   },
   otherClubButton: {
