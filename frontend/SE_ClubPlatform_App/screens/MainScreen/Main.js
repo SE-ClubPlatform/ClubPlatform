@@ -40,7 +40,6 @@ function Main({navigation}) {
 
   async function getJoin(token) {
     try {
-      console.log(token);
       const response = await axios.get(
         'http://sogong-group3.kro.kr/member/join-clubs',
         {
@@ -52,22 +51,15 @@ function Main({navigation}) {
       if (response.data) {
         setClubList(response.data.data.content);
       }
-
-      // console.log(response.data.data.content[0]);
-      console.log(clubList);
+      // console.log(response.status)
+      // console.log(response.data.data.content[0].clubId);
+      console.log(clubList[0].clubId);
     } catch (e) {
       console.log(e.message);
     }
   }
 
-  // useEffect(() => {
-  //   console.log(userToken_R);
-  //   getJoin(`Bearer ${userToken_R}`);
-  // }, [isFocused]);
-
   useEffect(() => {
-    console.log('------');
-    console.log(userToken_R);
     getJoin(`Bearer ${userToken_R}`);
   }, []);
 
@@ -136,7 +128,7 @@ function Main({navigation}) {
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.myClubButton}
             onPress={() => navigation.navigate('ClubMain')}>
             <Image
@@ -144,7 +136,7 @@ function Main({navigation}) {
               resizeMode="stretch"
               source={require('../../images/Sweat.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.myClubButton}
             onPress={() => setModalVisible(true)}>
