@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
+import { useRecoilState } from 'recoil';
+import userToken from '../../recoils/userToken';
 import Topbar from '../Bar/Topbar';
 import Home_Contents from '../Container/Home_Contents';
 import Home_Profile from '../Container/Home_Profile';
@@ -19,6 +21,43 @@ const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Home({navigation}) {
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [clubId, setClubId] = useState(1)
+
+  async function getData(token, clubId) {
+    try {
+      const response = await axios.get(
+        "http://sogong-group3.kro.kr/club/" + clubId + "/mainpage",
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      console.log(token)
+      console.log(response)
+      console.log(response.data);
+      console.log(response.data.state);
+
+      if (response.data.state === 200) {
+        console.log("Success!")
+        // AsyncStorage.setItem('user_id', email);
+        // AsyncStorage.setItem(`${userId}_token`, response.data.data.accessToken);
+      } else {
+        // alert('아이디와 비밀번호를 다시 확인해주세요 .');
+        // setLoading(false);
+      }
+    } catch (e) {
+      // alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      // setLoading(false);
+      // console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getData(`Bearer ${userToken_R}`, 1);
+  }, []);
+
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
