@@ -103,7 +103,7 @@ function Main({navigation}) {
         </View>
 
         <View style={{flexDirection: 'row', marginBottom: Height * 0.02}}>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={styles.myClubButton}
             onPress={() => navigation.navigate('ClubMain')}>
             <Image
@@ -116,7 +116,7 @@ function Main({navigation}) {
               }}
             />
             <Text>{clubList ? clubList[0].clubName : null}</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.myClubButton}
             onPress={() => navigation.navigate('ClubMain')}>
