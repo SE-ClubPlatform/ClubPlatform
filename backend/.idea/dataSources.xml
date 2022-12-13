@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@lsw-engineering.ct2441msyseh.ap-northeast-2.rds.amazonaws.com" uuid="bdce591d-9b68-429e-92b8-65fa9eb58f80">
+    <data-source source="LOCAL" name="sogong@localhost" uuid="bbe2e0bf-d626-4d48-9be2-cf78202512bf">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/sogong</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="@sw-engineering.ct2441msyseh.ap-northeast-2.rds.amazonaws.com" uuid="b2f22aea-2d29-4844-80c8-ff70dee324f5">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://sw-engineering.ct2441msyseh.ap-northeast-2.rds.amazonaws.com:3306</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="@sogong.ct2441msyseh.ap-northeast-2.rds.amazonaws.com" uuid="66a78151-8487-42c1-b5be-c1e1de37eafa">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://sogong.ct2441msyseh.ap-northeast-2.rds.amazonaws.com:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

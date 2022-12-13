@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WorkMainPageDto {
 
-    private Long id; // 활동 번호
+    private Long workId; // 활동 번호
     private String title; // 활동 제목
 
-    public WorkMainPageDto(Long id, String title) {
-        this.id = id;
+    public WorkMainPageDto(Long workId, String title) {
+        this.workId = workId;
         this.title = title;
     }
 }

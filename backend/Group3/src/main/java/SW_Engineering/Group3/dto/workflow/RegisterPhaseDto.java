@@ -1,6 +1,8 @@
 package SW_Engineering.Group3.dto.workflow;
 
+import SW_Engineering.Group3.domain.workflow.Vote;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +22,18 @@ public class RegisterPhaseDto {
     @NotNull
     private LocalDate finishDate;
 
+    @NotNull
+    private boolean voteActivate;
+
+    private Vote vote;
+
+    @Builder
+    public RegisterPhaseDto(String title, String content, LocalDate finishDate,
+                                              boolean voteActivate, Vote vote) {
+        this.title = title;
+        this.content = content;
+        this.finishDate = finishDate;
+        this.voteActivate = voteActivate;
+        this.vote = vote;
+    }
 }

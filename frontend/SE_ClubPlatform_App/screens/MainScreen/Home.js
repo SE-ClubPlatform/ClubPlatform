@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
+import { useRecoilState } from 'recoil';
+import userToken from '../../recoils/userToken';
 import Topbar from '../Bar/Topbar';
 import Home_Contents from '../Container/Home_Contents';
 import Home_Profile from '../Container/Home_Profile';
@@ -19,6 +21,43 @@ const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Home({navigation}) {
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [clubId, setClubId] = useState(1)
+
+  async function getData(token, clubId) {
+    try {
+      const response = await axios.get(
+        "http://sogong-group3.kro.kr/club/" + clubId + "/mainpage",
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      console.log(token)
+      console.log(response)
+      console.log(response.data);
+      console.log(response.data.state);
+
+      if (response.data.state === 200) {
+        console.log("Success!")
+        // AsyncStorage.setItem('user_id', email);
+        // AsyncStorage.setItem(`${userId}_token`, response.data.data.accessToken);
+      } else {
+        // alert('아이디와 비밀번호를 다시 확인해주세요 .');
+        // setLoading(false);
+      }
+    } catch (e) {
+      // alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      // setLoading(false);
+      // console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getData(`Bearer ${userToken_R}`, 1);
+  }, []);
+
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -186,15 +225,6 @@ function Home({navigation}) {
           title5={postData[4].title}
         />
         <Home_Contents
-          title="소모임 모집"
-          location="Group"
-          title1={postData2[0].title}
-          title2={postData2[1].title}
-          title3={postData2[2].title}
-          title4={postData2[3].title}
-          title5={postData2[4].title}
-        />
-        <Home_Contents
           title="활동 모아보기"
           location="WorkFlow"
           title1={postData3[0].title}
@@ -202,6 +232,15 @@ function Home({navigation}) {
           title3={postData3[2].title}
           title4={postData3[3].title}
           title5={postData3[4].title}
+        />
+        <Home_Contents
+          title="소모임 모집"
+          location="Group"
+          title1={postData2[0].title}
+          title2={postData2[1].title}
+          title3={postData2[2].title}
+          title4={postData2[3].title}
+          title5={postData2[4].title}
         />
       </ScrollView>
     </View>

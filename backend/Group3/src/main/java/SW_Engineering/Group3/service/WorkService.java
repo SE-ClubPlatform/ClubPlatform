@@ -1,9 +1,14 @@
 package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.club.Club;
+import SW_Engineering.Group3.domain.workflow.VoteContent;
 import SW_Engineering.Group3.domain.workflow.Work;
+import SW_Engineering.Group3.dto.Response;
+import SW_Engineering.Group3.repository.workflow.VoteContentRepository;
 import SW_Engineering.Group3.repository.workflow.WorkRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -12,9 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class WorkService {
-
-    private final PhaseService phaseService;
     private final WorkRepository workRepository;
+
 
     /**
      * 활동 등록 기능
@@ -43,4 +47,5 @@ public class WorkService {
     public Work findWorkById(Club club, Long workId) {
         return workRepository.findWorkByClubAndWorkId(club, workId);
     }
+
 }

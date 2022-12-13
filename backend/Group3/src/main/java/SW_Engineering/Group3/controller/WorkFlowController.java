@@ -1,17 +1,16 @@
 package SW_Engineering.Group3.controller;
 
 import SW_Engineering.Group3.domain.club.Club;
-import SW_Engineering.Group3.domain.workflow.Phase;
+import SW_Engineering.Group3.domain.workflow.Vote;
+import SW_Engineering.Group3.domain.workflow.VoteContent;
 import SW_Engineering.Group3.domain.workflow.Work;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
-import SW_Engineering.Group3.dto.workflow.DetailWorkDto;
-import SW_Engineering.Group3.dto.workflow.RegisterPhaseDto;
-import SW_Engineering.Group3.dto.workflow.RegisterWorkDto;
-import SW_Engineering.Group3.dto.workflow.WorkMainPageDto;
+import SW_Engineering.Group3.dto.workflow.*;
 import SW_Engineering.Group3.service.ClubService;
 import SW_Engineering.Group3.service.PhaseService;
 import SW_Engineering.Group3.service.WorkService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/club/{club_id}/work")
+@RequestMapping(value = "/club/{club_id}/work", produces = "application/json; charset=utf8")
 public class WorkFlowController {
 
     private final PhaseService phaseService;
@@ -43,8 +43,6 @@ public class WorkFlowController {
             return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
         }
 
-        System.out.println("club_id = {}" + clubId);
-
         Club club = clubService.findClubById(clubId);
 
         workService.register(registerWorkDto.toWork(club));
@@ -56,7 +54,7 @@ public class WorkFlowController {
     /**
      * 메인페이지에 사용되는 활동 기본 정보 반환
      */
-    @GetMapping("/mainpage")
+    @GetMapping()
     public MainResult getClubMainPageWorkInfo(@PathVariable("club_id") Long clubId) {
 
         Club club = clubService.findClubById(clubId);
@@ -83,6 +81,7 @@ public class WorkFlowController {
                         .title(w.getTitle())
                         .introduce(w.getIntroduce())
                         .phaseStep(w.getCurrentStep())
+                        .voteActivate(phaseService.showPhaseVoteActivate(club, w, w.getCurrentStep()))
                         .build())
                 .collect(Collectors.toList()));
     }
@@ -91,32 +90,43 @@ public class WorkFlowController {
      * 활동 단계 정보 등록
      */
     @PostMapping("/{work_id}/phase")
-    public ResponseEntity registerPhase(@Validated @RequestBody RegisterPhaseDto registerPhaseDto, BindingResult bindingResult,
-                              @PathVariable("club_id") Long clubId, @PathVariable("work_id") Long workId) {
+    public ResponseEntity<?> registerPhase(@Validated @RequestBody Map<String, Object> map,
+                                        @PathVariable("club_id") Long clubId, @PathVariable("work_id") Long workId) throws JsonProcessingException {
 
-        if(bindingResult.hasErrors()){
-            return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
-        }
-
+        // club, work
         Club club = clubService.findClubById(clubId);
         Work work = workService.findWorkById(club, workId);
 
-        try {
-            phaseService.savePhase(work,
-                    Phase.builder()
-                            .work(work)
-                            .clubId(clubId)
-                            .title(registerPhaseDto.getTitle())
-                            .content(registerPhaseDto.getContent())
-                            .finishDate(registerPhaseDto.getFinishDate())
-                            .step(work.getCurrentStep() + 1)
-                            .build());
-        } catch(IllegalArgumentException e) {
-            return response.fail("더 이상 단계 정보를 등록하실 수 없습니다.", HttpStatus.BAD_REQUEST);
-        }
+        return phaseService.savePhase(map, club, work);
+    }
 
-        return response.success(work.getCurrentStep() + "단계 정보를 성공적으로 저장했습니다");
+    /**
+     * 투표 정보 불러오기 기능
+     */
+    @GetMapping("/{work_id}/phase/{phase_step}/vote")
+    public ResponseEntity<?> getVoteInfo(@PathVariable("club_id") Long clubId, @PathVariable("work_id") Long workId,
+                                         @PathVariable("phase_step") int step) {
 
+        // club, work
+        Club club = clubService.findClubById(clubId);
+        Work work = workService.findWorkById(club, workId);
+
+        Vote findVote = phaseService.getVoteInfo(club, work, step);
+
+        VoteDto voteDto = new VoteDto(findVote.getId(), findVote.getTitle(), findVote.getFinishDate(),
+                findVote.getContents().stream()
+                        .map(voteContent -> new VoteContentDto(voteContent.getId(), voteContent.getContent(), voteContent.getCount()))
+                        .collect(Collectors.toList()));
+
+        return response.success(voteDto);
+    }
+
+    /**
+     * 투표 선택 기능 - 각 투표 컨텐츠의 카운트가 올라감
+     */
+    @PostMapping("{work_id}/vote/{vote_content_id}")
+    public ResponseEntity<?> addContentCount(@PathVariable("vote_content_id") Long voteContentId) {
+        return phaseService.addContentCount(voteContentId);
     }
 
 }
