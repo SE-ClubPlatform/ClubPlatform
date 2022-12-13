@@ -36,7 +36,9 @@ public class AnonymousCommentService {
 
     @Transactional
     public List<AnonymousCommentDto> getComments(Long boardId) {
-        List<AnonymousComment> comments = anonymousCommentRepository.findAllByBoardId(boardId);
+        Anonymous anonymous = anonymousRepository.findById(boardId).get();
+
+        List<AnonymousComment> comments = anonymousCommentRepository.findAllByPosts(anonymous);
         List<AnonymousCommentDto> commentDtos = new ArrayList<>();
 
         comments.forEach(s -> commentDtos.add(AnonymousCommentDto.toAnonymous(s)));

@@ -1,7 +1,12 @@
 INSERT INTO member (email, major, password, phone_number, student_id, user_name)
     VALUES ("ajou@ajou.ac.kr", "소프트웨어학과", "$2a$10$qGFCDjJ1quuk9HmuamHBXO8xV5l1bsUNwuelK87NZw.D8W.BUjMSG", "010-1234-5678", "201820772", "김우진");
 
+INSERT INTO member (email, major, password, phone_number, student_id, user_name)
+    VALUES ("sweat@ajou.ac.kr", "소프트웨어학과", "$2a$10$qGFCDjJ1quuk9HmuamHBXO8xV5l1bsUNwuelK87NZw.D8W.BUjMSG", "010-5678-1234", "201812345", "이준수");
+
+
 update member set authority = "ROLE_NONMEMBER" where id = 1;
+update member set authority = "ROLE_NONMEMBER" where id = 2;
 
 INSERT INTO club_auth_token (club_name, president_name, token)
     VALUES ("테스트 동아리2", "김진우", "11111");
@@ -20,6 +25,8 @@ INSERT INTO club (category,club_name,introduce,president_name,room_id) VALUES ('
 
 INSERT INTO club_member_list (authority, club_id, student_id)
     VALUES (3, 5, 1);
+INSERT INTO club_member_list (authority, club_id, student_id)
+    VALUES (3, 1, 2);
 
 INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "sweat.png", 1);
 INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "kkong.png", 2);

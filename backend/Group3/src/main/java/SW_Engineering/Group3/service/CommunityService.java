@@ -43,6 +43,6 @@ public class CommunityService {
     public CommunityDto searchById(Long id) {
         Community community = communityRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
-        return new CommunityDto(community.getTitle(), community.getContent(), community.getAuthor(), community.getCreateDate(), community.getCreateTime(), community.getCommentCount(), community.getCategory());
+        return new CommunityDto(community.getBoardID(), community.getTitle(), community.getContent(), community.getCategory());
     }
 }

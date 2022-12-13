@@ -7,12 +7,13 @@ import SW_Engineering.Group3.repository.Board.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NoticeService {
     private final NoticeRepository noticeRepository;
 
@@ -24,6 +25,7 @@ public class NoticeService {
         return noticeRepository.findById(boardID).orElse(null);
     }
 
+    @Transactional
     public Long createNotice(NoticeDto noticeDto) {
         Notice notice = noticeDto.toNotice();
         return noticeRepository.save(notice).getBoardID();
@@ -56,9 +58,8 @@ public class NoticeService {
         noticeRepository.delete(notice);
     }
 
-    @Transactional
     public NoticeDto searchById(Long id) {
         Notice notice = noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        return new NoticeDto(notice.getTitle(), notice.getContent(), notice.getAuthor(), notice.getCreateDate(), notice.getCreateTime(), notice.getCommentCount(), notice.getIsFinish());
+        return new NoticeDto(notice.getBoardID(), notice.getTitle(), notice.getContent(), notice.getIsFinish());
     }
 }

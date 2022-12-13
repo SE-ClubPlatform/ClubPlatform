@@ -36,7 +36,9 @@ public class NoticeCommentService {
 
     @Transactional
     public List<NoticeCommentDto> getComments(Long boardId) {
-        List<NoticeComment> comments = noticeCommentRepository.findAllByBoardId(boardId);
+        Notice findNotice = noticeRepository.findById(boardId).get();
+
+        List<NoticeComment> comments = noticeCommentRepository.findAllByPosts(findNotice);
         List<NoticeCommentDto> commentDtos = new ArrayList<>();
 
         comments.forEach(s -> commentDtos.add(NoticeCommentDto.toNotice(s)));

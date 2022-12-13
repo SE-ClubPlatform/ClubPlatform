@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,8 +17,8 @@ public class Notice extends Board {
     private Boolean isFinish;
 
     @Builder
-    public Notice(Long boardID, String title, String content, Member author, LocalDateTime createDate, LocalDateTime createTime, int commentCount, Boolean isFinish) {
-        super(boardID, title, content, author, createDate, createTime, commentCount);
+    public Notice(Long boardID, String title, String content, Boolean isFinish) {
+        super(boardID, title, content);
         this.isFinish = isFinish;
     }
 }

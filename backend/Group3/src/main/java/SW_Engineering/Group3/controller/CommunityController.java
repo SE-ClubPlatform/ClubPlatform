@@ -35,7 +35,9 @@ public class CommunityController {
     })
     @GetMapping("/club/{club_id}/group")
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
-        List<CommunityDto> allCommunity = communityService.getAllCommunity().stream().map(community -> new CommunityDto(community.getTitle(), community.getContent(), community.getAuthor(), community.getCreateDate(), community.getCreateTime(), community.getCommentCount(), community.getCategory()))
+        List<CommunityDto> allCommunity = communityService.getAllCommunity().stream()
+                .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
+                        community.getContent(), community.getCategory()))
                 .collect(Collectors.toList());
 
         return allCommunity;
@@ -159,13 +161,13 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "익명 게시물 댓글 조회")
     })
-    @GetMapping("/club/{club_id}/anonymous/{id}/comments")
+    @GetMapping("/club/{club_id}/community/{id}/comments")
     public List<CommunityCommentDto> getAllComments(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id) {
         return communityCommentService.getComments(id);
     }
 
     @ApiOperation(value = "댓글 작성", notes = "게시글에 달린 댓글을 작성합니다.")
-    @PostMapping("/club/{club_id}/anonymous/{id}/comments")
+    @PostMapping("/club/{club_id}/community/{id}/comments")
     public Long writeComment(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody CommunityCommentDto communityCommentDto) {
 
         // 로그인 한 멤버 아이디를 넣어야 하는데 방법을 잘 모르겠어요 ㅠㅠ
@@ -174,7 +176,7 @@ public class CommunityController {
     }
 
     @ApiOperation(value = "댓글 삭제", notes = "게시글에 달린 댓글을 삭제합니다.")
-    @DeleteMapping("/club/{club_id}/anonymous/{id}/comments/{comment_id}")
+    @DeleteMapping("/club/{club_id}/community/{id}/comments/{comment_id}")
     public void deleteComment(@PathVariable("id") Long boardId, @PathVariable("comment_id") Long commentId) {
         communityCommentService.deleteComment(commentId);
     }

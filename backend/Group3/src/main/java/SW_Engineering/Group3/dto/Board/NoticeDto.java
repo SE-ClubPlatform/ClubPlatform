@@ -7,27 +7,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NoticeDto {
+
+    private Long noticeId;
     private String title;
     private String content;
-    private Member author;
-    private LocalDateTime createDate;
-    private LocalDateTime createTime;
-    private int commentCount;
     private Boolean isFinish;
 
     @Builder
-    public NoticeDto(String title, String content, Member author, LocalDateTime createDate, LocalDateTime createTime, int commentCount, Boolean isFinish) {
+    public NoticeDto(Long noticeId, String title, String content, Boolean isFinish) {
+        this.noticeId = noticeId;
         this.title = title;
         this.content = content;
-        this.author = author;
-        this.createDate = createDate;
-        this.createTime = createTime;
-        this.commentCount = commentCount;
         this.isFinish = isFinish;
     }
 
@@ -35,10 +31,6 @@ public class NoticeDto {
         return Notice.builder()
                 .title(title)
                 .content(content)
-                .author(author)
-                .createDate(createDate)
-                .createTime(createTime)
-                .commentCount(commentCount)
                 .isFinish(isFinish)
                 .build();
     }
