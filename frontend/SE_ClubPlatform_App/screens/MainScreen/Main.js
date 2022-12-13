@@ -22,6 +22,8 @@ import axios, {AxiosHeaders} from 'axios';
 import userid from '../../recoils/userId';
 import userToken from '../../recoils/userToken';
 import {getDynamicThemeElevations} from 'react-native-paper/lib/typescript/core/theming';
+import {useIsFocused} from '@react-navigation/native';
+import {useMemo} from 'react';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -34,6 +36,8 @@ function Main({navigation}) {
   const [searchClub, setSearchClub] = useState(null);
   const [clubList, setClubList] = useState();
 
+  const isFocused = useIsFocused();
+
   async function getJoin(token) {
     try {
       console.log(token);
@@ -45,7 +49,10 @@ function Main({navigation}) {
           },
         },
       );
-      setClubList(response.data.data.content);
+      if (response.data) {
+        setClubList(response.data.data.content);
+      }
+
       // console.log(response.data.data.content[0]);
       console.log(clubList[0].clubName);
     } catch (e) {
@@ -53,9 +60,17 @@ function Main({navigation}) {
     }
   }
 
+  // useEffect(() => {
+  //   console.log(userToken_R);
+  //   getJoin(`Bearer ${userToken_R}`);
+  // }, [isFocused]);
+
   useEffect(() => {
+    console.log('------');
+    console.log(userToken_R);
     getJoin(`Bearer ${userToken_R}`);
   }, []);
+
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -102,9 +117,13 @@ function Main({navigation}) {
             <Image
               style={styles.clubImage}
               resizeMode="stretch"
-              source={{uri: `data:image/png;base64,${clubList[0].image}`}}
+              source={{
+                uri: clubList
+                  ? `data:image/png;base64,${clubList[0].image}`
+                  : null,
+              }}
             />
-            <Text>{clubList[0].clubName}</Text>
+            <Text>{clubList ? clubList[0].clubName : null}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.myClubButton}
