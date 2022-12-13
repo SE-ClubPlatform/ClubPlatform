@@ -6,16 +6,27 @@ import {
 } from 'react-native-responsive-screen';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import userid from '../../recoils/userId';
+import userToken from '../../recoils/userToken';
+import {useRecoilState} from 'recoil';
 
 const Splash = ({navigation}) => {
   const [animating, setAnimating] = useState(true);
+  const [userId_R, setUserId_R] = useRecoilState(userid);
+  const [userToken_R, setUserToken_R] = useRecoilState(userToken);
 
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
-      AsyncStorage.getItem('user_id').then(value =>
-        navigation.replace(value === null ? 'Auth' : 'Main'),
-      );
+      AsyncStorage.getItem('user_id').then(value => {
+        console.log(value);
+        setUserId_R(value);
+        AsyncStorage.getItem(`${value}_token`).then(value2 => {
+          console.log(value2);
+          setUserToken_R(value2);
+          navigation.replace(value === null ? 'Auth' : 'HomeStack');
+        });
+      });
     }, 3000);
   }, []);
 
@@ -40,7 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFAAB3',
+    backgroundColor: '#a49ee5',
   },
   ActivityIndicator: {
     alignItems: 'center',

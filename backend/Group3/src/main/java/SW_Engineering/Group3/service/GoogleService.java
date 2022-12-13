@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,11 +45,10 @@ public class GoogleService {
                 "client_id=" + GOOGLE_CLIENT_ID + "&" +
                 "redirect_uri=" + GOOGLE_REDIRECT_URI + "&" +
                 "response_type=code" +
-                "&scope=email%20profile%20openid" +
-                "&access_type=offline";
+                "&scope=email%20profile%20openid";
     }
 
-    public String getIdToken(String code) throws JsonProcessingException {
+    public String getIdToken(String code) throws IOException {
         String GOOGLE_TOKEN_REQUEST_URL="https://oauth2.googleapis.com/token";
 
         RestTemplate restTemplate=new RestTemplate();
@@ -65,7 +65,6 @@ public class GoogleService {
 
         if(responseEntity.getStatusCode()== HttpStatus.OK) {
             // ObjectMapper를 통해 String to Object로 변환
-            System.out.println("dfsdfsdf");
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
             objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // NULL이 아닌 값만 응답받기(NULL인 경우는 생략)

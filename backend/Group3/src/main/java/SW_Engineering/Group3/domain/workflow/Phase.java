@@ -19,16 +19,19 @@ public class Phase {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Work work;
+    @Column private Long clubId;
+    @Column private String title;
+    @Column private String content;
+    @Column private int step;
+    @Column private LocalDate finishDate;
+    @Column private boolean voteActivate;
 
-    private Long clubId;
-    private String title;
-    private String content;
-    private int step;
-    private LocalDate finishDate;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Vote vote;
 
     @Builder
     public Phase(Work work, Long clubId, String title, String content,
-                 int step, LocalDate finishDate) {
+                 int step, LocalDate finishDate, boolean voteActivate, Vote vote) {
 
         this.work = work;
         this.clubId = clubId;
@@ -36,7 +39,8 @@ public class Phase {
         this.content = content;
         this.step = step;
         this.finishDate = finishDate;
-
+        this.voteActivate = voteActivate;
+        this.vote = vote;
     }
 
 }

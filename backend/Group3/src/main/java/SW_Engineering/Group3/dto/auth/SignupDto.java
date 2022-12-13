@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.dto.auth;
 
+import SW_Engineering.Group3.domain.auth.Authority;
 import SW_Engineering.Group3.domain.auth.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,6 +40,7 @@ public class SignupDto {
                 .studentId(studentId)
                 .major(major)
                 .phoneNumber(phoneNumber)
+                .authority(Authority.ROLE_NONMEMBER)
                 .build();
     }
 

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClubMainPageDto {
 
+    private Long clubId; // 동아리 아이디
     private String clubName;
     private String presidentName;
     private String introduce;
@@ -16,9 +17,10 @@ public class ClubMainPageDto {
     private int memberCounts;
 
     @Builder
-    public ClubMainPageDto(String clubName, String presidentName, String introduce,
-                           String category, int memberCounts){
+    public ClubMainPageDto(Long clubId, String clubName, String presidentName,
+                           String introduce, String category, int memberCounts){
 
+        this.clubId = clubId;
         this.clubName = clubName;
         this.presidentName = presidentName;
         this.introduce = introduce;

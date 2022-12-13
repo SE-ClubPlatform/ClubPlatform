@@ -1,8 +1,8 @@
 package SW_Engineering.Group3.domain.club;
 
+import SW_Engineering.Group3.domain.auth.Authority;
 import SW_Engineering.Group3.domain.auth.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

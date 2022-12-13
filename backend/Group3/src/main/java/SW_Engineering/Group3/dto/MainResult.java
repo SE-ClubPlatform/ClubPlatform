@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 public class MainResult<T> {
 
     private int count;
-    private T data;
+    private T content;
 
     public MainResult(int count, T data){
         this.count = count;
-        this.data = data;
+        this.content = data;
     }
 
 }

@@ -19,6 +19,10 @@ import Main from './screens/MainScreen/Main';
 import AddClub from './screens/SubScreen/AddClub';
 import Anonymous from './screens/MainScreen/Anonymous';
 import Post from './screens/SubScreen/Post';
+import WorkFlow from './screens/MainScreen/WorkFlow';
+import MemberList from './screens/MainScreen/MemberList';
+import PostContent from './screens/SubScreen/PostContent';
+import {RecoilRoot} from 'recoil';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -74,6 +78,31 @@ const HomeStackScreen = ({navigation}) => {
         component={AddClub}
         options={{title: '', headerTransparent: true, headerShown: false}}
       />
+      <HomeStack.Screen
+        name="WorkFlow"
+        component={WorkFlow}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="Notice"
+        component={Notice}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="Group"
+        component={Group}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="MemberList"
+        component={MemberList}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="PostContent"
+        component={PostContent}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
     </HomeStack.Navigator>
   );
 };
@@ -83,8 +112,12 @@ const ClubMainStackScreen = ({navigation, route}) => {
     <ClubMainStack.Navigator
       style={styles.top}
       initialRouteName="홈"
-      tabBarOptions={{
-        labelStyle: {color: '#FFAAB3', fontWeight: '500', fontSize: 11},
+      screenOptions={{
+        tabBarLabelStyle: {
+          color: '#5362b2',
+          fontWeight: '500',
+          fontSize: 11,
+        },
       }}>
       <ClubMainStack.Screen
         name="공지사항"
@@ -143,35 +176,47 @@ const ClubMainStackScreen = ({navigation, route}) => {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash">
-        <Stack.Screen
-          name="Splash"
-          component={Splash}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Auth"
-          component={Auth}
-          options={{headerShown: false}}
-        />
-        {/* <Stack.Screen
+    <RecoilRoot>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Splash">
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Auth"
+            component={Auth}
+            options={{headerShown: false}}
+          />
+          {/* <Stack.Screen
           name="ClubMain"
           component={ClubMainStackScreen}
           options={{headerShown: false}}
         /> */}
-        <Stack.Screen
-          name="HomeStack"
-          component={HomeStackScreen}
-          options={{headerShown: false}}
-        />
-        {/* <Stack.Screen
-          name="AddClub"
-          component={AddClub}
+          <Stack.Screen
+            name="HomeStack"
+            component={HomeStackScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="AddClub"
+            component={AddClub}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="WorkFlow"
+            component={WorkFlow}
+            options={{headerShown: false}}
+          />
+          {/* <Stack.Screen
+          name="MemberList"
+          component={MemberList}
           options={{headerShown: false}}
         /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </RecoilRoot>
   );
 };
 
