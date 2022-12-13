@@ -51,7 +51,10 @@ public class PhaseService {
                     .build();
 
             phaseRepository.save(savePhase);
-            registerPhaseDto.getVote().setPhase(savePhase);
+
+            if(registerPhaseDto.getVote() != null) {
+                registerPhaseDto.getVote().setPhase(savePhase);
+            }
 
         } catch(IllegalArgumentException e) {
             return response.fail("더 이상 단계 정보를 등록하실 수 없습니다.", HttpStatus.BAD_REQUEST);
@@ -74,24 +77,29 @@ public class PhaseService {
 
         //(2) vote
         ArrayList voteJsonArray = (ArrayList) map.get("vote");
-        Map<String, ?> temp = (Map)voteJsonArray.get(0);
 
-        String voteTitle = (String) temp.get("title");
-        LocalDate voteFinishDate  = LocalDate.parse((String) temp.get("finishDate"));
-        Vote vote = new Vote(voteTitle, voteFinishDate);
+        if(voteJsonArray != null) {
+            Map<String, ?> temp = (Map) voteJsonArray.get(0);
 
-        //(3) voteContent
-        ArrayList voteContentJsonArray = (ArrayList) temp.get("contents");
+            String voteTitle = (String) temp.get("title");
+            LocalDate voteFinishDate = LocalDate.parse((String) temp.get("finishDate"));
+            Vote vote = new Vote(voteTitle, voteFinishDate);
 
-        List<VoteContent> voteContents = new ArrayList<>();
-        for(int i = 0 ; i < voteContentJsonArray.size() ; i++) {
-            temp = (Map) voteContentJsonArray.get(i);
+            //(3) voteContent
+            ArrayList voteContentJsonArray = (ArrayList) temp.get("contents");
 
-            VoteContent voteContent = new VoteContent((String) temp.get("content"));
-            vote.addVoteContent(voteContent);
+            List<VoteContent> voteContents = new ArrayList<>();
+            for (int i = 0; i < voteContentJsonArray.size(); i++) {
+                temp = (Map) voteContentJsonArray.get(i);
+
+                VoteContent voteContent = new VoteContent((String) temp.get("content"));
+                vote.addVoteContent(voteContent);
+            }
+
+            return new RegisterPhaseDto(title, content, finishDate, voteActivate, vote);
         }
 
-        return new RegisterPhaseDto(title, content, finishDate, voteActivate, vote);
+        return new RegisterPhaseDto(title, content, finishDate, voteActivate, null);
     }
 
     /**
