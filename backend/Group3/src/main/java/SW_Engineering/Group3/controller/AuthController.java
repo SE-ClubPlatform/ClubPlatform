@@ -81,19 +81,28 @@ public class AuthController {
     }
 
     /**
-     * 구글로부터 code를 redirect받음
+     * front로부터 google authorization code를 받은 후 유저 정보를 반환
      */
-    @GetMapping("/code/google")
-    public ResponseEntity googleCallback(@RequestParam Map<String,Object> paramMap) throws IOException {
+    @GetMapping("/google/code")
+    public ResponseEntity googleCodeCallback(@RequestParam String code) throws IOException {
 
-        // 1. code는 프론트측으로부터 받을 예정
-        String code = String.valueOf(paramMap.get("code"));
+        // 1. code는 프론트측으로부터 받음
 
         // 2. code를 이용해 IdToken을 얻어옴
         String idToken = googleService.getIdToken(code);
 
         // 3. IdToken을 이용해 유저 정보를 얻어옴
         return googleService.getUserProfile(idToken);
+    }
+
+    /**
+     * 구글로부터 code를 redirect받음
+     */
+    @GetMapping("/code/google")
+    public String googleCallback(@RequestParam Map<String,Object> paramMap) throws IOException {
+        String code = String.valueOf(paramMap.get("code"));
+
+        return code;
     }
 
 }
