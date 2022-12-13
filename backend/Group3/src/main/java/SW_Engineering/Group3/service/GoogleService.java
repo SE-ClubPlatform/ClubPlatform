@@ -45,8 +45,7 @@ public class GoogleService {
                 "client_id=" + GOOGLE_CLIENT_ID + "&" +
                 "redirect_uri=" + GOOGLE_REDIRECT_URI + "&" +
                 "response_type=code" +
-                "&scope=email%20profile%20openid" +
-                "&access_type=offline";
+                "&scope=email%20profile%20openid";
     }
 
     public String getIdToken(String code) throws IOException {

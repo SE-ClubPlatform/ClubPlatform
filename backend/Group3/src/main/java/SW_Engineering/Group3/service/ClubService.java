@@ -163,6 +163,7 @@ public class ClubService {
      * 모든 동아리 가입 신청 목록 조회
      */
     public ResponseEntity<?> showAllApplicationMember(Long clubId) {
+        System.out.println("동아리 번호 = " + clubId);
 
         // 1. 동아리 조회
         Optional<Club> findClub = clubRepository.findById(clubId);
@@ -172,6 +173,7 @@ public class ClubService {
 
         Club club = findClub.get();
 
+        System.out.println("sdfsdfs");
         // 2. 동아리를 기준으로 신청 목록 조회 후, dto로 변환해 반환
         List<ApplicationMemberDto> dtos = clubApplicationRepository.findByClub(club).stream()
                 .map(clubApplication -> ApplicationMemberDto.createApplicationMemberDto(clubApplication.getMember()))

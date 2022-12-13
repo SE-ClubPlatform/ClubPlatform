@@ -23,6 +23,6 @@ INSERT INTO club_member_list (authority, club_id, student_id)
 
 INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "sweat.png", 1);
 INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "kkong.png", 2);
-INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "doit.png", 3);
+INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "chunsik.png", 3);
 INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "chunsik.png", 4);
-INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "cat.jpg", 5);
+INSERT INTO club_img_file (file_url, filename, club_id) VALUES ("C:/image/", "chunsik.png", 5);
