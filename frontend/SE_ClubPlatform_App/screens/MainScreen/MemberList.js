@@ -10,25 +10,23 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import Topbar from '../Bar/Topbar';
 import JoinBlock from '../SubScreen/MemberList/JoinComponent';
+import MemberListBlock from '../SubScreen/MemberList/TableComponent';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function MemberList({navigation}) {
   const [isList, SetTag] = useState(true);
-  const [tnum, SetNum] = useState(0);
-  const ChangeNum = () => {
-    SetNum(tnum + 1);
-  };
   const TrueTag = () => {
     SetTag(CurTag => true);
   };
   const FalseTag = () => {
     SetTag(CurTag => false);
   };
+  useEffect(() => {});
 
   return (
     <View
@@ -41,21 +39,39 @@ function MemberList({navigation}) {
         <Text style={styles.fontStyle}>동아리원 관리</Text>
       </View>
       <View style={styles.tag_container}>
-        <TouchableOpacity
-          style={[styles.selected_tag_button, {opacity: isList ? null : 0.5}]}
-          onPress={TrueTag}>
-          <Text style={{color: '#4f4f4f'}}>부원 목록</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.selected_tag_button, {opacity: isList ? 0.5 : null}]}
-          onPress={FalseTag}>
-          <Text style={{color: '#4f4f4f'}}>가입 신청 현황</Text>
-        </TouchableOpacity>
+        {isList ? (
+          <TouchableOpacity
+            style={styles.selected_tag_button}
+            onPress={TrueTag}>
+            <Text style={{color: '#4f4f4f'}}>부원 목록</Text>
+          </TouchableOpacity>
+        ) : (
+          <View>
+            <TouchableOpacity
+              style={styles.unselected_tag_button}
+              onPress={TrueTag}>
+              <Text style={{color: '#4f4f4f'}}>부원 목록</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {!isList ? (
+          <TouchableOpacity
+            style={styles.selected_tag_button}
+            onPress={FalseTag}>
+            <Text style={{color: '#4f4f4f'}}>가입 신청 현황</Text>
+          </TouchableOpacity>
+        ) : (
+          <View>
+            <TouchableOpacity
+              style={styles.unselected_tag_button}
+              onPress={FalseTag}>
+              <Text style={{color: '#4f4f4f'}}>가입 신청 현황</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       {isList ? (
-        <ScrollView style={styles.context_container}>
-          <JoinBlock />
-        </ScrollView>
+        <MemberListBlock />
       ) : (
         <ScrollView style={styles.context_container}>
           <JoinBlock />
@@ -72,6 +88,17 @@ function MemberList({navigation}) {
 }
 
 const styles = StyleSheet.create({
+  context_container: {
+    backgroundColor: '#ffffff',
+    flex: 1,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 40,
+    marginTop: 24,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+  },
   fontStyle: {
     fontSize: 28,
     marginBottom: Height * 0.03,
@@ -95,7 +122,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#d9d9d9',
   },
   unselected_tag_button: {
-    opacity: 0.5,
     width: (Width - 80) / 2,
     height: Height * 0.05,
     borderRadius: 8,
@@ -104,20 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#d9d9d9',
-  },
-  context_container: {
-    backgroundColor: '#ffffff',
-    flex: 1,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 40,
-    marginTop: 24,
-    borderWidth: 1,
-    //alignItems: 'center',
-    padding: 10,
-    //paddingTop: 30,
-    //paddingBottom: 60,
-    borderRadius: 5,
+    opacity: 0.5,
   },
   borderStyle: {
     borderBottomWidth: 1,

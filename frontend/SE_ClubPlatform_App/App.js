@@ -22,6 +22,7 @@ import Post from './screens/SubScreen/Post';
 import WorkFlow from './screens/MainScreen/WorkFlow';
 import MemberList from './screens/MainScreen/MemberList';
 import PostContent from './screens/SubScreen/PostContent';
+import CreateWorkFlow from './screens/SubScreen/CreateWorkFlow';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -100,6 +101,11 @@ const HomeStackScreen = ({navigation}) => {
       <HomeStack.Screen
         name="PostContent"
         component={PostContent}
+        options={{title: '', headerTransparent: true, headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="CreateWorkFlow"
+        component={CreateWorkFlow}
         options={{title: '', headerTransparent: true, headerShown: false}}
       />
     </HomeStack.Navigator>

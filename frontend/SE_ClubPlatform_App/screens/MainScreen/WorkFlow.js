@@ -20,39 +20,43 @@ const Width = Dimensions.get('window').width;
 function WorkFlow({navigation}) {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-      <Topbar navigation={navigation}/>
-      <View style={{
-        margin : Width * 0.05, 
-        flexDirection:"row", 
-        justifyContent:"space-between",
-        alignItems : "center",
+      <Topbar navigation={navigation} />
+      <View
+        style={{
+          margin: Width * 0.05,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}>
         <Text style={styles.fontStyle}>활동별 진행상황 보기</Text>
-        <TouchableOpacity>
-          <Image 
-            source={require("../../icons/ic_add.png")}
-            style ={{
-              width : Width*0.06,
-              height : Width*0.06,
+        <TouchableOpacity onPress={() => navigation.navigate('CreateWorkFlow')}>
+          <Image
+            source={require('../../icons/ic_add.png')}
+            style={{
+              width: Width * 0.06,
+              height: Width * 0.06,
             }}
           />
         </TouchableOpacity>
       </View>
       <ScrollView>
-      <View style={styles.card}>
+        <View style={styles.card}>
           <View style={styles.container_title}>
             <Text style={styles.cardTitle}>활동 11</Text>
             <View style={styles.gray_card}>
-                <View>
-                  <Text style={styles.gray_card_title}>진행단계</Text>
-                </View>
-                <View>
-                  <Text style={styles.gray_card_content}>인원모집</Text>
-                </View>
+              <View>
+                <Text style={styles.gray_card_title}>진행단계</Text>
               </View>
+              <View>
+                <Text style={styles.gray_card_content}>인원모집</Text>
+              </View>
+            </View>
           </View>
           <View style={styles.container_sub}>
-              <Text>동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. 동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. </Text>
+            <Text>
+              동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. 동아리
+              활동에 대한 개괄적인 설명이 기재되는 칸입니다.{' '}
+            </Text>
           </View>
           <View style={styles.container_sub}>
             <TouchableOpacity>
@@ -66,28 +70,31 @@ function WorkFlow({navigation}) {
               </View>
             </TouchableOpacity>
           </View>
-          <Progress.Bar 
+          <Progress.Bar
             progress={0.8}
-            width={Width*0.8} 
-            height={Height*0.012} 
+            width={Width * 0.8}
+            height={Height * 0.012}
             borderRadius={10}
-            color={"#B2AC8A"}
-            />
+            color={'#B2AC8A'}
+          />
         </View>
         <View style={styles.card}>
           <View style={styles.container_title}>
             <Text style={styles.cardTitle}>활동 22</Text>
             <View style={styles.gray_card}>
-                <View>
-                  <Text style={styles.gray_card_title}>진행단계</Text>
-                </View>
-                <View>
-                  <Text style={styles.gray_card_content}>내부검토</Text>
-                </View>
+              <View>
+                <Text style={styles.gray_card_title}>진행단계</Text>
               </View>
+              <View>
+                <Text style={styles.gray_card_content}>내부검토</Text>
+              </View>
+            </View>
           </View>
           <View style={styles.container_sub}>
-              <Text>동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. 동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. </Text>
+            <Text>
+              동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. 동아리
+              활동에 대한 개괄적인 설명이 기재되는 칸입니다.{' '}
+            </Text>
           </View>
           <View style={styles.container_sub}>
             <TouchableOpacity>
@@ -101,13 +108,13 @@ function WorkFlow({navigation}) {
               </View>
             </TouchableOpacity>
           </View>
-          <Progress.Bar 
+          <Progress.Bar
             progress={0.4}
-            width={Width*0.8} 
-            height={Height*0.012} 
+            width={Width * 0.8}
+            height={Height * 0.012}
             borderRadius={10}
-            color={"#B2AC8A"}
-            />
+            color={'#B2AC8A'}
+          />
         </View>
       </ScrollView>
     </View>
@@ -115,11 +122,11 @@ function WorkFlow({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  btn_gray : {
-    paddingHorizontal : 30,
-    paddingVertical : 10,
-    backgroundColor : "#D9D9D9",
-    borderRadius : 10,
+  btn_gray: {
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 10,
   },
   fontStyle: {
     fontSize: 28,
@@ -133,13 +140,13 @@ const styles = StyleSheet.create({
   container_title: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems : "center",
+    alignItems: 'center',
     marginBottom: 20,
   },
   container_sub: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent : 'space-between',
+    justifyContent: 'space-between',
     margin: 3,
     padding: 5,
   },
@@ -153,7 +160,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     elevation: 3,
     padding: 20,
-    
   },
   gray_card: {
     backgroundColor: '#F5F5F5',

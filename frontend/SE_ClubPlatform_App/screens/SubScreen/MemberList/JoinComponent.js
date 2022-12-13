@@ -27,14 +27,13 @@ const Sample = [
     context: '010-1234-5678',
   },
 ];
-
+/*
 function ApplyButtonComponent() {
-  const buttonRef = useRef();
-  //  const [, setState] = useState();
-
   return (
-    <View ref={buttonRef} style={styles.apply_button_container}>
-      <TouchableOpacity style={styles.apply_button}>
+    <View style={styles.apply_button_container}>
+      <TouchableOpacity
+        style={styles.apply_button}
+        onPress={() => setVisible(prev => !prev)}>
         <Text style={styles.apply_button_text}>승인</Text>
       </TouchableOpacity>
     </View>
@@ -42,6 +41,11 @@ function ApplyButtonComponent() {
 }
 
 function JoinComponent() {
+  const [isVisible, setVisible] = useState(true);
+  useEffect(() => {
+    console.log('\n====== Form Component Mount ======\n');
+    return () => console.log('\n====== Form Component Unmount ======\n');
+  }, []);
   return (
     <View>
       <View style={{flexDirection: 'row'}}>
@@ -104,18 +108,117 @@ function JoinComponent() {
               </Text>
             </View>
           </View>
-          <ApplyButtonComponent />
-          <ApplyButtonComponent />
+          <View style={styles.apply_button_container}>
+            <TouchableOpacity
+              style={styles.apply_button}
+              onPress={() => setVisible(prev => !prev)}>
+              <Text style={styles.apply_button_text}>승인</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.apply_button_container}>
+            <TouchableOpacity
+              style={styles.apply_button}
+              onPress={() => setVisible(prev => !prev)}>
+              <Text style={styles.apply_button_text}>승인</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
   );
 }
+*/
 
 function JoinBlock() {
+  const [isVisible, setVisible] = useState(true);
+  useEffect(() => {}, []);
+
   return (
-    <View style={styles.gray_card}>
-      <JoinComponent />
+    <View style={{marginBottom: 10}}>
+      {isVisible && (
+        <View style={styles.gray_card}>
+          <View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={styles.text_box}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={styles.apply_text_container}>
+                    <Text style={styles.apply_attribute_text}>
+                      {Sample[0]['attribute']}
+                    </Text>
+                  </View>
+                  <View style={styles.apply_text_container}>
+                    <Text
+                      style={[styles.apply_context_text, {marginRight: 20}]}>
+                      {Sample[0]['context']}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.text_box}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={styles.apply_text_container}>
+                    <Text style={styles.apply_attribute_text}>
+                      {Sample[1]['attribute']}
+                    </Text>
+                  </View>
+                  <View style={styles.apply_text_container}>
+                    <Text style={styles.apply_context_text}>
+                      {Sample[1]['context']}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View style={{flexDirection: 'column'}}>
+              <View style={styles.text_box}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={styles.apply_text_container}>
+                    <Text style={styles.apply_attribute_text}>
+                      {Sample[2]['attribute']}
+                    </Text>
+                  </View>
+                  <View style={styles.apply_text_container}>
+                    <Text style={styles.apply_context_text}>
+                      {Sample[2]['context']}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={styles.text_box}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={styles.apply_text_container}>
+                    <Text style={styles.apply_attribute_text}>
+                      {Sample[3]['attribute']}
+                    </Text>
+                  </View>
+                  <View
+                    style={[styles.apply_text_container, {marginRight: 20}]}>
+                    <Text style={styles.apply_context_text}>
+                      {Sample[3]['context']}
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.apply_button_container}>
+                  <TouchableOpacity
+                    style={styles.apply_button}
+                    onPress={() => setVisible(prev => !prev)}>
+                    <Text style={styles.apply_button_text}>삭제</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.apply_button_container}>
+                  <TouchableOpacity
+                    style={[styles.apply_button, {backgroundColor: '#d9d9d9'}]}
+                    onPress={() => setVisible(prev => !prev)}>
+                    <Text style={styles.apply_button_text}>승인</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -124,7 +227,6 @@ const styles = StyleSheet.create({
   gray_card: {
     height: Height * 0.1,
     backgroundColor: '#eeeeee',
-    opacity: 0.5,
     flex: 1,
     borderRadius: 7,
     marginLeft: 10,
@@ -153,7 +255,7 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   apply_context_text: {
-    color: '#000000',
+    color: '#4f4f4f',
     opacity: 1,
   },
   test: {
@@ -168,6 +270,7 @@ const styles = StyleSheet.create({
   apply_button: {
     borderRadius: 8,
     backgroundColor: '#E58E8E',
+    opacity: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
     //marginHorizontal: 10,
