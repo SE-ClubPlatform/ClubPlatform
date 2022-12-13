@@ -21,11 +21,11 @@
     "react-native": "0.68.2",
     "react-native-gesture-handler": "^2.8.0",
     "react-native-linear-gradient": "^2.6.2",
-<<<<<<< HEAD
+
     "react-native-picker-select": "^8.0.4",
-=======
+
     "react-native-paper": "^5.0.1",
->>>>>>> 4bca56a00b04db4828e7ad2b5f04253a7cf74124
+
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "^2.12.0",
     "react-native-responsive-screen": "^1.4.2",
@@ -33,13 +33,8 @@
     "react-native-screens": "^3.18.2",
     "react-native-simple-modal": "^9.0.1",
     "react-native-svg": "^13.6.0",
-<<<<<<< HEAD
     "react-native-table-component": "^1.2.2",
     "react-native-vector-icons": "^9.2.0"
-=======
-    "react-native-vector-icons": "^9.2.0",
-    "recoil": "^0.7.6"
->>>>>>> 4bca56a00b04db4828e7ad2b5f04253a7cf74124
   },
   "devDependencies": {
     "@babel/core": "7.19.6",

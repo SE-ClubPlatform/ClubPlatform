@@ -103,7 +103,7 @@ function Main({navigation}) {
         </View>
 
         <View style={{flexDirection: 'row', marginBottom: Height * 0.02}}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.myClubButton}
             onPress={() => navigation.navigate('ClubMain')}>
             <Image
@@ -111,12 +111,12 @@ function Main({navigation}) {
               resizeMode="stretch"
               source={{
                 uri: clubList
-                  ? `data:image/png;base64,${clubList[0].image}`
+                  ? "data:image/png;base64," + clubList[0].image
                   : null,
               }}
             />
             <Text>{clubList ? clubList[0].clubName : null}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.myClubButton}
             onPress={() => navigation.navigate('ClubMain')}>

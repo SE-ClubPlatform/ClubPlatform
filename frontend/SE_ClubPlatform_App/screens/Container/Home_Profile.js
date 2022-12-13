@@ -13,19 +13,19 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
 import Topbar from '../Bar/Topbar';
 
-function Home_Profile({navigation}) {
+function Home_Profile({navigation, clubInfo, clubId}) {
   return (
     <View>
       <View style={styles.card}>
         <View style={styles.container}>
-          <Text style={styles.cardTitle}>Do-it!</Text>
+          <Text style={styles.cardTitle}>{clubInfo.clubName}</Text>
           <View style={styles.container_right}>
             <View style={styles.gray_card}>
               <View>
                 <Text style={styles.gray_card_title}>회장</Text>
               </View>
               <View>
-                <Text style={styles.gray_card_content}>김두잇</Text>
+                <Text style={styles.gray_card_content}>{clubInfo.presidentName}</Text>
               </View>
             </View>
 
@@ -36,7 +36,7 @@ function Home_Profile({navigation}) {
                 <Text style={styles.gray_card_title}>부원</Text>
               </View>
               <View>
-                <Text style={styles.gray_card_content}>76명</Text>
+                <Text style={styles.gray_card_content}>{clubInfo.memberCounts}명</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -49,7 +49,7 @@ function Home_Profile({navigation}) {
           />
           <View style={{flex: 1}}>
             <Text style={styles.captain_name}>
-              안녕하세요 ! 저희는 아주대학교 웹개발 동아리 Do-it! 입니다 :)
+              {clubInfo.introduce}
             </Text>
           </View>
         </View>

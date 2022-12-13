@@ -9,6 +9,8 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+
+import axios, {AxiosHeaders} from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
 import { useRecoilState } from 'recoil';
@@ -22,7 +24,8 @@ const Width = Dimensions.get('window').width;
 
 function Home({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
-  const [clubId, setClubId] = useState(1)
+  const [clubId, setClubId] = useState()
+  const [clubInfo, setClubInfo] = useState()
 
   async function getData(token, clubId) {
     try {
@@ -33,31 +36,18 @@ function Home({navigation}) {
             Authorization: token,
           },
         },
-      );
-      console.log(token)
-      console.log(response)
-      console.log(response.data);
-      console.log(response.data.state);
-
-      if (response.data.state === 200) {
-        console.log("Success!")
-        // AsyncStorage.setItem('user_id', email);
-        // AsyncStorage.setItem(`${userId}_token`, response.data.data.accessToken);
-      } else {
-        // alert('아이디와 비밀번호를 다시 확인해주세요 .');
-        // setLoading(false);
-      }
+      )
+      setClubInfo(response.data)
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
       // console.log(e);
     }
   }
-
   useEffect(() => {
     getData(`Bearer ${userToken_R}`, 1);
   }, []);
-
+  
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -214,7 +204,7 @@ function Home({navigation}) {
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <ScrollView>
-        <Home_Profile navigation={navigation} />
+        <Home_Profile navigation={navigation} clubInfo={clubInfo} clubId = {clubId}/>
         <Home_Contents
           title="공지사항"
           location="Notice"
