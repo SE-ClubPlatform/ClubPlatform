@@ -47,7 +47,7 @@ function Home({navigation}) {
   useEffect(() => {
     getData(`Bearer ${userToken_R}`, 1);
   }, []);
-  
+  console.log(clubInfo)
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -204,7 +204,45 @@ function Home({navigation}) {
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <ScrollView>
-        <Home_Profile navigation={navigation} clubInfo={clubInfo} clubId = {clubId}/>
+      <View style={styles.card}>
+          <View style={styles.container}>
+            <Text style={styles.cardTitle}>{clubInfo.clubName}</Text>
+            <View style={styles.container_right}>
+              <View style={styles.gray_card}>
+                <View>
+                  <Text style={styles.gray_card_title}>회장</Text>
+                </View>
+                <View>
+                  <Text style={styles.gray_card_content}>{clubInfo.presidentName}</Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={styles.gray_card}
+                onPress={() => navigation.navigate('MemberList')}>
+                <View>
+                  <Text style={styles.gray_card_title}>부원</Text>
+                </View>
+                <View>
+                  <Text style={styles.gray_card_content}>{clubInfo.memberCounts}명</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.container}>
+            <Image
+              style={styles.clubImg}
+              resizeMode="stretch"
+              source={require('../../images/DoiT.png')}
+            />
+            <View style={{flex: 1}}>
+              <Text style={styles.captain_name}>
+                {clubInfo.introduce}
+              </Text>
+            </View>
+          </View>
+        </View>
+        {/* <Home_Profile navigation={navigation} clubInfo= {clubInfo} /> */}
         <Home_Contents
           title="공지사항"
           location="Notice"

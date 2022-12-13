@@ -49,11 +49,12 @@ function Main({navigation}) {
         },
       );
       if (response.data) {
+        
         setClubList(response.data.data.content);
       }
       // console.log(response.status)
       // console.log(response.data.data.content[0].clubId);
-      console.log(clubList[0].clubId);
+      // console.log(clubList[0].clubId);
     } catch (e) {
       console.log(e.message);
     }
