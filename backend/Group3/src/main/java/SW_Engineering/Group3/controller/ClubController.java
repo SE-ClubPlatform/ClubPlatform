@@ -1,23 +1,19 @@
 package SW_Engineering.Group3.controller;
 
-import SW_Engineering.Group3.domain.auth.Authority;
-import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
-import SW_Engineering.Group3.dto.club.ClubMainPageDto;
+import SW_Engineering.Group3.dto.club.ClubSimpleInfoDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.MainPage.UnjoinClubDto;
 import SW_Engineering.Group3.dto.club.DealUserSignupRequestDto;
 import SW_Engineering.Group3.service.ClubService;
 import SW_Engineering.Group3.service.FileService;
-import SW_Engineering.Group3.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -68,11 +64,11 @@ public class ClubController {
      * 동아리 메인페이지
      */
     @GetMapping("/{club_id}/mainpage")
-    public ClubMainPageDto getClubMainPageInfo(@PathVariable("club_id") Long clubId){
+    public ClubSimpleInfoDto getClubMainPageInfo(@PathVariable("club_id") Long clubId) throws IOException {
 
-        ClubMainPageDto clubMainPageDto = clubService.getClubInfo(clubId);
+        ClubSimpleInfoDto clubSimpleInfoDto = clubService.getClubInfo(clubId);
 
-        return clubMainPageDto;
+        return clubSimpleInfoDto;
     }
 
     /**
