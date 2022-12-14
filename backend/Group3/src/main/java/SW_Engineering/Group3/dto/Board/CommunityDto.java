@@ -28,9 +28,9 @@ public class CommunityDto {
         this.createTime = createTime;
     }
 
-    public Community toCommunity(Member member) {
+    public Community toCommunity() {
         return Community.builder()
-                .author(member)
+                .author(author)
                 .title(title)
                 .content(content)
                 .category(category)

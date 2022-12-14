@@ -39,7 +39,7 @@ public class CommunityController {
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
         List<CommunityDto> allCommunity = communityService.getAllCommunity(clubId).stream()
                 .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
-                        community.getAuthor().getUserName(), community.getContent(),
+                        community.getAuthor(), community.getContent(),
                         community.getCategory(), community.getCreateTime()))
                 .collect(Collectors.toList());
 
@@ -65,15 +65,10 @@ public class CommunityController {
             @ApiResponse(code = 200, message = "소모임 게시글 작성")
     })
     @PostMapping("/club/{club_id}/community")
-    public Long writeCommunity(Principal principal,
-                               @PathVariable("club_id") Long clubId, @RequestBody CommunityDto communityDto) {
-        Long memberId = Long.parseLong(principal.getName());
+    public Long writeCommunity(@PathVariable("club_id") Long clubId, @RequestBody CommunityDto communityDto) {
 
-        if(memberId == null) {
-            return null;
-        }
 
-        return communityService.createCommunity(communityDto, clubId, memberId);
+        return communityService.createCommunity(communityDto, clubId);
     }
 
     @ApiOperation(

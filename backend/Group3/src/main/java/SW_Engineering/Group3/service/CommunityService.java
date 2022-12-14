@@ -25,15 +25,10 @@ public class CommunityService {
         return communityRepository.findArticlesByClub(clubId);
     }
 
-    public Long createCommunity(CommunityDto communityDto, Long clubId, Long memberId) {
-        Member member = memberRepository.findById(memberId).orElse(null);
+    public Long createCommunity(CommunityDto communityDto, Long clubId) {
         Club club = clubService.findClubById(clubId);
 
-        if(member == null) {
-            return null;
-        }
-
-        Community community = communityDto.toCommunity(member);
+        Community community = communityDto.toCommunity();
         community.setClub(club);
         club.addArticle(community);
 
@@ -60,7 +55,7 @@ public class CommunityService {
         Community community = communityRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
         return new CommunityDto(community.getBoardID(), community.getTitle(),
-                community.getAuthor().getUserName(), community.getContent(),
+                community.getAuthor(), community.getContent(),
                 community.getCategory(), community.getCreateTime());
     }
 }

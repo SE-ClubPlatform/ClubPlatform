@@ -35,15 +35,10 @@ public class NoticeService {
     }
 
     @Transactional
-    public Long createNotice(NoticeDto noticeDto, Long clubId, Long memberId) {
-        Member member = memberRepository.findById(memberId).orElse(null);
+    public Long createNotice(NoticeDto noticeDto, Long clubId) {
         Club club = clubService.findClubById(clubId);
 
-        if(member == null) {
-            return null;
-        }
-
-        Notice notice = noticeDto.toNotice(member);
+        Notice notice = noticeDto.toNotice();
         notice.setClub(club);
         club.addArticle(notice);
 
@@ -80,7 +75,7 @@ public class NoticeService {
     public NoticeDto searchById(Long id) {
         Notice notice = noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
         return new NoticeDto(notice.getBoardID(), notice.getTitle(),
-                notice.getAuthor().getUserName(), notice.getContent(),
+                notice.getAuthor(), notice.getContent(),
                 notice.getIsFinish(), notice.getCreateTime());
     }
 

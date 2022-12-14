@@ -22,6 +22,7 @@ public class AnonymousDto {
 
     public AnonymousDto(Long anonymousId, String title, String author, String content,
                         Boolean isAnonymous, String createTime) {
+
         this.anonymousId = anonymousId;
         this.title = title;
         this.author = author;
@@ -30,9 +31,9 @@ public class AnonymousDto {
         this.createTime = createTime;
     }
 
-    public Anonymous toAnonymous(Member member) {
+    public Anonymous toAnonymous() {
         return Anonymous.builder()
-                .author(member)
+                .author(author)
                 .title(title)
                 .content(content)
                 .isAnonymous(isAnonymous)

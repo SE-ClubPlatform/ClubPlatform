@@ -43,7 +43,7 @@ public class NoticeController {
     public List<NoticeDto> getAllNotice(@PathVariable("club_id") Long clubId) {
         List<NoticeDto> allNotices = noticeService.getAllNotices(clubId).stream()
                 .map(notice -> new NoticeDto(notice.getBoardID(), notice.getTitle(),
-                        notice.getAuthor().getUserName(), notice.getContent(),
+                        notice.getAuthor(), notice.getContent(),
                         notice.getIsFinish(), notice.getCreateTime()))
                 .collect(Collectors.toList());
         return allNotices;
@@ -69,15 +69,9 @@ public class NoticeController {
             @ApiResponse(code = 200, message = "공지사항 작성")
     })
     @PostMapping("club/{club_id}/notice")
-    public Long writeNotice(Principal principal,
-                            @PathVariable("club_id") Long clubId, @RequestBody NoticeDto noticeDto) {
-        Long memberId = Long.parseLong(principal.getName());
+    public Long writeNotice(@PathVariable("club_id") Long clubId, @RequestBody NoticeDto noticeDto) {
 
-        if(memberId == null) {
-            return null;
-        }
-
-        return noticeService.createNotice(noticeDto, clubId, memberId);
+        return noticeService.createNotice(noticeDto, clubId);
     }
 
     @ApiOperation(

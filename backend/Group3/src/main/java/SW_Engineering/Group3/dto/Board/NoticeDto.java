@@ -32,7 +32,7 @@ public class NoticeDto {
         this.createTime = createTime;
     }
 
-    public Notice toNotice(Member author) {
+    public Notice toNotice() {
         return Notice.builder()
                 .author(author)
                 .title(title)

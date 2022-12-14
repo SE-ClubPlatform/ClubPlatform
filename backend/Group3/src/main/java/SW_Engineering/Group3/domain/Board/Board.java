@@ -26,8 +26,7 @@ public abstract class Board {
     @Column(length = 200, nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member author;
+    private String author;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Setter
@@ -36,7 +35,7 @@ public abstract class Board {
     private String createTime;
 
 
-    public Board(Member author, Long boardID, String title, String content) {
+    public Board(String author, Long boardID, String title, String content) {
         this.author = author;
         this.boardID = boardID;
         this.title = title;

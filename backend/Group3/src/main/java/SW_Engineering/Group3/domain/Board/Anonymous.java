@@ -24,7 +24,7 @@ public class Anonymous extends Board {
     private List<AnonymousComment> comments;
 
     @Builder
-    public Anonymous(Member author, Long boardID, String title, String content, Boolean isAnonymous, List<AnonymousComment> comments) {
+    public Anonymous(String author, Long boardID, String title, String content, Boolean isAnonymous, List<AnonymousComment> comments) {
         super(author, boardID, title, content);
         this.isAnonymous = isAnonymous;
         this.comments = comments;

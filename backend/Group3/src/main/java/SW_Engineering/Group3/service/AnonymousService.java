@@ -27,15 +27,10 @@ public class AnonymousService {
     }
 
     @Transactional
-    public Long createAnonymous(AnonymousDto anonymousDto, Long clubId, Long memberId) {
-        Member member = memberRepository.findById(memberId).orElse(null);
+    public Long createAnonymous(AnonymousDto anonymousDto, Long clubId) {
         Club club = clubService.findClubById(clubId);
 
-        if(member == null) {
-            return null;
-        }
-
-        Anonymous anonymous = anonymousDto.toAnonymous(member);
+        Anonymous anonymous = anonymousDto.toAnonymous();
         anonymous.setClub(club);
         club.addArticle(anonymous);
 
@@ -61,7 +56,7 @@ public class AnonymousService {
         Anonymous anonymous = anonymousRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
         return new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(),
-                anonymous.getAuthor().getUserName(), anonymous.getContent(),
+                anonymous.getAuthor(), anonymous.getContent(),
                 anonymous.getIsAnonymous(), anonymous.getCreateTime());
     }
 }

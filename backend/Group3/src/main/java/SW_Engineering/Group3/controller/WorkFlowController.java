@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.controller;
 
+import SW_Engineering.Group3.domain.auth.Authority;
 import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.domain.workflow.Vote;
 import SW_Engineering.Group3.domain.workflow.VoteContent;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,18 +39,23 @@ public class WorkFlowController {
      */
     @PostMapping()
     public ResponseEntity registerWork(@Validated @RequestBody RegisterWorkDto registerWorkDto, BindingResult bindingResult,
-                                       @PathVariable("club_id") Long clubId){
+                                       Principal principal, @PathVariable("club_id") Long clubId){
 
-        if(bindingResult.hasErrors()){
-            return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_MANAGER)) {
+            if (bindingResult.hasErrors()) {
+                return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
+            }
+
+            Club club = clubService.findClubById(clubId);
+
+            Long workId = workService.register(registerWorkDto.toWork(club));
+
+            return response.success(workId, "업무 저장에 성공했습니다.", HttpStatus.OK);
         }
 
-        Club club = clubService.findClubById(clubId);
-
-        Long workId = workService.register(registerWorkDto.toWork(club));
-
-        return response.success(workId, "업무 저장에 성공했습니다.", HttpStatus.OK);
-
+        return response.fail("작성 권한이 없는 유저입니다.", HttpStatus.FORBIDDEN);
     }
 
     /**

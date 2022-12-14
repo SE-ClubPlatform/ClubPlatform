@@ -18,7 +18,7 @@ public class Community extends Board {
     private Category category;
 
     @Builder
-    public Community(Member author, Long boardID, String title, String content, Category category) {
+    public Community(String author, Long boardID, String title, String content, Category category) {
         super(author, boardID, title, content);
         this.category = category;
     }

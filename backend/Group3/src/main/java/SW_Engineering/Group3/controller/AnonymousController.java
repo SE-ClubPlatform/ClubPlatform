@@ -39,7 +39,7 @@ public class AnonymousController {
     public List<AnonymousDto> getAllAnonymous(@PathVariable("club_id") Long clubId) {
         List<AnonymousDto> allAnonymous = anonymousService.getAllAnonymous(clubId).stream()
                 .map(anonymous -> new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(),
-                        anonymous.getAuthor().getUserName(), anonymous.getContent(),
+                        anonymous.getAuthor(), anonymous.getContent(),
                         anonymous.getIsAnonymous(), anonymous.getCreateTime())).collect(Collectors.toList());
 
         return allAnonymous;
@@ -64,14 +64,8 @@ public class AnonymousController {
             @ApiResponse(code = 200, message = "익명 게시글 작성")
     })
     @PostMapping("/club/{club_id}/anonymous")
-    public Long writeCommunity(Principal principal, @PathVariable("club_id") Long clubId, @RequestBody AnonymousDto anonymousDto) {
-        Long memberId = Long.parseLong(principal.getName());
-
-        if(memberId == null) {
-            return null;
-        }
-
-        return anonymousService.createAnonymous(anonymousDto, clubId, memberId);
+    public Long writeCommunity(@PathVariable("club_id") Long clubId, @RequestBody AnonymousDto anonymousDto) {
+        return anonymousService.createAnonymous(anonymousDto, clubId);
     }
 
     @ApiOperation(
