@@ -273,7 +273,7 @@ public class ClubService {
      */
 
     @Transactional
-    public void deleteMember(String targetStudentId, Long clubId) {
+    public boolean deleteMember(String targetStudentId, Long clubId) {
         Member targetMember = memberRepository.findByStudentId(targetStudentId).orElseGet(null);
 
         ClubMemberList targetClubMember = clubMemberRepository.findByMember(targetMember).stream()
@@ -281,7 +281,10 @@ public class ClubService {
                 .findAny()
                 .orElse(null);
 
+        if (targetMember == null || targetClubMember == null) return false;
+
         clubMemberRepository.delete(targetClubMember);
+        return true;
     }
 
     public List<Club> getAllClubs() {

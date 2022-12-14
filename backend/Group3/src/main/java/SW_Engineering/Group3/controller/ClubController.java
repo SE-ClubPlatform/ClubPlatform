@@ -205,7 +205,11 @@ public class ClubController {
      * 멤버 명단 삭제
      */
     @DeleteMapping("{club_id}/members/{student_id}")
-    public void deleteNotice(Principal principal,  @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
-        clubService.deleteMember(targetStudentId, clubId);
+    public ResponseEntity deleteNotice(Principal principal,  @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
+        if (!(clubService.deleteMember(targetStudentId, clubId))) {
+            return response.fail("삭제에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        return response.success();
     }
 }
