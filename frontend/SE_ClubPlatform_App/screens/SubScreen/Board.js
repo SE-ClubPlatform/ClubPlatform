@@ -105,6 +105,8 @@ const postData3 = [
 function Board({navigation, data, boardType}) {
   const postData = data;
 
+  console.log(data);
+
   function Title() {
     if (boardType === 'anonymous') {
       return (
@@ -127,47 +129,26 @@ function Board({navigation, data, boardType}) {
     }
   }
 
-  const postList = postData.map(post => (
+  const postList = postData.map((post, index) => (
     <PostComponent
-      key={post.noticeId}
+      key={index}
       navigation={navigation}
-      post_id={post.noticeId}
+      post_id={
+        boardType === 'notice'
+          ? post.noticeId
+          : boardType === 'group'
+          ? post.communityId
+          : post.anonymousId
+      }
       postType={boardType}
       title={post.title}
       author={post.author}
+      content={post.content}
       date={post.createTime}
       // time={post.time}
       // commentCount={post.commentCount}
       isFinish={post.isFinish}></PostComponent>
   ));
-
-  // const postList2 = postData2.map(post => (
-  //   <PostComponent
-  //     key={post.post_id}
-  //     navigation={navigation}
-  //     post_id={post.post_id}
-  //     postType={boardType}
-  //     title={post.title}
-  //     author={post.author}
-  //     date={post.date}
-  //     time={post.time}
-  //     commentCount={post.commentCount}
-  //     isFinish={post.isFinish}></PostComponent>
-  // ));
-
-  // const postList3 = postData3.map(post => (
-  //   <PostComponent
-  //     key={post.post_id}
-  //     navigation={navigation}
-  //     post_id={post.post_id}
-  //     postType={boardType}
-  //     title={post.title}
-  //     author={post.author}
-  //     date={post.date}
-  //     time={post.time}
-  //     commentCount={post.commentCount}
-  //     isFinish={post.isFinish}></PostComponent>
-  // ));
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>

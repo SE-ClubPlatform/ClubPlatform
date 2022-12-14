@@ -26,12 +26,14 @@ function Home({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [clubId, setClubId] = useState();
   const [clubInfo, setClubInfo] = useState();
-  const [noticeList, setNoticeList] = useState([]);
+  const [noticeList, setNoticeList] = useState();
+  const [workList, setWorkList] = useState();
+  const [comList, setComList] = useState();
 
   async function getClubInfo(token, clubId) {
     try {
-      console.log(token);
-      console.log(clubId);
+      // console.log(token);
+      // console.log(clubId);
       const response = await axios.get(
         'http://sogong-group3.kro.kr/club/' + clubId + '/mainpage',
         {
@@ -40,17 +42,28 @@ function Home({navigation}) {
           },
         },
       );
-      setClubInfo(response.data);
+      setClubInfo(response.data.data);
     } catch (e) {
-      // alert('아이디와 비밀번호를 다시 확인해주세요 .');
-      // setLoading(false);
       console.log(e);
     }
   }
 
-  async function getNotice(token, clubId) {
+  async function getData(token, clubId) {
     try {
       const response = await axios.get(
+        'http://sogong-group3.kro.kr/club/' + clubId + '/mainpage-board',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response) {
+        console.log(response.data.data);
+        setNoticeList(response.data.data);
+      }
+
+      const response2 = await axios.get(
         'http://sogong-group3.kro.kr/club/' + clubId + '/work',
         {
           headers: {
@@ -58,20 +71,36 @@ function Home({navigation}) {
           },
         },
       );
-      setNoticeList(response.data);
+      if (response2) {
+        console.log(response2.data.content);
+        setWorkList(response2.data.content);
+      }
+
+      const response3 = await axios.get(
+        'http://sogong-group3.kro.kr/club/' + clubId + '/community',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response3) {
+        console.log(response3.data);
+        setComList(response3.data);
+      }
+
+      // setNoticeList(response.data);
     } catch (e) {
-      // alert('아이디와 비밀번호를 다시 확인해주세요 .');
-      // setLoading(false);
-      // console.log(e);
+      console.log(e);
     }
   }
 
   useEffect(() => {
     getClubInfo(`Bearer ${userToken_R}`, 1);
-    getNotice(`Bearer ${userToken_R}`, 1);
+    getData(`Bearer ${userToken_R}`, 1);
   }, []);
-  console.log(clubInfo);
-  console.log(noticeList);
+  // console.log(clubInfo);
+  // console.log(noticeList);
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -232,29 +261,29 @@ function Home({navigation}) {
         <Home_Contents
           title="공지사항"
           location="Notice"
-          title1={postData[0].title}
-          title2={postData[1].title}
-          title3={postData[2].title}
-          title4={postData[3].title}
-          title5={postData[4].title}
+          title1={noticeList ? noticeList[0].title : ''}
+          title2={noticeList ? noticeList[1].title : ''}
+          title3={noticeList ? noticeList[2].title : ''}
+          title4={noticeList ? noticeList[3].title : ''}
+          title5={noticeList ? noticeList[4].title : ''}
         />
         <Home_Contents
           title="활동 모아보기"
           location="WorkFlow"
-          title1={postData3[0].title}
-          title2={postData3[1].title}
-          title3={postData3[2].title}
-          title4={postData3[3].title}
-          title5={postData3[4].title}
+          title1={workList ? workList[0].title : ''}
+          title2={workList ? workList[1].title : ''}
+          title3={workList ? workList[2].title : ''}
+          title4={workList ? workList[3].title : ''}
+          title5={workList ? workList[4].title : ''}
         />
         <Home_Contents
           title="소모임 모집"
           location="Group"
-          title1={postData2[0].title}
-          title2={postData2[1].title}
-          title3={postData2[2].title}
-          title4={postData2[3].title}
-          title5={postData2[4].title}
+          title1={comList ? comList[0].title : ''}
+          title2={comList ? comList[1].title : ''}
+          title3={comList ? comList[2].title : ''}
+          title4={comList ? comList[3].title : ''}
+          title5={comList ? comList[4].title : ''}
         />
       </ScrollView>
     </View>

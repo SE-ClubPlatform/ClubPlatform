@@ -7,9 +7,6 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommunityDto {
@@ -19,16 +16,16 @@ public class CommunityDto {
     private String author;
     private String content;
     private Category category;
-    private String creatTime;
+    private String createTime;
 
     public CommunityDto(Long communityId, String title, String author, String content,
-                        Category category, String creatTime) {
+                        Category category, String createTime) {
         this.communityId = communityId;
         this.title = title;
         this.author = author;
         this.content = content;
         this.category = category;
-        this.creatTime = creatTime;
+        this.createTime = createTime;
     }
 
     public Community toCommunity(Member member) {

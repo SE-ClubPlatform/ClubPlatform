@@ -19,6 +19,7 @@ function PostComponent({
   postType,
   title,
   author,
+  content,
   date,
   // time,
   // commentCount,
@@ -28,7 +29,17 @@ function PostComponent({
     <TouchableOpacity
       style={styles.postStyle}
       activeOpacity={0.8}
-      onPress={() => navigation.navigate('PostContent', {post_id: post_id})}>
+      onPress={() =>
+        navigation.navigate('PostContent', {
+          Postid: post_id,
+          Author: author,
+          Date: date,
+          PostType: postType,
+          Title: title,
+          Content: content,
+          IsFinish: isFinish,
+        })
+      }>
       <View style={styles.helfArea}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image

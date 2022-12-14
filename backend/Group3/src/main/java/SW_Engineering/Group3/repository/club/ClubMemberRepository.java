@@ -23,4 +23,9 @@ public interface ClubMemberRepository extends JpaRepository<ClubMemberList, Long
     @Query(value = "SELECT c FROM ClubMemberList c JOIN FETCH c.club WHERE c.member = :member")
     List<ClubMemberList> findByMember(@Param("member") Member member);
 
+    @Query(value = "SELECT c FROM ClubMemberList c JOIN FETCH c.club WHERE c.member.id = :memberId " +
+            "AND c.club.id = :clubId")
+    ClubMemberList findByMemberAndClub(@Param("memberId") Long memberId,
+                                      @Param("clubId") Long cludId);
+
 }

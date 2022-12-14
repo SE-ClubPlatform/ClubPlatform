@@ -45,9 +45,9 @@ public class WorkFlowController {
 
         Club club = clubService.findClubById(clubId);
 
-        workService.register(registerWorkDto.toWork(club));
+        Long workId = workService.register(registerWorkDto.toWork(club));
 
-        return response.success("업무 저장에 성공했습니다.");
+        return response.success(workId, "업무 저장에 성공했습니다.", HttpStatus.OK);
 
     }
 
@@ -78,6 +78,7 @@ public class WorkFlowController {
 
         return new MainResult(works.size(), works.stream()
                 .map(w -> DetailWorkDto.builder()
+                        .workId(w.getId())
                         .title(w.getTitle())
                         .introduce(w.getIntroduce())
                         .phaseStep(w.getCurrentStep())

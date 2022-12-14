@@ -19,6 +19,7 @@
     "babel-preset-react-native": "^2.1.0",
     "react": "17.0.2",
     "react-native": "0.68.2",
+    "react-native-bouncy-checkbox": "^3.0.6",
     "react-native-gesture-handler": "^2.8.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-paper": "^5.0.1",

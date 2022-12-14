@@ -23,11 +23,11 @@ function Post({navigation, route}) {
 
   async function postData(token, clubId, Title, Content, isFinish) {
     try {
-      // console.log(token);
-      // console.log(clubId);
-      // console.log(Title);
-      // console.log(Content);
-      // console.log(route.params.boardtype);
+      console.log(token);
+      console.log(clubId);
+      console.log(Title);
+      console.log(Content);
+      console.log(route.params.boardtype);
       const response = await axios.post(
         `http://sogong-group3.kro.kr/club/${clubId}/${route.params.boardtype}`,
         {

@@ -14,7 +14,7 @@ import {
 import {TextInput} from 'react-native-gesture-handler';
 import { useRecoilState } from 'recoil';
 import userToken from '../../recoils/userToken';
-import { RadioButton } from 'react-native-paper';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Topbar from '../Bar/Topbar';
 import axios from 'axios';
 
@@ -29,8 +29,8 @@ function PostActivity({navigation}) {
   const [finishDate, setFinishDate] = useState();
   const [content, setContent]= useState();
   const [userToken_R, setUserToken_R] = useRecoilState(userToken);
-  const [voteActivity, setVoteActivity] = useState();
-  
+  const [voteActivate, setVoteActivity] = useState(false);
+  const [workId, setWorkId] = useState();
 
   async function postWork(token, clubId, title, introduce, finishDate) {
     try {
@@ -47,8 +47,8 @@ function PostActivity({navigation}) {
       );
       console.log(response.data.state)
       if (response.data.state === 200) {
-        console.log(response.data.message)
-        navigation.replace('WorkFlow');
+        setWorkId(response.data.data)
+        console.log(response.data.data)
       } else {
         alert('내용을 확인해주세요');
       }
@@ -56,7 +56,7 @@ function PostActivity({navigation}) {
       console.log(e);
     }
   }
-  async function postWork(token, clubId, title, introduce, finishDate) {
+  async function postPhase(token, clubId, workId, title, introduce, finishDate, voteActivate) {
     try {
       const response = await axios.post(
         "http://sogong-group3.kro.kr/club/" + clubId + "/work/" + workId + "/phase",
@@ -65,12 +65,14 @@ function PostActivity({navigation}) {
             Authorization: token,
           },
           title,
-          introduce,
+          content,
           finishDate,
+          voteActivate,
         },
       );
       console.log(response.data.state)
       if (response.data.state === 200) {
+        
         console.log(response.data.message)
         navigation.replace('WorkFlow');
       } else {
@@ -109,20 +111,15 @@ function PostActivity({navigation}) {
               }}
               placeholder="내용을 입력해주세요"
               autoCapitalize="none"
-              onChangeText={(text) => setIntroduce(text)}
+              onChangeText={(text) => {setIntroduce(text); setContent(text);}}
               multiline={true}></TextInput>
             <View style={styles.voteContainer}>
-              <TouchableOpacity style={[styles.checkBox]}>
-                <Image
-                  style={{
-                    width: Width * 0.05,
-                    height: Width * 0.05,
-                    marginRight: Width * 0.015,
-                  }}
-                  source={require('../../icons/unchecked.png')}
-                />
-              </TouchableOpacity>
-              <Text>투표</Text>
+            <BouncyCheckbox
+              text='투표'
+              fillColor="#a49ee5"
+              unfillColor="#fff"
+              iconStyle={{ borderColor: "red" }}
+              onPress={() => {setVoteActivity(!voteActivate); console.log(voteActivate);}}/>
             </View>
             <View style={styles.horizontalLine}></View>
             <TextInput
@@ -139,8 +136,10 @@ function PostActivity({navigation}) {
           }}>
           <TouchableOpacity 
           style={styles.registerButton}
-          onPress={()=> postWork(userToken_R, 1, finishDate, introduce, title)
-          
+          onPress={()=> {
+            postWork(userToken_R, 1, title, introduce, finishDate); 
+            postPhase(userToken_R, 1, workId, title, introduce, finishDate, voteActivate);
+          }
         }>
             <Text>등록하기</Text>
           </TouchableOpacity>
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   voteContainer: {
-    flexDirection: 'row',
+    flexDirection:'row',
     width: Width * 0.8,
   },
   horizontalLine: {

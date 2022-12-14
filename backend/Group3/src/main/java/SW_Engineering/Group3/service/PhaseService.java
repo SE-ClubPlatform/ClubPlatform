@@ -50,18 +50,21 @@ public class PhaseService {
                     .vote(registerPhaseDto.getVote())
                     .build();
 
+            if(savePhase.getStep() > 5) {
+                return response.fail("더 이상 단계 정보를 등록하실 수 없습니다.", HttpStatus.BAD_REQUEST);
+            }
             phaseRepository.save(savePhase);
 
             if(registerPhaseDto.getVote() != null) {
                 registerPhaseDto.getVote().setPhase(savePhase);
             }
 
+            work.updateStep();
+            return response.success(savePhase.getId(), work.getCurrentStep() + "단계 정보를 성공적으로 저장했습니다", HttpStatus.OK);
+
         } catch(IllegalArgumentException e) {
             return response.fail("더 이상 단계 정보를 등록하실 수 없습니다.", HttpStatus.BAD_REQUEST);
         }
-
-        work.updateStep();
-        return response.success(work.getCurrentStep() + "단계 정보를 성공적으로 저장했습니다");
 
     }
 
