@@ -33,7 +33,7 @@ public class CommunityController {
             @ApiResponse(code = 200, message = "모든 소모임 게시글 목록 반환"),
             @ApiResponse(code = 400, message = "올바르지 않은 동아리 번호")
     })
-    @GetMapping("/club/{club_id}/group")
+    @GetMapping("/club/{club_id}/community")
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
         List<CommunityDto> allCommunity = communityService.getAllCommunity().stream()
                 .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
@@ -61,7 +61,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "소모임 게시글 작성")
     })
-    @PostMapping("/club/{club_id}/group")
+    @PostMapping("/club/{club_id}/community")
     public Long writeCommunity(@PathVariable("club_id") Long clubId, @RequestBody CommunityDto communityDto) {
         return communityService.createCommunity(communityDto);
     }
@@ -89,7 +89,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "소모임 게시글 수정")
     })
-    @PutMapping("/club/{club_id}/group/{id}")
+    @PutMapping("/club/{club_id}/community/{id}")
     public Long updateCommunity(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody CommunityUpdateDto communityUpdateDto) {
         return communityService.updateCommunity(id, communityUpdateDto);
     }
@@ -113,7 +113,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "소모임 게시글 삭제")
     })
-    @DeleteMapping("club/{club_id}/group/{id}")
+    @DeleteMapping("club/{club_id}/community/{id}")
     public void deleteCommunity(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id) {
         communityService.deleteCommunity(id);
     }
@@ -137,7 +137,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "공지사항 조회")
     })
-    @GetMapping("club/{club_id}/group/{id}")
+    @GetMapping("club/{club_id}/community/{id}")
     public CommunityDto searchById(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id) {
         return communityService.searchById(id);
     }
