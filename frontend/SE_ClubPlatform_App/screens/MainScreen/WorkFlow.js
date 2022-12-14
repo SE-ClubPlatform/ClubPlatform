@@ -34,8 +34,8 @@ function WorkFlow({navigation}) {
           },
         },
       )
-      setWorkList(response.data)
-      console.log(response.data)
+      setWorkList(response.data.content)
+      console.log(response.data.content)
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
@@ -45,7 +45,6 @@ function WorkFlow({navigation}) {
 
   useEffect(()=>{
     getWork(userToken_R, 1)
-    console.log(workList?workList[0]:"Hi")
   }, [])
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -69,8 +68,9 @@ function WorkFlow({navigation}) {
         </TouchableOpacity>
       </View>
       <ScrollView>
-        <ActivityCard/>
-        <ActivityCard/>
+        {workList?workList.map(function(a){
+          return (<ActivityCard workInfo={a}/>)
+        }):null}
       </ScrollView>
     </View>
   );
