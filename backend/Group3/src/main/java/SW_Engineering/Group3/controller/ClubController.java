@@ -175,9 +175,9 @@ public class ClubController {
     /**
      * 멤버 상세 조회
      */
-    @GetMapping("/{club_id}/members/{member_id}")
-    public JoinMemberDto viewClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("member_id") Long memberId) {
-        Member member = memberService.findMemberById(memberId);
+    @GetMapping("/{club_id}/members/{student_id}")
+    public JoinMemberDto viewClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
+        Member member = memberService.findMemberByStudentId(targetStudentId);
 
         return JoinMemberDto.createJoinMemberDto(member);
     }
@@ -185,16 +185,17 @@ public class ClubController {
     /**
      * 멤버 권한 변경
      */
-    @GetMapping("/{club_id}/members/{member_id}/changeAuthority")
-    public ResponseEntity changeClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("member_id") Long targetMemberId) {
-        Long memberId = Long.parseLong(principal.getName());
+    @GetMapping("/{club_id}/members/{student_id}/changeAuthority")
+    public ResponseEntity changeClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
+        //Long memberId = Long.parseLong(principal.getName());
+        Long memberId = 1L;
         Member member = memberService.findMemberById(memberId);
 
         if (member.getAuthority().getRank() != 4) {
             return response.fail("부여 권한이 없는 사용자 입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        if (!clubService.changeAuthority(memberId, targetMemberId, clubId)) {
+        if (!clubService.changeAuthority(memberId, targetStudentId, clubId)) {
             return response.fail("부여에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }
 

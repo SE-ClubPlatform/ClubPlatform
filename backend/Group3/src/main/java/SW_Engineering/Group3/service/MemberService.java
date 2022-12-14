@@ -29,6 +29,12 @@ public class MemberService {
         return findMember.orElse(null);
     }
 
+    public Member findMemberByStudentId(String studentId) {
+        Optional<Member> findMember = memberRepository.findByStudentId(studentId);
+
+        return findMember.orElse(null);
+    }
+
     /**
      * 유저가 속한 모든 동아리 조회
      */
