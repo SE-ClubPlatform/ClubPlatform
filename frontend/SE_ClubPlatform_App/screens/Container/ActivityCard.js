@@ -57,7 +57,7 @@ function ActivityCard({workInfo}) {
           workInfo.phaseName=="기획"?0.2:
           workInfo.phaseName=="수요조사"?0.4:
           workInfo.phaseName=="내부검토"?0.6:
-          workInfo.phaseName=="활동인원모집"?0.8:
+          workInfo.phaseName=="인원모집"?0.8:
           workInfo.phaseName=="활동실시"?1:null:null}
         width={Width*0.8} 
         height={Height*0.012} 
