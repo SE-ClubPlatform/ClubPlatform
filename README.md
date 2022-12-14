@@ -1,2 +1,2 @@
 # SE_ClubPlatform
-Hi There ~ 
+## 소프트웨어공학 3조
