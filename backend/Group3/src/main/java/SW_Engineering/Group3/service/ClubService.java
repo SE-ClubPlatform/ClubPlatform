@@ -244,6 +244,15 @@ public class ClubService {
         return true;
     }
 
+    /**
+     * 특정 동아리에 속한 유저 삭제
+     */
+    @Transactional
+    public void deleteClubMember(Long clubId, Long memberId) {
+        ClubMemberList list = clubMemberRepository.findByMemberAndClub(memberId, clubId);
+        clubMemberRepository.delete(list);
+    }
+
     public List<Club> getAllClubs() {
         return clubRepository.findAll();
     }
