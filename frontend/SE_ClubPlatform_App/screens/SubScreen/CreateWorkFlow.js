@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
   Image,
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
+import { useRecoilState } from 'recoil';
+import userToken from '../../recoils/userToken';
 import Topbar from '../Bar/Topbar';
 
 const Height = Dimensions.get('window').height;
@@ -19,6 +21,11 @@ const Width = Dimensions.get('window').width;
 const year = ['2022', '2023', '2024'];
 
 function PostActivity({navigation}) {
+  const [title, setTitle] = useState();
+  const [introduce, setIntroduce] = useState();
+  const [finishDate, setFinishDate] = useState();
+  const [userToken_R, setUserToken_R] = useRecoilState(userToken);
+
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -34,6 +41,7 @@ function PostActivity({navigation}) {
             <TextInput
               style={{fontSize: 15}}
               placeholder="제목을 입력해주세요"
+              onChangeText={(text) => setTitle(text)}
               autoCapitalize="none"></TextInput>
           </View>
           <View style={styles.textBottomArea}>
@@ -46,6 +54,7 @@ function PostActivity({navigation}) {
               }}
               placeholder="내용을 입력해주세요"
               autoCapitalize="none"
+              onChangeText={(text) => setIntroduce(text)}
               multiline={true}></TextInput>
             <View style={styles.voteContainer}>
               <TouchableOpacity style={[styles.checkBox]}>
@@ -61,6 +70,10 @@ function PostActivity({navigation}) {
               <Text>투표</Text>
             </View>
             <View style={styles.horizontalLine}></View>
+            <TextInput
+              placeholder="마감날짜를 입력해주세요(0000-00-00)"
+              onChangeText={(text) => setFinishDate(text)}
+            />
           </View>
         </View>
         <View
@@ -69,7 +82,9 @@ function PostActivity({navigation}) {
             justifyContent: 'center',
             alignItems: 'flex-end',
           }}>
-          <TouchableOpacity style={styles.registerButton}>
+          <TouchableOpacity 
+          style={styles.registerButton}
+          onPress={()=> console.log(finishDate, introduce, title)}>
             <Text>등록하기</Text>
           </TouchableOpacity>
         </View>

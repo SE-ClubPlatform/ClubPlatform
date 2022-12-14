@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
+import {useRecoilState} from 'recoil';
+import userToken from '../../recoils/userToken';
+import axios from 'axios';
 import Topbar from '../Bar/Topbar';
 import ActivityCard from '../Container/ActivityCard';
 
@@ -18,6 +21,31 @@ const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function WorkFlow({navigation}) {
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [workList, setWorkList] = useState();
+
+  async function getWork(token, clubId) {
+    try {
+      const response = await axios.get(
+        "http://sogong-group3.kro.kr/club/" + clubId + "/work/all",
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      )
+      setWorkList(response.data)
+      console.log(response.data)
+    } catch (e) {
+      // alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      // setLoading(false);
+      // console.log(e);
+    }
+  }
+
+  useEffect(()=>{
+    getWork(userToken_R, 1)
+  }, [])
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
