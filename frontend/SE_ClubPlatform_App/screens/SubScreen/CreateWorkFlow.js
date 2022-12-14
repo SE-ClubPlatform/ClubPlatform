@@ -29,8 +29,8 @@ function PostActivity({navigation}) {
   const [finishDate, setFinishDate] = useState();
   const [content, setContent]= useState();
   const [userToken_R, setUserToken_R] = useRecoilState(userToken);
-  const [voteActivate, setVoteActivity] = useState(true);
-  
+  const [voteActivate, setVoteActivity] = useState(false);
+  const [workId, setWorkId] = useState();
 
   async function postWork(token, clubId, title, introduce, finishDate) {
     try {
@@ -47,7 +47,8 @@ function PostActivity({navigation}) {
       );
       console.log(response.data.state)
       if (response.data.state === 200) {
-        console.log(response.data)
+        setWorkId(response.data.data)
+        console.log(response.data.data)
       } else {
         alert('내용을 확인해주세요');
       }
@@ -71,6 +72,7 @@ function PostActivity({navigation}) {
       );
       console.log(response.data.state)
       if (response.data.state === 200) {
+        
         console.log(response.data.message)
         navigation.replace('WorkFlow');
       } else {
