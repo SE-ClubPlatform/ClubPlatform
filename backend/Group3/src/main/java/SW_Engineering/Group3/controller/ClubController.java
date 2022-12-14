@@ -202,7 +202,7 @@ public class ClubController {
      */
     @GetMapping("/{club_id}/members/{student_id}/changeAuthority")
     public ResponseEntity changeClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
-        Long memberId = Long.parseLong(principal.getName());
+        Long memberId = 1L;
         Member member = memberService.findMemberById(memberId);
 
         if (member.getAuthority().getRank() != 4) {
