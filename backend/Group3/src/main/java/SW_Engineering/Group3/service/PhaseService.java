@@ -44,7 +44,7 @@ public class PhaseService {
                     .clubId(club.getId())
                     .title(registerPhaseDto.getTitle())
                     .content(registerPhaseDto.getContent())
-                    .finishDate(registerPhaseDto.getFinishDate())
+                    .finishDate(registerPhaseDto.getFinishDate().toString())
                     .step(work.getCurrentStep() + 1)
                     .voteActivate(registerPhaseDto.isVoteActivate())
                     .vote(registerPhaseDto.getVote())
@@ -72,7 +72,7 @@ public class PhaseService {
         //(1) phase
         String title = ((String) map.get("title"));
         String content = ((String) map.get("content"));
-        LocalDate finishDate = LocalDate.parse((String) map.get("finishDate"));
+        String finishDate = (String) map.get("finishDate");
         boolean voteActivate = ((boolean) map.get("voteActivate"));
 
         //(2) vote

@@ -20,7 +20,7 @@ public class RegisterPhaseDto {
     private String content;
 
     @NotNull
-    private LocalDate finishDate;
+    private String finishDate;
 
     @NotNull
     private boolean voteActivate;
@@ -28,7 +28,7 @@ public class RegisterPhaseDto {
     private Vote vote;
 
     @Builder
-    public RegisterPhaseDto(String title, String content, LocalDate finishDate,
+    public RegisterPhaseDto(String title, String content, String finishDate,
                                               boolean voteActivate, Vote vote) {
         this.title = title;
         this.content = content;

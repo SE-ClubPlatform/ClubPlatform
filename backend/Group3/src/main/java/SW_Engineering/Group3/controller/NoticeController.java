@@ -9,6 +9,7 @@ import SW_Engineering.Group3.dto.Comment.NoticeCommentDto;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.repository.member.MemberRepository;
+import SW_Engineering.Group3.service.MemberService;
 import SW_Engineering.Group3.service.NoticeCommentService;
 import SW_Engineering.Group3.service.NoticeService;
 import io.swagger.annotations.*;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class NoticeController {
     private final NoticeService noticeService;
     private final NoticeCommentService noticeCommentService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @ApiOperation(
             value = "공지사항의 모든 정보 반환"
@@ -40,9 +41,10 @@ public class NoticeController {
     })
     @GetMapping("/club/{club_id}/notice")
     public List<NoticeDto> getAllNotice(@PathVariable("club_id") Long clubId) {
-        List<NoticeDto> allNotices = noticeService.getAllNotices().stream()
+        List<NoticeDto> allNotices = noticeService.getAllNotices(clubId).stream()
                 .map(notice -> new NoticeDto(notice.getBoardID(), notice.getTitle(),
-                        notice.getAuthor().getUserName(), notice.getContent(), notice.getIsFinish()))
+                        notice.getAuthor().getUserName(), notice.getContent(),
+                        notice.getIsFinish(), notice.getCreateTime()))
                 .collect(Collectors.toList());
         return allNotices;
     }
@@ -75,7 +77,7 @@ public class NoticeController {
             return null;
         }
 
-        return noticeService.createNotice(noticeDto, memberId);
+        return noticeService.createNotice(noticeDto, clubId, memberId);
     }
 
     @ApiOperation(
@@ -180,10 +182,18 @@ public class NoticeController {
 
     @ApiOperation(value = "댓글 작성", notes = "게시글에 달린 댓글을 작성합니다.")
     @PostMapping("/club/{club_id}/notice/{id}/comments")
-    public Long writeComment(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody NoticeCommentDto noticeCommentDto) {
+    public Long writeComment(Principal principal,
+                             @PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody NoticeCommentDto noticeCommentDto) {
+
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(memberId == null) {
+            return null;
+        }
 
         // 로그인 한 멤버 아이디를 넣어야 하는데 방법을 잘 모르겠어요 ㅠㅠ
-        Member member = memberRepository.findById(1L).get();
+        Member member = memberService.findMemberById(memberId);
+
         return noticeCommentService.writeComment(id, noticeCommentDto, member);
     }
 

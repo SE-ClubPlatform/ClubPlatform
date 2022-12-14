@@ -19,13 +19,16 @@ public class CommunityDto {
     private String author;
     private String content;
     private Category category;
+    private String creatTime;
 
-    public CommunityDto(Long communityId, String title, String author, String content, Category category) {
+    public CommunityDto(Long communityId, String title, String author, String content,
+                        Category category, String creatTime) {
         this.communityId = communityId;
         this.title = title;
         this.author = author;
         this.content = content;
         this.category = category;
+        this.creatTime = creatTime;
     }
 
     public Community toCommunity(Member member) {

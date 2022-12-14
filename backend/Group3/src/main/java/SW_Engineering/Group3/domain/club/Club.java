@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.domain.club;
 
+import SW_Engineering.Group3.domain.Board.Board;
 import SW_Engineering.Group3.domain.ClubImgFile;
 import SW_Engineering.Group3.domain.clubroom.ClubRoom;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -40,12 +41,19 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<ClubApplication> applications; // 동아리 가입 신청 목록
 
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Board> boards; // 동아리 게시판 목록
+
     @Builder
     public Club(String clubName, String presidentName, String introduce, String category){
         this.clubName = clubName;
         this.presidentName = presidentName;
         this.introduce = introduce;
         this.category = category;
+    }
+
+    public void addArticle(Board article) {
+        this.boards.add(article);
     }
 
 }

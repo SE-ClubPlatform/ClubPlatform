@@ -23,7 +23,7 @@ public class CommunityComment {
     private String content; // 댓글 내용
 
     @ManyToOne
-    @JoinColumn(name = "anonymous_post_id")
+    @JoinColumn(name = "community_post_id")
     private Community posts;
 
     @ManyToOne

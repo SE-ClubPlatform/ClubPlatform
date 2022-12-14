@@ -30,6 +30,8 @@ function Home({navigation}) {
 
   async function getClubInfo(token, clubId) {
     try {
+      console.log(token);
+      console.log(clubId);
       const response = await axios.get(
         'http://sogong-group3.kro.kr/club/' + clubId + '/mainpage',
         {
@@ -42,7 +44,7 @@ function Home({navigation}) {
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
-      // console.log(e);
+      console.log(e);
     }
   }
 

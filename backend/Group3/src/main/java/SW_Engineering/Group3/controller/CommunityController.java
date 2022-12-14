@@ -7,6 +7,7 @@ import SW_Engineering.Group3.dto.Comment.CommunityCommentDto;
 import SW_Engineering.Group3.repository.member.MemberRepository;
 import SW_Engineering.Group3.service.CommunityCommentService;
 import SW_Engineering.Group3.service.CommunityService;
+import SW_Engineering.Group3.service.MemberService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class CommunityController {
     private final CommunityService communityService;
     private final CommunityCommentService communityCommentService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @ApiOperation(
             value = "소모임 게시글의 모든 정보 반환"
@@ -36,9 +37,10 @@ public class CommunityController {
     })
     @GetMapping("/club/{club_id}/community")
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
-        List<CommunityDto> allCommunity = communityService.getAllCommunity().stream()
+        List<CommunityDto> allCommunity = communityService.getAllCommunity(clubId).stream()
                 .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
-                        community.getAuthor().getUserName(), community.getContent(), community.getCategory()))
+                        community.getAuthor().getUserName(), community.getContent(),
+                        community.getCategory(), community.getCreateTime()))
                 .collect(Collectors.toList());
 
         return allCommunity;
@@ -71,7 +73,7 @@ public class CommunityController {
             return null;
         }
 
-        return communityService.createCommunity(communityDto, memberId);
+        return communityService.createCommunity(communityDto, clubId, memberId);
     }
 
     @ApiOperation(
@@ -176,10 +178,17 @@ public class CommunityController {
 
     @ApiOperation(value = "댓글 작성", notes = "게시글에 달린 댓글을 작성합니다.")
     @PostMapping("/club/{club_id}/community/{id}/comments")
-    public Long writeComment(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody CommunityCommentDto communityCommentDto) {
+    public Long writeComment(Principal principal,
+                             @PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody CommunityCommentDto communityCommentDto) {
+
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(memberId == null) {
+            return null;
+        }
 
         // 로그인 한 멤버 아이디를 넣어야 하는데 방법을 잘 모르겠어요 ㅠㅠ
-        Member member = memberRepository.findById(1L).get();
+        Member member = memberService.findMemberById(memberId);
         return communityCommentService.writeComment(id, communityCommentDto, member);
     }
 

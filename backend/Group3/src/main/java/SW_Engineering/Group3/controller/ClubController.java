@@ -1,13 +1,13 @@
 package SW_Engineering.Group3.controller;
 
+import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubSimpleInfoDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.MainPage.UnjoinClubDto;
 import SW_Engineering.Group3.dto.club.DealUserSignupRequestDto;
-import SW_Engineering.Group3.service.ClubService;
-import SW_Engineering.Group3.service.FileService;
+import SW_Engineering.Group3.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +27,7 @@ public class ClubController {
 
     private final Response response;
     private final ClubService clubService;
-    private final FileService fileService;
-
+    private final NoticeService noticeService;
 
     /**
      * 모든 동아리 조회
@@ -171,5 +170,11 @@ public class ClubController {
         return fileService.getClubImage(club);
     }
     */
+
+
+    @GetMapping("/{club_id}/mainpage-board")
+    public ResponseEntity<?> getSimpleBoardInfo(@PathVariable("club_id") Long clubId) {
+        return response.success(noticeService.getSimpleNoticeList(clubId));
+    }
 
 }

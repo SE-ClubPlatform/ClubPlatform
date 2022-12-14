@@ -18,13 +18,16 @@ public class AnonymousDto {
     private String author;
     private String content;
     private Boolean isAnonymous;
+    private String createTime;
 
-    public AnonymousDto(Long anonymousId, String title, String author, String content, Boolean isAnonymous) {
+    public AnonymousDto(Long anonymousId, String title, String author, String content,
+                        Boolean isAnonymous, String createTime) {
         this.anonymousId = anonymousId;
         this.title = title;
         this.author = author;
         this.content = content;
         this.isAnonymous = isAnonymous;
+        this.createTime = createTime;
     }
 
     public Anonymous toAnonymous(Member member) {
