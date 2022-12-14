@@ -14,7 +14,7 @@ import {
 import {TextInput} from 'react-native-gesture-handler';
 import { useRecoilState } from 'recoil';
 import userToken from '../../recoils/userToken';
-import { RadioButton } from 'react-native-paper';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Topbar from '../Bar/Topbar';
 import axios from 'axios';
 
@@ -29,7 +29,7 @@ function PostActivity({navigation}) {
   const [finishDate, setFinishDate] = useState();
   const [content, setContent]= useState();
   const [userToken_R, setUserToken_R] = useRecoilState(userToken);
-  const [voteActivity, setVoteActivity] = useState();
+  const [voteActivity, setVoteActivity] = useState(true);
   
 
   async function postWork(token, clubId, title, introduce, finishDate) {
@@ -112,17 +112,12 @@ function PostActivity({navigation}) {
               onChangeText={(text) => setIntroduce(text)}
               multiline={true}></TextInput>
             <View style={styles.voteContainer}>
-              <TouchableOpacity style={[styles.checkBox]}>
-                <Image
-                  style={{
-                    width: Width * 0.05,
-                    height: Width * 0.05,
-                    marginRight: Width * 0.015,
-                  }}
-                  source={require('../../icons/unchecked.png')}
-                />
-              </TouchableOpacity>
-              <Text>투표</Text>
+            <BouncyCheckbox
+              text='투표'
+              fillColor="#a49ee5"
+              unfillColor="#fff"
+              iconStyle={{ borderColor: "red" }}
+              onPress={() => {setVoteActivity(!voteActivity)}}/>
             </View>
             <View style={styles.horizontalLine}></View>
             <TextInput
@@ -176,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   voteContainer: {
-    flexDirection: 'row',
+    flexDirection:'row',
     width: Width * 0.8,
   },
   horizontalLine: {
