@@ -244,6 +244,25 @@ public class ClubService {
         return true;
     }
 
+    /**
+     * 회장이 특정 사용자를 동아리 임원으로 임명
+     */
+    @Transactional
+    public boolean changeAuthority(Long memberId, Long targetMemberId, Long clubId) {
+        Member member = memberRepository.findById(memberId).orElseGet(null);
+        Member targetMember = memberRepository.findById(targetMemberId).orElseGet(null);
+
+
+        if (member == null || targetMember == null) {
+            return false;
+        }
+
+        if (member.getAuthority().getRank() != 4) return false;
+
+        targetMember.setAuthority(Authority.ROLE_MANAGER);
+        return true;
+    }
+
     public List<Club> getAllClubs() {
         return clubRepository.findAll();
     }
