@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -27,6 +28,7 @@ public class ClubMemberList {
     @JoinColumn(name = "club_id")
     private Club club;
 
+    @Setter
     private Authority authority;
 
     public ClubMemberList(Member member, Club club, Authority authority){

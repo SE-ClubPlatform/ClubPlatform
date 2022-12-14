@@ -253,6 +253,48 @@ public class ClubService {
         clubMemberRepository.delete(list);
     }
 
+    /**
+     * 회장이 특정 사용자를 동아리 임원으로 임명
+     */
+    @Transactional
+    public boolean changeAuthority(Long memberId, String targetStudentId, Long clubId) {
+        Member member = memberRepository.findById(memberId).orElseGet(null);
+        Member targetMember = memberRepository.findByStudentId(targetStudentId).orElseGet(null);
+
+        ClubMemberList targetClubMember = clubMemberRepository.findByMember(targetMember).stream()
+                .filter(c -> c.getClub().getId() == clubId)
+                .findAny()
+                .orElse(null);
+
+        if (member == null || targetMember == null) {
+            return false;
+        }
+
+        if (member.getAuthority().getRank() != 4) return false;
+
+        targetMember.setAuthority(Authority.ROLE_MANAGER);
+        targetClubMember.setAuthority(Authority.ROLE_MANAGER);
+        return true;
+    }
+
+    /**
+     * 동아리 명단 삭제
+     */
+    @Transactional
+    public boolean deleteMember(String targetStudentId, Long clubId) {
+        Member targetMember = memberRepository.findByStudentId(targetStudentId).orElseGet(null);
+
+        ClubMemberList targetClubMember = clubMemberRepository.findByMember(targetMember).stream()
+                .filter(c -> c.getClub().getId() == clubId)
+                .findAny()
+                .orElse(null);
+
+        if (targetMember == null || targetClubMember == null) return false;
+
+        clubMemberRepository.delete(targetClubMember);
+        return true;
+    }
+
     public List<Club> getAllClubs() {
         return clubRepository.findAll();
     }

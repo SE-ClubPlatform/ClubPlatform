@@ -1,6 +1,7 @@
 package SW_Engineering.Group3.controller;
 
 import SW_Engineering.Group3.domain.auth.Authority;
+import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
@@ -8,6 +9,7 @@ import SW_Engineering.Group3.dto.club.ClubSimpleInfoDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.MainPage.UnjoinClubDto;
 import SW_Engineering.Group3.dto.club.DealUserSignupRequestDto;
+import SW_Engineering.Group3.dto.club.JoinMemberDto;
 import SW_Engineering.Group3.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,7 @@ public class ClubController {
     private final Response response;
     private final ClubService clubService;
     private final NoticeService noticeService;
+    private final MemberService memberService;
 
     /**
      * 모든 동아리 조회
@@ -184,4 +187,44 @@ public class ClubController {
     }
 
 
+    /**
+     * 멤버 상세 조회
+     */
+    @GetMapping("/{club_id}/members/{student_id}")
+    public JoinMemberDto viewClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
+        Member member = memberService.findMemberByStudentId(targetStudentId);
+
+        return JoinMemberDto.createJoinMemberDto(member);
+    }
+
+    /**
+     * 멤버 권한 변경
+     */
+    @GetMapping("/{club_id}/members/{student_id}/changeAuthority")
+    public ResponseEntity changeClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
+        Long memberId = Long.parseLong(principal.getName());
+        Member member = memberService.findMemberById(memberId);
+
+        if (member.getAuthority().getRank() != 4) {
+            return response.fail("부여 권한이 없는 사용자 입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!clubService.changeAuthority(memberId, targetStudentId, clubId)) {
+            return response.fail("부여에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        return response.success();
+    }
+
+    /**
+     * 멤버 명단 삭제
+     */
+    @DeleteMapping("{club_id}/members/{student_id}")
+    public ResponseEntity deleteNotice(Principal principal,  @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
+        if (!(clubService.deleteMember(targetStudentId, clubId))) {
+            return response.fail("삭제에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        return response.success();
+    }
 }

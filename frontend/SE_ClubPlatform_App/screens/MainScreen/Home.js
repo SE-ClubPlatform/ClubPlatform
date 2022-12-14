@@ -42,7 +42,7 @@ function Home({navigation}) {
           },
         },
       );
-      setClubInfo(response.data);
+      setClubInfo(response.data.data);
     } catch (e) {
       console.log(e);
     }

@@ -127,11 +127,17 @@ function Board({navigation, data, boardType}) {
     }
   }
 
-  const postList = postData.map(post => (
+  const postList = postData.map((post, index) => (
     <PostComponent
-      key={post.noticeId}
+      key={index}
       navigation={navigation}
-      post_id={post.noticeId}
+      post_id={
+        boardType === 'notice'
+          ? post.noticeId
+          : boardType === 'group'
+          ? post.communityId
+          : post.anonymousId
+      }
       postType={boardType}
       title={post.title}
       author={post.author}

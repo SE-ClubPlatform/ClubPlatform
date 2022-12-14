@@ -13,20 +13,28 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
 import Topbar from '../Bar/Topbar';
 
+const Height = Dimensions.get('window').height;
+const Width = Dimensions.get('window').width;
+
 function Home_Profile({navigation, clubInfo}) {
-  console.log(clubInfo)
+  console.log('Hi');
+  console.log(clubInfo);
   return (
     <View>
       <View style={styles.card}>
         <View style={styles.container}>
-          <Text style={styles.cardTitle}>{clubInfo?clubInfo.clubName:null}</Text>
+          <Text style={styles.cardTitle}>
+            {clubInfo ? clubInfo.clubName : null}
+          </Text>
           <View style={styles.container_right}>
             <View style={styles.gray_card}>
               <View>
                 <Text style={styles.gray_card_title}>회장</Text>
               </View>
               <View>
-                <Text style={styles.gray_card_content}>{clubInfo?clubInfo.presidentName:null}</Text>
+                <Text style={styles.gray_card_content}>
+                  {clubInfo ? clubInfo.presidentName : null}
+                </Text>
               </View>
             </View>
 
@@ -37,7 +45,9 @@ function Home_Profile({navigation, clubInfo}) {
                 <Text style={styles.gray_card_title}>부원</Text>
               </View>
               <View>
-                <Text style={styles.gray_card_content}>{clubInfo?clubInfo.memberCounts:null}명</Text>
+                <Text style={styles.gray_card_content}>
+                  {clubInfo ? clubInfo.memberCounts : null}명
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -46,11 +56,13 @@ function Home_Profile({navigation, clubInfo}) {
           <Image
             style={styles.clubImg}
             resizeMode="stretch"
-            source={require('../../images/DoiT.png')}
+            source={{
+              uri: clubInfo ? 'data:image/png;base64,' + clubInfo.image : null,
+            }}
           />
           <View style={{flex: 1}}>
             <Text style={styles.captain_name}>
-              {clubInfo?clubInfo.introduce:null}
+              {clubInfo ? clubInfo.introduce : null}
             </Text>
           </View>
         </View>
@@ -80,8 +92,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   clubImg: {
-    width: 120,
-    height: 120,
+    width: 110,
+    height: 110,
     borderRadius: 10,
     marginRight: 10,
   },
@@ -109,10 +121,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   cardTitle: {
-    flex: 1,
-    alignContent: 'center',
+    // flex: 1,
+    width: Width * 0.28,
+    // alignContent: 'center',
+    paddingLeft: Width * 0.06,
     fontSize: 20,
     fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gray_card_title: {
     flex: 1,
