@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.controller;
 
+import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ClubSimpleInfoDto;
@@ -26,10 +27,7 @@ public class ClubController {
 
     private final Response response;
     private final ClubService clubService;
-    private final AnonymousService anonymousService;
     private final NoticeService noticeService;
-    private final CommunityService communityService;
-
 
     /**
      * 모든 동아리 조회
@@ -173,13 +171,10 @@ public class ClubController {
     }
     */
 
-    /*
+
     @GetMapping("/{club_id}/mainpage-board")
     public ResponseEntity<?> getSimpleBoardInfo(@PathVariable("club_id") Long clubId) {
-
-
-
+        return response.success(noticeService.getSimpleNoticeList(clubId));
     }
-     */
 
 }

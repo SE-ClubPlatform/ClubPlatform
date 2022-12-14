@@ -22,7 +22,7 @@ public class ClubRoomController {
     /**
      * 동아리방 출입 로그 생성
      */
-    @PutMapping("/{club_id}")
+    @PostMapping("/{club_id}")
     public ResponseEntity<?> toggleMemberRecord(Principal principal, @PathVariable(value = "club_id") Long clubId) {
         try {
             Long memberId = Long.parseLong(principal.getName());

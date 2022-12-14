@@ -166,7 +166,6 @@ public class ClubService {
      * 모든 동아리 가입 신청 목록 조회
      */
     public ResponseEntity<?> showAllApplicationMember(Long clubId) {
-        System.out.println("동아리 번호 = " + clubId);
 
         // 1. 동아리 조회
         Optional<Club> findClub = clubRepository.findById(clubId);
