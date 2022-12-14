@@ -20,9 +20,9 @@ function Post({navigation, route}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [Title, setTitle] = useState('');
   const [Content, setContent] = useState('');
-  const [isFinish, setIsFinish]= useState(false);
+  const [isFinish, setIsFinish] = useState(false);
 
-  async function postData(token, clubId, title, content, isFinish) {
+  async function postData(token, clubId, title, content, isFinish, author) {
     try {
       console.log({token});
       console.log(clubId);
@@ -31,14 +31,16 @@ function Post({navigation, route}) {
       console.log({isFinish});
       console.log(route.params.boardtype);
       const response = await axios.post(
-        `http://sogong-group3.kro.kr/club/${clubId}/${route.params.boardtype}`,
+        `http://sogong-group3.kro.kr/club/${clubId}/${
+          route.params.boardtype === 'group'
+            ? 'community'
+            : route.params.boardtype
+        }`,
         {
-          headers: {
-            Authorization: token,
-          },
           title,
           content,
           isFinish,
+          author,
         },
       );
       if (response) {
@@ -86,8 +88,19 @@ function Post({navigation, route}) {
             alignItems: 'flex-end',
           }}>
           <TouchableOpacity
-            onPress={() =>
-              postData(`Bearer ${userToken_R}`, 1, Title, Content, false)
+            onPress={
+              () => {
+                postData(
+                  `Bearer ${userToken_R}`,
+                  1,
+                  Title,
+                  Content,
+                  false,
+                  '이준수',
+                );
+                navigation.pop();
+              }
+
               // postData(`Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfTk9OTUVNQkVSIiwiZXhwIjoxNjcxMDU0OTc3fQ.v1t9yJ0v-HYLb8ouIOL0FzPj4ks1ZeKaXR-9-YZpucVH0_paiwSzYIYsmefCE9Dy0OlwhNLRMx8BHumDb5v1rg`, 1, Title, Content, false)
             }
             style={styles.registerButton}>

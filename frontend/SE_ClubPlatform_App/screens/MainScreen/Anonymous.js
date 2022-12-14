@@ -7,10 +7,13 @@ import axios from 'axios';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useState} from 'react';
 import {useEffect} from 'react';
+import {useIsFocused} from '@react-navigation/native';
 
 function Anonymous({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [postData, setPostData] = useState();
+
+  const isFocused = useIsFocused();
 
   async function getData(token, clubId) {
     try {
@@ -36,7 +39,7 @@ function Anonymous({navigation}) {
 
   useEffect(() => {
     getData(`Bearer ${userToken_R}`, 1);
-  }, []);
+  }, [isFocused]);
 
   return postData ? (
     <Board

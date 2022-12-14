@@ -6,6 +6,7 @@ import {Dimensions} from 'react-native';
 import userToken from '../../recoils/userToken';
 import axios from 'axios';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import {useIsFocused} from '@react-navigation/native';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -13,6 +14,8 @@ const Width = Dimensions.get('window').width;
 function Notice({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [postData, setPostData] = useState();
+
+  const isFocused = useIsFocused();
 
   async function getData(token, clubId) {
     try {
@@ -38,7 +41,7 @@ function Notice({navigation}) {
 
   useEffect(() => {
     getData(`Bearer ${userToken_R}`, 1);
-  }, []);
+  }, [isFocused]);
 
   return postData ? (
     <Board
