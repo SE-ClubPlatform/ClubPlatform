@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
 import axios, {AxiosHeaders} from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import userToken from '../../recoils/userToken';
 import Topbar from '../Bar/Topbar';
 import Home_Contents from '../Container/Home_Contents';
@@ -24,20 +24,20 @@ const Width = Dimensions.get('window').width;
 
 function Home({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
-  const [clubId, setClubId] = useState()
-  const [clubInfo, setClubInfo] = useState()
+  const [clubId, setClubId] = useState();
+  const [clubInfo, setClubInfo] = useState();
 
   async function getData(token, clubId) {
     try {
       const response = await axios.get(
-        "http://sogong-group3.kro.kr/club/" + clubId + "/mainpage",
+        'http://sogong-group3.kro.kr/club/' + clubId + '/mainpage',
         {
           headers: {
             Authorization: token,
           },
         },
-      )
-      setClubInfo(response.data)
+      );
+      setClubInfo(response.data);
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
@@ -47,7 +47,7 @@ function Home({navigation}) {
   useEffect(() => {
     getData(`Bearer ${userToken_R}`, 1);
   }, []);
-  console.log(clubInfo)
+  console.log(clubInfo);
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -204,7 +204,7 @@ function Home({navigation}) {
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <ScrollView>
-      <View style={styles.card}>
+        <View style={styles.card}>
           <View style={styles.container}>
             <Text style={styles.cardTitle}>{clubInfo.clubName}</Text>
             <View style={styles.container_right}>
@@ -213,7 +213,9 @@ function Home({navigation}) {
                   <Text style={styles.gray_card_title}>회장</Text>
                 </View>
                 <View>
-                  <Text style={styles.gray_card_content}>{clubInfo.presidentName}</Text>
+                  <Text style={styles.gray_card_content}>
+                    {clubInfo.presidentName}
+                  </Text>
                 </View>
               </View>
 
@@ -224,7 +226,9 @@ function Home({navigation}) {
                   <Text style={styles.gray_card_title}>부원</Text>
                 </View>
                 <View>
-                  <Text style={styles.gray_card_content}>{clubInfo.memberCounts}명</Text>
+                  <Text style={styles.gray_card_content}>
+                    {clubInfo.memberCounts}명
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -236,9 +240,7 @@ function Home({navigation}) {
               source={require('../../images/DoiT.png')}
             />
             <View style={{flex: 1}}>
-              <Text style={styles.captain_name}>
-                {clubInfo.introduce}
-              </Text>
+              <Text style={styles.captain_name}>{clubInfo.introduce}</Text>
             </View>
           </View>
         </View>
