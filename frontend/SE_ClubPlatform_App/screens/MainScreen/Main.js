@@ -62,6 +62,7 @@ function Main({navigation}) {
         },
       );
       if (response2.data) {
+        console.log(response2.data.data.content);
         setRandomList(response2.data.data.content);
       }
     } catch (e) {
