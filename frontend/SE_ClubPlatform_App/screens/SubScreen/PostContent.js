@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,11 +11,45 @@ import {
 import Topbar from '../Bar/Topbar';
 import CommentComponent from './CommentComponent';
 import axios from 'axios';
+import userToken from '../../recoils/userToken';
+import {useRecoilState, useRecoilValue} from 'recoil';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function PostContent({navigation, route}) {
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [comList, setComList] = useState();
+
+  async function getComment(token) {
+    try {
+      console.log(route.params.ClubId);
+      console.log(route.params.PostType);
+      console.log(route.params.Postid);
+      const response = await axios.get(
+        `http://sogong-group3.kro.kr/club/${route.params.ClubId}/${
+          route.params.PostType === 'group'
+            ? 'community'
+            : route.params.PostType
+        }/${route.params.Postid}/comments`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response) {
+        console.log(response.data);
+        setComList(response.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getComment(`Bearer ${userToken_R}`);
+  }, []);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -54,7 +88,15 @@ function PostContent({navigation, route}) {
           </View>
         </View>
         <View style={styles.commentArea}>
-          <CommentComponent />
+          {comList
+            ? comList.map((com, index) => (
+                <CommentComponent
+                  key={index}
+                  name={com.writer}
+                  content={com.content}
+                />
+              ))
+            : null}
         </View>
       </ScrollView>
     </View>

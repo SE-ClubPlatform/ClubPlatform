@@ -5,11 +5,12 @@ import Topbar from '../Bar/Topbar';
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
-function CommentComponent({navigation}) {
+function CommentComponent({navigation, name, content}) {
   return (
     <View
       style={{
-        marginVertical: Height * 0.01,
+        marginTop: Height * 0.01,
+        marginBottom: Height * 0.001,
         backgroundColor: '#f2f2f2',
         borderRadius: 10,
         padding: 10,
@@ -29,11 +30,10 @@ function CommentComponent({navigation}) {
           }}
           source={require('../../icons/User.png')}
         />
-        <Text>GM지영</Text>
+        <Text>{name}</Text>
       </View>
       <View>
-        <Text>넵 확인하였습니다 !</Text>
-        <Text style={{fontSize: 14}}>11/05 18:53</Text>
+        <Text>{content}</Text>
       </View>
     </View>
   );

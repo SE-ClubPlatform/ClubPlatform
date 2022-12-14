@@ -102,7 +102,7 @@ const postData3 = [
   },
 ];
 
-function Board({navigation, data, boardType}) {
+function Board({navigation, data, boardType, clubid}) {
   const postData = data;
 
   console.log(data);
@@ -145,6 +145,7 @@ function Board({navigation, data, boardType}) {
       author={post.author}
       content={post.content}
       date={post.createTime}
+      clubId={clubid}
       // time={post.time}
       // commentCount={post.commentCount}
       isFinish={post.isFinish}></PostComponent>

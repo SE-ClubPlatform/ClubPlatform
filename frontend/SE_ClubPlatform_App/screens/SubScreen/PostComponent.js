@@ -21,6 +21,7 @@ function PostComponent({
   author,
   content,
   date,
+  clubId,
   // time,
   // commentCount,
   isFinish,
@@ -38,6 +39,7 @@ function PostComponent({
           Title: title,
           Content: content,
           IsFinish: isFinish,
+          ClubId: clubId,
         })
       }>
       <View style={styles.helfArea}>
