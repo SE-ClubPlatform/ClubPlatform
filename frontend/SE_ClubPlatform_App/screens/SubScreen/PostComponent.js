@@ -20,8 +20,8 @@ function PostComponent({
   title,
   author,
   date,
-  time,
-  commentCount,
+  // time,
+  // commentCount,
   isFinish,
 }) {
   return (
@@ -53,7 +53,7 @@ function PostComponent({
         </View>
         <View style={{alignItems: 'flex-end'}}>
           <Text style={styles.dateStyle}>{date}</Text>
-          <Text style={styles.dateStyle}>{time}</Text>
+          {/* <Text style={styles.dateStyle}>{time}</Text> */}
         </View>
       </View>
       <View style={styles.helfArea}>
@@ -79,7 +79,7 @@ function PostComponent({
                 source={require('../../icons/Comment.png')}
                 resizeMode="contain"
               />
-              <Text style={{color: '#7181c4'}}>{commentCount}</Text>
+              {/* <Text style={{color: '#7181c4'}}>{commentCount}</Text> */}
             </View>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,48 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Topbar from '../Bar/Topbar';
+import userToken from '../../recoils/userToken';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import axios from 'axios';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
-function Post({navigation}) {
+function Post({navigation, route}) {
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [Title, setTitle] = useState('');
+  const [Content, setContent] = useState('');
+
+  async function postData(token, clubId, Title, Content, isFinish) {
+    try {
+      // console.log(token);
+      // console.log(clubId);
+      // console.log(Title);
+      // console.log(Content);
+      // console.log(route.params.boardtype);
+      const response = await axios.post(
+        `http://sogong-group3.kro.kr/club/${clubId}/${route.params.boardtype}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+          Title,
+          Content,
+          isFinish,
+        },
+      );
+      if (response) {
+        console.log(response);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    console.log(route.params.boardtype);
+  }, []);
+
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -28,12 +65,14 @@ function Post({navigation}) {
           <View style={styles.textTopArea}>
             <TextInput
               style={{fontSize: 15}}
+              onChangeText={Title => setTitle(Title)}
               placeholder="제목을 입력해주세요"
               autoCapitalize="none"></TextInput>
           </View>
           <View style={styles.textBottomArea}>
             <TextInput
               style={{fontSize: 15}}
+              onChangeText={Content => setContent(Content)}
               placeholder="내용을 입력해주세요"
               autoCapitalize="none"></TextInput>
           </View>
@@ -44,7 +83,11 @@ function Post({navigation}) {
             justifyContent: 'center',
             alignItems: 'flex-end',
           }}>
-          <TouchableOpacity style={styles.registerButton}>
+          <TouchableOpacity
+            onPress={() =>
+              postData(`Bearer ${userToken_R}`, 1, Title, Content, false)
+            }
+            style={styles.registerButton}>
             <Text>등록하기</Text>
           </TouchableOpacity>
         </View>

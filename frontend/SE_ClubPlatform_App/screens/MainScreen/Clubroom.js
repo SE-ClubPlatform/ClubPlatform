@@ -53,7 +53,7 @@ function Clubroom({navigation}) {
     try {
       console.log(token);
       console.log(clubId);
-      const response = await axios.post(
+      const response = await axios.put(
         `http://sogong-group3.kro.kr/clubRoom/${clubId}`,
         {
           body: {
@@ -188,6 +188,7 @@ function Clubroom({navigation}) {
               {clublog
                 ? clublog.map(log => (
                     <View
+                      key={log.time}
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'flex-end',
