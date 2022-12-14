@@ -44,8 +44,16 @@ function BodyList(bodyData) {
     setUser(selectedNumber => (selectedNumber = key));
   };
 
-  const goAlert = () =>
+  const giveAuth = () =>
     Alert.alert('해당 회원에게 동아리 임원 권한을 주시겠습니까?', null, [
+      {
+        text: '아니요',
+        onPress: () => null,
+      },
+      {text: '네', onPress: () => null},
+    ]);
+  const deleteMember = () =>
+    Alert.alert('해당 회원을 동아리에서 삭제하시겠습니까?', null, [
       {
         text: '아니요',
         onPress: () => null,
@@ -85,7 +93,7 @@ function BodyList(bodyData) {
                     <View style={styles.apply_button_container}>
                       <TouchableOpacity
                         style={[styles.apply_button, {width: Width * 0.3}]}
-                        onPress={() => setVisible(prev => !prev)}>
+                        onPress={() => deleteMember()}>
                         <Text style={styles.apply_button_text}>부원 삭제</Text>
                       </TouchableOpacity>
                     </View>
@@ -95,7 +103,7 @@ function BodyList(bodyData) {
                           styles.apply_button,
                           {backgroundColor: '#d9d9d9'},
                         ]}
-                        onPress={() => goAlert()}>
+                        onPress={() => giveAuth()}>
                         <Text style={styles.apply_button_text}>
                           동아리 임원 지정
                         </Text>

@@ -17,14 +17,33 @@ const Width = Dimensions.get('window').width;
 function JoinComponent(applyData) {
   const [selectedNumber, setUser] = useState(0);
   const [isVisible, setUnVisible] = useState(true);
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
   const infoData = applyData && applyData.applyData;
 
   const selectMember = key => {
     setUser(selectedNumber => (selectedNumber = key));
     setUnVisible(prev => !prev);
   };
-
   useEffect(() => {}, []);
+
+  async function applyMember(token, clubId, studentId, status) {
+    try {
+      const response = await axios.post(
+        'http://sogong-group3.kro.kr/club/' + clubId + '/application-members',
+        {
+          headers: {
+            Authorization: token,
+          },
+          studentId,
+          status,
+        },
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <View>
       {infoData &&
@@ -98,7 +117,14 @@ function JoinComponent(applyData) {
                       <View style={styles.apply_button_container}>
                         <TouchableOpacity
                           style={styles.apply_button}
-                          onPress={() => selectMember(data.studentId)}>
+                          onPress={() =>
+                            applyMember(
+                              userToken_R,
+                              1,
+                              data.studentId,
+                              'reject',
+                            )
+                          }>
                           <Text style={styles.apply_button_text}>삭제</Text>
                         </TouchableOpacity>
                       </View>
@@ -108,7 +134,14 @@ function JoinComponent(applyData) {
                             styles.apply_button,
                             {backgroundColor: '#d9d9d9'},
                           ]}
-                          onPress={() => selectMember(data.studentId)}>
+                          onPress={() =>
+                            applyMember(
+                              userToken_R,
+                              1,
+                              data.studentId,
+                              'approve',
+                            )
+                          }>
                           <Text style={styles.apply_button_text}>승인</Text>
                         </TouchableOpacity>
                       </View>
@@ -139,7 +172,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginBottom: 40,
     marginTop: 24,
-    borderWidth: 1,
+    elevation: 3,
     padding: 10,
     borderRadius: 5,
   },
