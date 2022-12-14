@@ -2,6 +2,7 @@ package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.Board.Community;
 import SW_Engineering.Group3.domain.auth.Member;
+import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.Board.CommunityDto;
 import SW_Engineering.Group3.dto.Board.CommunityUpdateDto;
 import SW_Engineering.Group3.repository.Board.CommunityRepository;
@@ -18,19 +19,24 @@ public class CommunityService {
 
     private final MemberRepository memberRepository;
     private final CommunityRepository communityRepository;
+    private final ClubService clubService;
 
     public List<Community> getAllCommunity() {
         return communityRepository.findAll();
     }
 
-    public Long createCommunity(CommunityDto communityDto, Long memberId) {
+    public Long createCommunity(CommunityDto communityDto, Long clubId, Long memberId) {
         Member member = memberRepository.findById(memberId).orElse(null);
+        Club club = clubService.findClubById(clubId);
 
         if(member == null) {
             return null;
         }
 
         Community community = communityDto.toCommunity(member);
+        community.setClub(club);
+        club.addArticle(community);
+
         return communityRepository.save(community).getBoardID();
     }
 

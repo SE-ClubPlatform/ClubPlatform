@@ -72,7 +72,7 @@ public class CommunityController {
             return null;
         }
 
-        return communityService.createCommunity(communityDto, memberId);
+        return communityService.createCommunity(communityDto, clubId, memberId);
     }
 
     @ApiOperation(

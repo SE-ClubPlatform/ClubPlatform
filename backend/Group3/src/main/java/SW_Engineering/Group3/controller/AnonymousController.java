@@ -63,14 +63,14 @@ public class AnonymousController {
             @ApiResponse(code = 200, message = "익명 게시글 작성")
     })
     @PostMapping("/club/{club_id}/anonymous")
-    public Long writeCommunity(Principal principal,  @PathVariable("club_id") Long clubId, @RequestBody AnonymousDto anonymousDto) {
+    public Long writeCommunity(Principal principal, @PathVariable("club_id") Long clubId, @RequestBody AnonymousDto anonymousDto) {
         Long memberId = Long.parseLong(principal.getName());
 
         if(memberId == null) {
             return null;
         }
 
-        return anonymousService.createAnonymous(anonymousDto, memberId);
+        return anonymousService.createAnonymous(anonymousDto, clubId, memberId);
     }
 
     @ApiOperation(

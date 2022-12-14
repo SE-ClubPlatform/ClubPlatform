@@ -35,6 +35,7 @@ function Main({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchClub, setSearchClub] = useState(null);
   const [clubList, setClubList] = useState();
+  const [randomList, setRandomList] = useState();
 
   const isFocused = useIsFocused();
 
@@ -49,16 +50,28 @@ function Main({navigation}) {
         },
       );
       if (response.data) {
-        
         setClubList(response.data.data.content);
       }
-      // console.log(response.status)
-      // console.log(response.data.data.content[0].clubId);
-      // console.log(clubList[0].clubId);
+
+      const response2 = await axios.get(
+        'http://sogong-group3.kro.kr/member/random-clubs',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response2.data) {
+        setRandomList(response2.data.data.content);
+      }
     } catch (e) {
       console.log(e.message);
     }
   }
+
+  // async function getRandom(){
+
+  // }
 
   useEffect(() => {
     getJoin(`Bearer ${userToken_R}`);
@@ -112,7 +125,7 @@ function Main({navigation}) {
               resizeMode="stretch"
               source={{
                 uri: clubList
-                  ? "data:image/png;base64," + clubList[0].image
+                  ? 'data:image/png;base64,' + clubList[0].image
                   : null,
               }}
             />
@@ -153,13 +166,13 @@ function Main({navigation}) {
         <Text style={styles.fontStyle}>동아리 정보가 궁금하다면?</Text>
         <View style={{flex: 1}}>
           <TouchableOpacity style={styles.otherClubButton}>
-            <Text>SOUL</Text>
+            <Text>{randomList ? randomList[0].clubName : null}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.otherClubButton}>
-            <Text>ZENITH</Text>
+            <Text>{randomList ? randomList[1].clubName : null}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.otherClubButton}>
-            <Text>5분 쉼표</Text>
+            <Text>{randomList ? randomList[2].clubName : null}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -232,7 +245,7 @@ function Main({navigation}) {
               </TouchableOpacity>
             </View>
             <View>
-              <AddClubCard />
+              <AddClubCard club_id={1} />
             </View>
           </View>
         </View>

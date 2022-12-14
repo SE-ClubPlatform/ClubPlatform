@@ -2,6 +2,7 @@ package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.Board.Notice;
 import SW_Engineering.Group3.domain.auth.Member;
+import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.Board.NoticeDto;
 import SW_Engineering.Group3.dto.Board.NoticeUpdateDto;
 import SW_Engineering.Group3.repository.Board.NoticeRepository;
@@ -20,6 +21,7 @@ public class NoticeService {
 
     private final MemberRepository memberRepository;
     private final NoticeRepository noticeRepository;
+    private final ClubService clubService;
 
     public List<Notice> getAllNotices() {
         return noticeRepository.findAll();
@@ -30,14 +32,17 @@ public class NoticeService {
     }
 
     @Transactional
-    public Long createNotice(NoticeDto noticeDto, Long memberId) {
+    public Long createNotice(NoticeDto noticeDto, Long clubId, Long memberId) {
         Member member = memberRepository.findById(memberId).orElse(null);
+        Club club = clubService.findClubById(clubId);
 
         if(member == null) {
             return null;
         }
 
         Notice notice = noticeDto.toNotice(member);
+        notice.setClub(club);
+        club.addArticle(notice);
 
         return noticeRepository.save(notice).getBoardID();
     }

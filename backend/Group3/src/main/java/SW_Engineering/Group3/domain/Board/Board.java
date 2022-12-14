@@ -1,10 +1,8 @@
 package SW_Engineering.Group3.domain.Board;
 
 import SW_Engineering.Group3.domain.auth.Member;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import SW_Engineering.Group3.domain.club.Club;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -30,6 +28,10 @@ public abstract class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
+    private Club club;
 
     private String createTime;
 

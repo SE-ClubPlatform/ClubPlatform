@@ -2,6 +2,7 @@ package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.Board.Anonymous;
 import SW_Engineering.Group3.domain.auth.Member;
+import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.Board.AnonymousDto;
 import SW_Engineering.Group3.dto.Board.AnonymousUpdateDto;
 import SW_Engineering.Group3.repository.Board.AnonymousRepository;
@@ -19,20 +20,25 @@ public class AnonymousService {
 
     private final MemberRepository memberRepository;
     private final AnonymousRepository anonymousRepository;
+    private final ClubService clubService;
 
     public List<Anonymous> getAllAnonymous() {
         return anonymousRepository.findAll();
     }
 
     @Transactional
-    public Long createAnonymous(AnonymousDto anonymousDto, Long memberId) {
+    public Long createAnonymous(AnonymousDto anonymousDto, Long clubId, Long memberId) {
         Member member = memberRepository.findById(memberId).orElse(null);
+        Club club = clubService.findClubById(clubId);
 
         if(member == null) {
             return null;
         }
 
         Anonymous anonymous = anonymousDto.toAnonymous(member);
+        anonymous.setClub(club);
+        club.addArticle(anonymous);
+
         return anonymousRepository.save(anonymous).getBoardID();
     }
 

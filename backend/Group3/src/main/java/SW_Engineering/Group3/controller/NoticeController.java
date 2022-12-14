@@ -76,7 +76,7 @@ public class NoticeController {
             return null;
         }
 
-        return noticeService.createNotice(noticeDto, memberId);
+        return noticeService.createNotice(noticeDto, clubId, memberId);
     }
 
     @ApiOperation(

@@ -6,8 +6,7 @@ import SW_Engineering.Group3.dto.club.ClubSimpleInfoDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.MainPage.UnjoinClubDto;
 import SW_Engineering.Group3.dto.club.DealUserSignupRequestDto;
-import SW_Engineering.Group3.service.ClubService;
-import SW_Engineering.Group3.service.FileService;
+import SW_Engineering.Group3.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,9 @@ public class ClubController {
 
     private final Response response;
     private final ClubService clubService;
-    private final FileService fileService;
+    private final AnonymousService anonymousService;
+    private final NoticeService noticeService;
+    private final CommunityService communityService;
 
 
     /**
@@ -171,5 +172,14 @@ public class ClubController {
         return fileService.getClubImage(club);
     }
     */
+
+    /*
+    @GetMapping("/{club_id}/mainpage-board")
+    public ResponseEntity<?> getSimpleBoardInfo(@PathVariable("club_id") Long clubId) {
+
+
+
+    }
+     */
 
 }

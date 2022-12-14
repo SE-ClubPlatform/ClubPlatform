@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
 import axios, {AxiosHeaders} from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import userToken from '../../recoils/userToken';
 import Topbar from '../Bar/Topbar';
 import Home_Contents from '../Container/Home_Contents';
@@ -24,25 +24,32 @@ const Width = Dimensions.get('window').width;
 
 function Home({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
+<<<<<<< HEAD
   const [clubId, setClubId] = useState()
   const [clubInfo, setClubInfo] = useState()
   const [noticeList, setNoticeList] = useState([])
+=======
+  const [clubId, setClubId] = useState();
+  const [clubInfo, setClubInfo] = useState();
+>>>>>>> c9666f7349c5e5608a36c897d12c7d016810608e
 
   async function getClubInfo(token, clubId) {
     try {
+      console.log(token);
+      console.log(clubId);
       const response = await axios.get(
-        "http://sogong-group3.kro.kr/club/" + clubId + "/mainpage",
+        'http://sogong-group3.kro.kr/club/' + clubId + '/mainpage',
         {
           headers: {
             Authorization: token,
           },
         },
-      )
-      setClubInfo(response.data)
+      );
+      setClubInfo(response.data);
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
-      // console.log(e);
+      console.log(e);
     }
   }
 
@@ -68,8 +75,12 @@ function Home({navigation}) {
     getClubInfo(`Bearer ${userToken_R}`, 1);
     getNotice(`Bearer ${userToken_R}`, 1);
   }, []);
+<<<<<<< HEAD
   console.log(clubInfo)
   console.log(noticeList)
+=======
+  // console.log(clubInfo);
+>>>>>>> c9666f7349c5e5608a36c897d12c7d016810608e
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -226,7 +237,55 @@ function Home({navigation}) {
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <ScrollView>
+<<<<<<< HEAD
         <Home_Profile navigation={navigation} clubInfo= {clubInfo} />
+=======
+        <View style={styles.card}>
+          <View style={styles.container}>
+            <Text style={styles.cardTitle}>
+              {clubInfo ? clubInfo.clubName : null}
+            </Text>
+            <View style={styles.container_right}>
+              <View style={styles.gray_card}>
+                <View>
+                  <Text style={styles.gray_card_title}>회장</Text>
+                </View>
+                <View>
+                  <Text style={styles.gray_card_content}>
+                    {clubInfo ? clubInfo.presidentName : null}
+                  </Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={styles.gray_card}
+                onPress={() => navigation.navigate('MemberList')}>
+                <View>
+                  <Text style={styles.gray_card_title}>부원</Text>
+                </View>
+                <View>
+                  <Text style={styles.gray_card_content}>
+                    {clubInfo ? clubInfo.memberCounts : null}명
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.container}>
+            <Image
+              style={styles.clubImg}
+              resizeMode="stretch"
+              source={require('../../images/DoiT.png')}
+            />
+            <View style={{flex: 1}}>
+              <Text style={styles.captain_name}>
+                {clubInfo ? clubInfo.introduce : null}
+              </Text>
+            </View>
+          </View>
+        </View>
+        {/* <Home_Profile navigation={navigation} clubInfo= {clubInfo} /> */}
+>>>>>>> c9666f7349c5e5608a36c897d12c7d016810608e
         <Home_Contents
           title="공지사항"
           location="Notice"
