@@ -10,7 +10,7 @@ import {
 import {TextInput} from 'react-native-gesture-handler';
 import Topbar from '../Bar/Topbar';
 import userToken from '../../recoils/userToken';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import axios from 'axios';
 
 const Height = Dimensions.get('window').height;
@@ -20,13 +20,15 @@ function Post({navigation, route}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [Title, setTitle] = useState('');
   const [Content, setContent] = useState('');
+  const [isFinish, setIsFinish]= useState(false);
 
-  async function postData(token, clubId, Title, Content, isFinish) {
+  async function postData(token, clubId, title, content, isFinish) {
     try {
-      console.log(token);
+      console.log({token});
       console.log(clubId);
-      console.log(Title);
-      console.log(Content);
+      console.log({title});
+      console.log({content});
+      console.log({isFinish});
       console.log(route.params.boardtype);
       const response = await axios.post(
         `http://sogong-group3.kro.kr/club/${clubId}/${route.params.boardtype}`,
@@ -34,8 +36,8 @@ function Post({navigation, route}) {
           headers: {
             Authorization: token,
           },
-          Title,
-          Content,
+          title,
+          content,
           isFinish,
         },
       );
@@ -86,6 +88,7 @@ function Post({navigation, route}) {
           <TouchableOpacity
             onPress={() =>
               postData(`Bearer ${userToken_R}`, 1, Title, Content, false)
+              // postData(`Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiYXV0aCI6IlJPTEVfTk9OTUVNQkVSIiwiZXhwIjoxNjcxMDU0OTc3fQ.v1t9yJ0v-HYLb8ouIOL0FzPj4ks1ZeKaXR-9-YZpucVH0_paiwSzYIYsmefCE9Dy0OlwhNLRMx8BHumDb5v1rg`, 1, Title, Content, false)
             }
             style={styles.registerButton}>
             <Text>등록하기</Text>

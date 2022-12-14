@@ -41,7 +41,12 @@ function Notice({navigation}) {
   }, []);
 
   return postData ? (
-    <Board navigation={navigation} data={postData} boardType={'notice'} />
+    <Board
+      navigation={navigation}
+      data={postData}
+      boardType={'notice'}
+      clubid={1}
+    />
   ) : (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar />

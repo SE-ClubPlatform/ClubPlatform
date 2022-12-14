@@ -39,7 +39,12 @@ function Anonymous({navigation}) {
   }, []);
 
   return postData ? (
-    <Board navigation={navigation} data={postData} boardType={'anonymous'} />
+    <Board
+      navigation={navigation}
+      data={postData}
+      boardType={'anonymous'}
+      clubid={1}
+    />
   ) : (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar />

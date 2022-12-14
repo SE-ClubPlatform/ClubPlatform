@@ -9,33 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import axios from 'axios';
-import {AxiosHeaders} from 'axios';
-import userToken from '../../recoils/userToken';
-import {useRecoilState, useRecoilValue} from 'recoil';
 
-function AddClubCard({club_id}) {
-  const [userToken_R, setUserToken] = useRecoilState(userToken);
-
-  async function applyClub(token) {
-    try {
-      console.log(token);
-      console.log(club_id);
-      const response = await axios.post(
-        `http://sogong-group3.kro.kr/club/1/application`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
-      );
-      if (response.data) {
-        console.log(response);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
+function AddClubCard() {
   return (
     <View style={styles.card}>
       <View
@@ -57,7 +32,7 @@ function AddClubCard({club_id}) {
           />
           <Text style={{fontSize: 20, fontWeight: '500'}}>SWeat</Text>
         </View>
-        <TouchableOpacity onPress={() => applyClub(`Bearer ${userToken_R}`)}>
+        <TouchableOpacity>
           <View style={styles.gray_card}>
             <Text>신청하기</Text>
           </View>

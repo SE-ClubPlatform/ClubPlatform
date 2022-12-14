@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,19 +9,47 @@ import {
   Image,
 } from 'react-native';
 import Topbar from '../Bar/Topbar';
+import CommentComponent from './CommentComponent';
+import axios from 'axios';
+import userToken from '../../recoils/userToken';
+import {useRecoilState, useRecoilValue} from 'recoil';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function PostContent({navigation, route}) {
-  const [name, setName] = useState('GM우현');
-  const [date, setDate] = useState('2022/11/04');
-  const [time, setTime] = useState('09:15');
-  const [title, setTitle] = useState('동아리방 사용 관련 공지사항');
-  const [content, setContent] = useState(
-    ' 안녕하세요 아주대학교 Do-iT 동아리 입니다. 동아리방 사용에 관한 공지사항 내용입니다 읽어주셔서 감사합니다 :) ',
-  );
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [comList, setComList] = useState();
 
+  async function getComment(token) {
+    try {
+      console.log(route.params.ClubId);
+      console.log(route.params.PostType);
+      console.log(route.params.Postid);
+      const response = await axios.get(
+        `http://sogong-group3.kro.kr/club/${route.params.ClubId}/${
+          route.params.PostType === 'group'
+            ? 'community'
+            : route.params.PostType
+        }/${route.params.Postid}/comments`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response) {
+        console.log(response.data);
+        setComList(response.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getComment(`Bearer ${userToken_R}`);
+  }, []);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -38,10 +66,12 @@ function PostContent({navigation, route}) {
               source={require('../../icons/User.png')}
             />
             <View>
-              <Text style={{fontWeight: 'bold'}}>{name}</Text>
-              <Text>
-                {date} {time}
+              <Text style={{fontWeight: 'bold'}}>
+                {route.params.PostType === 'anonymous'
+                  ? '익명'
+                  : route.params.Author}
               </Text>
+              <Text>{route.params.Date}</Text>
             </View>
           </View>
           <View style={styles.postBottom}>
@@ -52,50 +82,21 @@ function PostContent({navigation, route}) {
                 fontFamily: 'NanumSquareNeoTTF-bRg',
                 marginBottom: Height * 0.02,
               }}>
-              {title}
+              {route.params.Title}
             </Text>
-            <Image
-              style={{
-                width: Width * 0.9,
-                height: Width * 0.9,
-                resizeMode: 'stretch',
-                marginBottom: Height * 0.01,
-              }}
-              source={require('../../images/notice.png')}
-            />
-            <Text style={{fontSize: 16}}>{content}</Text>
+            <Text style={{fontSize: 16}}>{route.params.Content}</Text>
           </View>
         </View>
         <View style={styles.commentArea}>
-          <View
-            style={{
-              marginVertical: Height * 0.01,
-              backgroundColor: '#f2f2f2',
-              borderRadius: 10,
-              padding: 10,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: Height * 0.01,
-              }}>
-              <Image
-                style={{
-                  width: Width * 0.07,
-                  height: Width * 0.07,
-                  resizeMode: 'stretch',
-                  marginRight: Width * 0.01,
-                }}
-                source={require('../../icons/User.png')}
-              />
-              <Text>GM지영</Text>
-            </View>
-            <View>
-              <Text>넵 확인하였습니다 !</Text>
-              <Text style={{fontSize: 14}}>11/05 18:53</Text>
-            </View>
-          </View>
+          {comList
+            ? comList.map((com, index) => (
+                <CommentComponent
+                  key={index}
+                  name={com.writer}
+                  content={com.content}
+                />
+              ))
+            : null}
         </View>
       </ScrollView>
     </View>

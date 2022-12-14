@@ -10,156 +10,12 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
+import axios, {AxiosHeaders} from 'axios';
+import {useRecoilState} from 'recoil';
+import userToken from '../../../recoils/userToken';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const heads = ['이름', '학번', '학과', '연락처'];
-const bodyDatas = [
-  {
-    name: '홍길동',
-    studentNumber: '202212345',
-    major: '교통시스템공학과',
-    phoneNumber: '010-1234-5678',
-  },
-  {
-    name: '박지영',
-    studentNumber: '202289075',
-    major: '미디어학과',
-    phoneNumber: '010-1524-5678',
-  },
-  {
-    name: '이준수',
-    studentNumber: '202212495',
-    major: '소프트웨어학과',
-    phoneNumber: '010-4321-5678',
-  },
-  {
-    name: '신우현',
-    studentNumber: '202212125',
-    major: '소프트웨어학과',
-    phoneNumber: '010-1234-8765',
-  },
-  {
-    name: '홍길동',
-    studentNumber: '202212344',
-    major: '교통시스템공학과',
-    phoneNumber: '010-1234-5678',
-  },
-  {
-    name: '박지영',
-    studentNumber: '202289074',
-    major: '미디어학과',
-    phoneNumber: '010-1524-5678',
-  },
-  {
-    name: '이준수',
-    studentNumber: '202212494',
-    major: '소프트웨어학과',
-    phoneNumber: '010-4321-5678',
-  },
-  {
-    name: '신우현',
-    studentNumber: '202212124',
-    major: '소프트웨어학과',
-    phoneNumber: '010-1234-8765',
-  },
-  {
-    name: '홍길동',
-    studentNumber: '202212343',
-    major: '교통시스템공학과',
-    phoneNumber: '010-1234-5678',
-  },
-  {
-    name: '박지영',
-    studentNumber: '202289073',
-    major: '미디어학과',
-    phoneNumber: '010-1524-5678',
-  },
-  {
-    name: '이준수',
-    studentNumber: '202212493',
-    major: '소프트웨어학과',
-    phoneNumber: '010-4321-5678',
-  },
-  {
-    name: '신우현',
-    studentNumber: '202212123',
-    major: '소프트웨어학과',
-    phoneNumber: '010-1234-8765',
-  },
-  {
-    name: '홍길동',
-    studentNumber: '202212342',
-    major: '교통시스템공학과',
-    phoneNumber: '010-1234-5678',
-  },
-  {
-    name: '박지영',
-    studentNumber: '202289072',
-    major: '미디어학과',
-    phoneNumber: '010-1524-5678',
-  },
-  {
-    name: '이준수',
-    studentNumber: '202212492',
-    major: '소프트웨어학과',
-    phoneNumber: '010-4321-5678',
-  },
-  {
-    name: '신우현',
-    studentNumber: '202212122',
-    major: '소프트웨어학과',
-    phoneNumber: '010-1234-8765',
-  },
-  {
-    name: '홍길동',
-    studentNumber: '202212341',
-    major: '교통시스템공학과',
-    phoneNumber: '010-1234-5678',
-  },
-  {
-    name: '박지영',
-    studentNumber: '202289071',
-    major: '미디어학과',
-    phoneNumber: '010-1524-5678',
-  },
-  {
-    name: '이준수',
-    studentNumber: '202212491',
-    major: '소프트웨어학과',
-    phoneNumber: '010-4321-5678',
-  },
-  {
-    name: '신우현',
-    studentNumber: '202212121',
-    major: '소프트웨어학과',
-    phoneNumber: '010-1234-8765',
-  },
-  {
-    name: '홍길동',
-    studentNumber: '2022123450',
-    major: '교통시스템공학과',
-    phoneNumber: '010-1234-5678',
-  },
-  {
-    name: '박지영',
-    studentNumber: '202289070',
-    major: '미디어학과',
-    phoneNumber: '010-1524-5678',
-  },
-  {
-    name: '이준수',
-    studentNumber: '202212490',
-    major: '소프트웨어학과',
-    phoneNumber: '010-4321-5678',
-  },
-  {
-    name: '신우현',
-    studentNumber: '202212120',
-    major: '소프트웨어학과',
-    phoneNumber: '010-1234-8765',
-  },
-];
-
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
@@ -179,103 +35,165 @@ function IndexList() {
     </View>
   );
 }
-function BodyList() {
-  const [selectedNumber, setUser] = useState('0');
+function BodyList(bodyData) {
+  const [selectedNumber, setUser] = useState(0);
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [member, setManagerAuth] = useState();
   const [isVisible, setVisible] = useState(true);
+
+  const infoData = bodyData && bodyData.bodyData;
 
   const selectMember = key => {
     setUser(selectedNumber => (selectedNumber = key));
   };
 
-  const goAlert = () =>
+  async function getAuth(token, clubId, studentId) {
+    console.log(
+      'http://sogong-group3.kro.kr/club/' +
+        clubId +
+        '/members/' +
+        studentId +
+        '/changeAuthority',
+    );
+    try {
+      const response = await axios.get(
+        'http://sogong-group3.kro.kr/club/' +
+          clubId +
+          '/members/' +
+          studentId +
+          '/changeAuthority',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      setManagerAuth(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async function deleteMember(token, clubId, studentId) {
+    try {
+      const response = await axios.delete(
+        'http://sogong-group3.kro.kr/club/' + clubId + '/members/' + studentId,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  const alertGiveAuth = id => {
     Alert.alert('해당 회원에게 동아리 임원 권한을 주시겠습니까?', null, [
       {
         text: '아니요',
         onPress: () => null,
       },
-      {text: '네', onPress: () => null},
+      {text: '네', onPress: () => getAuth(userToken_R, 1, id)},
     ]);
+  };
+
+  const alertDeleteMember = id =>
+    Alert.alert('해당 회원을 동아리에서 삭제하시겠습니까?', null, [
+      {
+        text: '아니요',
+        onPress: () => null,
+      },
+      {text: '네', onPress: () => deleteMember(userToken_R, 1, id)},
+    ]);
+
+  useEffect(() => {});
 
   return (
     <View style={styles.bodyWrapper}>
-      {bodyDatas.map((data, index) => (
-        <View key={index}>
-          {selectedNumber === data.studentNumber ? ( //문제 .. 하나만 눌러도 무한 눌림
-            <TouchableOpacity onPress={() => selectMember(data.studentNumber)}>
-              <View style={styles.selectedComponent}>
-                <View style={{flexDirection: 'row'}}>
+      {infoData &&
+        infoData.map(data => (
+          <View key={data.studentId}>
+            {selectedNumber === data.studentId ? (
+              <TouchableOpacity onPress={() => selectMember(data.order)}>
+                <View style={styles.selectedComponent}>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={(styles.bodyComponent, {width: Width * 0.12})}>
+                      <Text style={styles.bodyText}>{data.order}</Text>
+                    </View>
+                    <View style={(styles.bodyComponent, {width: Width * 0.17})}>
+                      <Text style={styles.bodyText}>{data.userName}</Text>
+                    </View>
+                    <View style={(styles.bodyComponent, {width: Width * 0.25})}>
+                      <Text style={styles.bodyText}>{data.studentId}</Text>
+                    </View>
+                    <View style={(styles.bodyComponent, {marginRight: 0})}>
+                      <Text style={styles.bodyText}>{data.major}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.phoneNumberContainer}>
+                    <View style={{width: Width * 0.17}}>
+                      <Text style={styles.indexText}>연락처</Text>
+                    </View>
+                    <Text style={styles.bodyText}>{data.phoneNumber}</Text>
+                  </View>
+                  <View style={styles.memberButtonContainer}>
+                    <View style={styles.apply_button_container}>
+                      <TouchableOpacity
+                        style={[styles.apply_button, {width: Width * 0.3}]}
+                        onPress={() => alertDeleteMember(data.studentId)}>
+                        <Text style={styles.apply_button_text}>부원 삭제</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.apply_button_container}>
+                      <TouchableOpacity
+                        style={[
+                          styles.apply_button,
+                          {backgroundColor: '#d9d9d9'},
+                        ]}
+                        onPress={() => alertGiveAuth(data.studentId)}>
+                        <Text style={styles.apply_button_text}>
+                          동아리 임원 지정
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={() => selectMember(data.studentId)}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginBottom: 5,
+                    marginLeft: 5,
+                  }}>
                   <View style={(styles.bodyComponent, {width: Width * 0.12})}>
-                    <Text style={styles.bodyText}>{index + 1}</Text>
+                    <Text style={styles.bodyText}>{data.order}</Text>
                   </View>
                   <View style={(styles.bodyComponent, {width: Width * 0.17})}>
-                    <Text style={styles.bodyText}>{data.name}</Text>
+                    <Text style={styles.bodyText}>{data.userName}</Text>
                   </View>
                   <View style={(styles.bodyComponent, {width: Width * 0.25})}>
-                    <Text style={styles.bodyText}>{data.studentNumber}</Text>
+                    <Text style={styles.bodyText}>{data.studentId}</Text>
                   </View>
                   <View style={(styles.bodyComponent, {marginRight: 0})}>
                     <Text style={styles.bodyText}>{data.major}</Text>
                   </View>
                 </View>
-                <View style={styles.phoneNumberContainer}>
-                  <View style={{width: Width * 0.17}}>
-                    <Text style={styles.indexText}>연락처</Text>
-                  </View>
-                  <Text style={styles.bodyText}>{data.phoneNumber}</Text>
-                </View>
-                <View style={styles.memberButtonContainer}>
-                  <View style={styles.apply_button_container}>
-                    <TouchableOpacity
-                      style={[styles.apply_button, {width: Width * 0.3}]}
-                      onPress={() => setVisible(prev => !prev)}>
-                      <Text style={styles.apply_button_text}>부원 삭제</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.apply_button_container}>
-                    <TouchableOpacity
-                      style={[
-                        styles.apply_button,
-                        {backgroundColor: '#d9d9d9'},
-                      ]}
-                      onPress={() => goAlert()}>
-                      <Text style={styles.apply_button_text}>
-                        동아리 임원 지정
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => selectMember(data.studentNumber)}>
-              <View
-                style={{flexDirection: 'row', marginBottom: 5, marginLeft: 5}}>
-                <View style={(styles.bodyComponent, {width: Width * 0.12})}>
-                  <Text style={styles.bodyText}>{index + 1}</Text>
-                </View>
-                <View style={(styles.bodyComponent, {width: Width * 0.17})}>
-                  <Text style={styles.bodyText}>{data.name}</Text>
-                </View>
-                <View style={(styles.bodyComponent, {width: Width * 0.25})}>
-                  <Text style={styles.bodyText}>{data.studentNumber}</Text>
-                </View>
-                <View style={(styles.bodyComponent, {marginRight: 0})}>
-                  <Text style={styles.bodyText}>{data.major}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        </View>
-      ))}
+              </TouchableOpacity>
+            )}
+          </View>
+        ))}
     </View>
   );
 }
 
-function MemberListBlock() {
+function MemberListBlock(bodyData) {
+  const infoData = bodyData && bodyData.bodyData;
   return (
     <ScrollView style={styles.context_container} stickyHeaderIndices={[0]}>
       <IndexList />
-      <BodyList />
+      <BodyList bodyData={infoData} />
     </ScrollView>
   );
 }

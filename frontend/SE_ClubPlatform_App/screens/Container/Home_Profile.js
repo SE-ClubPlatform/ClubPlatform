@@ -17,7 +17,6 @@ const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function Home_Profile({navigation, clubInfo}) {
-  console.log('Hi');
   console.log(clubInfo);
   return (
     <View>

@@ -102,8 +102,10 @@ const postData3 = [
   },
 ];
 
-function Board({navigation, data, boardType}) {
+function Board({navigation, data, boardType, clubid}) {
   const postData = data;
+
+  console.log(data);
 
   function Title() {
     if (boardType === 'anonymous') {
@@ -141,7 +143,9 @@ function Board({navigation, data, boardType}) {
       postType={boardType}
       title={post.title}
       author={post.author}
+      content={post.content}
       date={post.createTime}
+      clubId={clubid}
       // time={post.time}
       // commentCount={post.commentCount}
       isFinish={post.isFinish}></PostComponent>
