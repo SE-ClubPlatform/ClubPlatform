@@ -6,11 +6,12 @@ import SW_Engineering.Group3.dto.Board.AnonymousUpdateDto;
 import SW_Engineering.Group3.repository.Board.AnonymousRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AnonymousService {
     private final AnonymousRepository anonymousRepository;
@@ -19,6 +20,7 @@ public class AnonymousService {
         return anonymousRepository.findAll();
     }
 
+    @Transactional
     public Long createAnonymous(AnonymousDto anonymousDto) {
         Anonymous anonymous = anonymousDto.toAnonymous();
         return anonymousRepository.save(anonymous).getBoardID();
@@ -27,7 +29,7 @@ public class AnonymousService {
     @Transactional
     public Long updateAnonymous(Long id, AnonymousUpdateDto anonymousUpdateDto) {
         Anonymous anonymous = anonymousRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        anonymous.update(anonymous.getTitle(), anonymous.getContent());
+        anonymous.update(anonymousUpdateDto.getTitle(), anonymousUpdateDto.getContent());
 
         return id;
     }
@@ -39,10 +41,9 @@ public class AnonymousService {
         anonymousRepository.delete(anonymous);
     }
 
-    @Transactional
     public AnonymousDto searchById(Long id) {
         Anonymous anonymous = anonymousRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
-        return new AnonymousDto(anonymous.getTitle(), anonymous.getContent(), anonymous.getAuthor(), anonymous.getCreateDate(), anonymous.getCreateTime(), anonymous.getCommentCount(), anonymous.getIsAnonymous());
+        return new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(), anonymous.getContent(), anonymous.getIsAnonymous());
     }
 }

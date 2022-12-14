@@ -33,9 +33,11 @@ public class CommunityController {
             @ApiResponse(code = 200, message = "모든 소모임 게시글 목록 반환"),
             @ApiResponse(code = 400, message = "올바르지 않은 동아리 번호")
     })
-    @GetMapping("/club/{club_id}/group")
+    @GetMapping("/club/{club_id}/community")
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
-        List<CommunityDto> allCommunity = communityService.getAllCommunity().stream().map(community -> new CommunityDto(community.getTitle(), community.getContent(), community.getAuthor(), community.getCreateDate(), community.getCreateTime(), community.getCommentCount(), community.getCategory()))
+        List<CommunityDto> allCommunity = communityService.getAllCommunity().stream()
+                .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
+                        community.getContent(), community.getCategory()))
                 .collect(Collectors.toList());
 
         return allCommunity;
@@ -59,7 +61,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "소모임 게시글 작성")
     })
-    @PostMapping("/club/{club_id}/group")
+    @PostMapping("/club/{club_id}/community")
     public Long writeCommunity(@PathVariable("club_id") Long clubId, @RequestBody CommunityDto communityDto) {
         return communityService.createCommunity(communityDto);
     }
@@ -87,7 +89,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "소모임 게시글 수정")
     })
-    @PutMapping("/club/{club_id}/group/{id}")
+    @PutMapping("/club/{club_id}/community/{id}")
     public Long updateCommunity(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody CommunityUpdateDto communityUpdateDto) {
         return communityService.updateCommunity(id, communityUpdateDto);
     }
@@ -111,7 +113,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "소모임 게시글 삭제")
     })
-    @DeleteMapping("club/{club_id}/group/{id}")
+    @DeleteMapping("club/{club_id}/community/{id}")
     public void deleteCommunity(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id) {
         communityService.deleteCommunity(id);
     }
@@ -135,7 +137,7 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "공지사항 조회")
     })
-    @GetMapping("club/{club_id}/group/{id}")
+    @GetMapping("club/{club_id}/community/{id}")
     public CommunityDto searchById(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id) {
         return communityService.searchById(id);
     }
@@ -159,13 +161,13 @@ public class CommunityController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "익명 게시물 댓글 조회")
     })
-    @GetMapping("/club/{club_id}/anonymous/{id}/comments")
+    @GetMapping("/club/{club_id}/community/{id}/comments")
     public List<CommunityCommentDto> getAllComments(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id) {
         return communityCommentService.getComments(id);
     }
 
     @ApiOperation(value = "댓글 작성", notes = "게시글에 달린 댓글을 작성합니다.")
-    @PostMapping("/club/{club_id}/anonymous/{id}/comments")
+    @PostMapping("/club/{club_id}/community/{id}/comments")
     public Long writeComment(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody CommunityCommentDto communityCommentDto) {
 
         // 로그인 한 멤버 아이디를 넣어야 하는데 방법을 잘 모르겠어요 ㅠㅠ
@@ -174,7 +176,7 @@ public class CommunityController {
     }
 
     @ApiOperation(value = "댓글 삭제", notes = "게시글에 달린 댓글을 삭제합니다.")
-    @DeleteMapping("/club/{club_id}/anonymous/{id}/comments/{comment_id}")
+    @DeleteMapping("/club/{club_id}/community/{id}/comments/{comment_id}")
     public void deleteComment(@PathVariable("id") Long boardId, @PathVariable("comment_id") Long commentId) {
         communityCommentService.deleteComment(commentId);
     }

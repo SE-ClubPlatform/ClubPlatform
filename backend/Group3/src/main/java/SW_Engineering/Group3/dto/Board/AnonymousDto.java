@@ -2,25 +2,26 @@ package SW_Engineering.Group3.dto.Board;
 
 import SW_Engineering.Group3.domain.Board.Anonymous;
 import SW_Engineering.Group3.domain.auth.Member;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AnonymousDto {
+
+    private Long anonymousId;
     private String title;
     private String content;
-    private Member author;
-    private LocalDateTime createDate;
-    private LocalDateTime createTime;
-    private int commentCount;
     private Boolean isAnonymous;
 
-    public AnonymousDto(String title, String content, Member author, LocalDateTime createDate, LocalDateTime createTime, int commentCount, Boolean isAnonymous) {
+    public AnonymousDto(Long anonymousId, String title, String content, Boolean isAnonymous) {
+        this.anonymousId = anonymousId;
         this.title = title;
         this.content = content;
-        this.author = author;
-        this.createDate = createDate;
-        this.createTime = createTime;
-        this.commentCount = commentCount;
         this.isAnonymous = isAnonymous;
     }
 
@@ -28,10 +29,6 @@ public class AnonymousDto {
         return Anonymous.builder()
                 .title(title)
                 .content(content)
-                .author(author)
-                .createDate(createDate)
-                .createTime(createTime)
-                .commentCount(commentCount)
                 .isAnonymous(isAnonymous)
                 .build();
     }

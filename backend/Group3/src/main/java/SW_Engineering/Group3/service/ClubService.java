@@ -9,7 +9,7 @@ import SW_Engineering.Group3.domain.club.ClubMemberList;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.club.ApplicationMemberDto;
-import SW_Engineering.Group3.dto.club.ClubMainPageDto;
+import SW_Engineering.Group3.dto.club.ClubSimpleInfoDto;
 import SW_Engineering.Group3.dto.club.ClubRegisterDto;
 import SW_Engineering.Group3.dto.club.JoinMemberDto;
 import SW_Engineering.Group3.repository.club.ClubApplicationRepository;
@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ClubService {
 
+    private final FileService fileService;
     private final MemberRepository memberRepository;
     private final ClubMemberRepository clubMemberRepository;
     private final ClubApplicationRepository clubApplicationRepository;
@@ -59,19 +61,20 @@ public class ClubService {
     /**
      * 동아리 메인화면에서 필요로 하는 동아리 정보를 반환하는 기능
      */
-    public ClubMainPageDto getClubInfo(Long clubId){
+    public ClubSimpleInfoDto getClubInfo(Long clubId) throws IOException {
         Optional<Club> optionalClub = clubRepository.findById(clubId);
 
         if(optionalClub.isPresent()){
             Club club = optionalClub.get();
 
-            return ClubMainPageDto.builder()
+            return ClubSimpleInfoDto.builder()
                     .clubId(club.getId())
                     .clubName(club.getClubName())
                     .presidentName(club.getPresidentName())
                     .category(club.getCategory())
                     .introduce(club.getIntroduce())
                     .memberCounts(club.getClubMembers().size())
+                    .image(fileService.getClubImage(club))
                     .build();
         }
         else

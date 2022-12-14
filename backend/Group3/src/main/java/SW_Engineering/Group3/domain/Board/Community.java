@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,8 +18,8 @@ public class Community extends Board {
     private Category category;
 
     @Builder
-    public Community(Long boardID, String title, String content, Member author, LocalDateTime createDate, LocalDateTime createTime, int commentCount, Category category) {
-        super(boardID, title, content, author, createDate, createTime, commentCount);
+    public Community(Long boardID, String title, String content, Category category) {
+        super(boardID, title, content);
         this.category = category;
     }
 }

@@ -9,7 +9,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -29,23 +31,14 @@ public abstract class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createDate;
+    private String createTime;
 
-    @LastModifiedDate
-    private LocalDateTime createTime;
 
-    private int commentCount;
-
-    public Board(Long boardID, String title, String content, Member author, LocalDateTime createDate, LocalDateTime createTime, int commentCount) {
+    public Board(Long boardID, String title, String content) {
         this.boardID = boardID;
         this.title = title;
         this.content = content;
-        this.author = author;
-        this.createDate = createDate;
-        this.createTime = createTime;
-        this.commentCount = commentCount;
+        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     public void update(String title, String content) {

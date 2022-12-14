@@ -36,7 +36,9 @@ public class CommunityCommentService {
 
     @Transactional
     public List<CommunityCommentDto> getComments(Long boardId) {
-        List<CommunityComment> comments = communityCommentRepository.findAllByBoardId(boardId);
+        Community community = communityRepository.findById(boardId).get();
+
+        List<CommunityComment> comments = communityCommentRepository.findAllByPosts(community);
         List<CommunityCommentDto> commentDtos = new ArrayList<>();
 
         comments.forEach(s -> commentDtos.add(CommunityCommentDto.toCommunity(s)));

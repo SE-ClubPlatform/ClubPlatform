@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class Anonymous extends Board {
     private List<AnonymousComment> comments;
 
     @Builder
-    public Anonymous(Long boardID, String title, String content, Member author, LocalDateTime createDate, LocalDateTime createTime, int commentCount, Boolean isAnonymous, List<AnonymousComment> comments) {
-        super(boardID, title, content, author, createDate, createTime, commentCount);
+    public Anonymous(Long boardID, String title, String content, Boolean isAnonymous, List<AnonymousComment> comments) {
+        super(boardID, title, content);
         this.isAnonymous = isAnonymous;
         this.comments = comments;
     }

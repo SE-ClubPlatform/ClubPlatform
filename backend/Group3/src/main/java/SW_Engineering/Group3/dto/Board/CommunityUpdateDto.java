@@ -1,7 +1,12 @@
 package SW_Engineering.Group3.dto.Board;
 
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommunityUpdateDto {
     private String title;
     private String content;

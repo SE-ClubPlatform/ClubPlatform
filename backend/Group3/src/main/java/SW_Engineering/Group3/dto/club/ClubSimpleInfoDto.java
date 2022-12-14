@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClubMainPageDto {
+public class ClubSimpleInfoDto {
 
     private Long clubId; // 동아리 아이디
     private String clubName;
@@ -15,10 +15,11 @@ public class ClubMainPageDto {
     private String introduce;
     private String category;
     private int memberCounts;
+    private String image;
 
     @Builder
-    public ClubMainPageDto(Long clubId, String clubName, String presidentName,
-                           String introduce, String category, int memberCounts){
+    public ClubSimpleInfoDto(Long clubId, String clubName, String presidentName,
+                             String introduce, String category, int memberCounts, String image) {
 
         this.clubId = clubId;
         this.clubName = clubName;
@@ -26,6 +27,8 @@ public class ClubMainPageDto {
         this.introduce = introduce;
         this.category = category;
         this.memberCounts = memberCounts;
+        this.image = image;
+
     }
 
 }

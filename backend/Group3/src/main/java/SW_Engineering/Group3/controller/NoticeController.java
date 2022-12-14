@@ -40,7 +40,7 @@ public class NoticeController {
     @GetMapping("/club/{club_id}/notice")
     public List<NoticeDto> getAllNotice(@PathVariable("club_id") Long clubId) {
         List<NoticeDto> allNotices = noticeService.getAllNotices().stream()
-                .map(notice -> new NoticeDto(notice.getTitle(), notice.getContent(), notice.getAuthor(), notice.getCreateDate(), notice.getCreateTime(), notice.getCommentCount(), notice.getIsFinish()))
+                .map(notice -> new NoticeDto(notice.getBoardID(), notice.getTitle(), notice.getContent(), notice.getIsFinish()))
                 .collect(Collectors.toList());
         return allNotices;
     }
