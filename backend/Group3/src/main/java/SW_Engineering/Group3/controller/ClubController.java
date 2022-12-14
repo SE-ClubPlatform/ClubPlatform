@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.controller;
 
+import SW_Engineering.Group3.domain.auth.Authority;
 import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.dto.MainResult;
 import SW_Engineering.Group3.dto.Response;
@@ -63,11 +64,16 @@ public class ClubController {
      * 동아리 메인페이지
      */
     @GetMapping("/{club_id}/mainpage")
-    public ClubSimpleInfoDto getClubMainPageInfo(@PathVariable("club_id") Long clubId) throws IOException {
+    public ResponseEntity<?> getClubMainPageInfo(Principal principal, @PathVariable("club_id") Long clubId) throws IOException {
 
-        ClubSimpleInfoDto clubSimpleInfoDto = clubService.getClubInfo(clubId);
+        Long memberId = Long.parseLong(principal.getName());
 
-        return clubSimpleInfoDto;
+        if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_MEMBER)) {
+            ClubSimpleInfoDto clubSimpleInfoDto = clubService.getClubInfo(clubId);
+            return response.success(clubSimpleInfoDto);
+        }
+
+        return response.fail("접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
     }
 
     /**
@@ -91,7 +97,6 @@ public class ClubController {
     public ResponseEntity allowUserSignupRequest(Principal principal, @PathVariable("club_id") Long clubId,
                                                  @RequestBody DealUserSignupRequestDto dto){
         try {
-            /*
             Long memberId = Long.parseLong(principal.getName());
 
             if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_PRESIDENT)) {
@@ -102,12 +107,6 @@ public class ClubController {
             }
 
             return response.fail("접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
-            */
-
-            if(dto.getStatus().equals("approve"))
-                return clubService.dealUserRequest(clubId, dto.getStudentId(), true);
-
-            return clubService.dealUserRequest(clubId, dto.getStudentId(), false);
 
         } catch(NullPointerException e) {
             return response.fail("유저 정보가 없습니다", HttpStatus.BAD_REQUEST);
@@ -120,7 +119,7 @@ public class ClubController {
     @GetMapping("/{club_id}/application-members")
     public ResponseEntity showAllSignupRequest(Principal principal, @PathVariable("club_id") Long clubId){
         try {
-            /*
+
             Long memberId = Long.parseLong(principal.getName());
 
             if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_PRESIDENT)) {
@@ -128,9 +127,6 @@ public class ClubController {
             }
 
             return response.fail("접근 권한이 없습니다.", HttpStatus.FORBIDDEN);
-
-             */
-            return clubService.showAllApplicationMember(clubId);
 
         } catch(NullPointerException e) {
             return response.fail("유저 정보가 없습니다", HttpStatus.BAD_REQUEST);
@@ -142,7 +138,7 @@ public class ClubController {
      */
     @GetMapping("/{club_id}/members")
     public ResponseEntity<?> viewClubMembers(Principal principal, @PathVariable("club_id") Long clubId){
-        /*
+
         Long memberId = Long.parseLong(principal.getName());
 
         if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_MANAGER)) {
@@ -150,13 +146,8 @@ public class ClubController {
 
             return response.success(mainResult);
         }
-        */
 
-        MainResult mainResult = clubService.viewClubMembers(clubId);
-
-        return response.success(mainResult);
-
-        //return response.fail("조회 권한이 없거나 존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST);
+        return response.fail("조회 권한이 없거나 존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST);
     }
 
     /* 이미지 저장
