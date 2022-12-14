@@ -187,8 +187,7 @@ public class ClubController {
      */
     @GetMapping("/{club_id}/members/{student_id}/changeAuthority")
     public ResponseEntity changeClubMemberDetail(Principal principal, @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
-        //Long memberId = Long.parseLong(principal.getName());
-        Long memberId = 1L;
+        Long memberId = Long.parseLong(principal.getName());
         Member member = memberService.findMemberById(memberId);
 
         if (member.getAuthority().getRank() != 4) {
@@ -200,5 +199,13 @@ public class ClubController {
         }
 
         return response.success();
+    }
+
+    /**
+     * 멤버 명단 삭제
+     */
+    @DeleteMapping("{club_id}/members/{student_id}")
+    public void deleteNotice(Principal principal,  @PathVariable("club_id") Long clubId, @PathVariable("student_id") String targetStudentId) {
+        clubService.deleteMember(targetStudentId, clubId);
     }
 }

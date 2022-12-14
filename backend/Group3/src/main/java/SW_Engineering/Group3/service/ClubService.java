@@ -272,6 +272,18 @@ public class ClubService {
      * 동아리 명단 삭제
      */
 
+    @Transactional
+    public void deleteMember(String targetStudentId, Long clubId) {
+        Member targetMember = memberRepository.findByStudentId(targetStudentId).orElseGet(null);
+
+        ClubMemberList targetClubMember = clubMemberRepository.findByMember(targetMember).stream()
+                .filter(c -> c.getClub().getId() == clubId)
+                .findAny()
+                .orElse(null);
+
+        clubMemberRepository.delete(targetClubMember);
+    }
+
     public List<Club> getAllClubs() {
         return clubRepository.findAll();
     }
