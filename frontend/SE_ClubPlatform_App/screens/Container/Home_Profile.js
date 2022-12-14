@@ -13,7 +13,11 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
 import Topbar from '../Bar/Topbar';
 
+const Height = Dimensions.get('window').height;
+const Width = Dimensions.get('window').width;
+
 function Home_Profile({navigation, clubInfo}) {
+  console.log('Hi');
   console.log(clubInfo);
   return (
     <View>
@@ -52,7 +56,9 @@ function Home_Profile({navigation, clubInfo}) {
           <Image
             style={styles.clubImg}
             resizeMode="stretch"
-            source={require('../../images/DoiT.png')}
+            source={{
+              uri: clubInfo ? 'data:image/png;base64,' + clubInfo.image : null,
+            }}
           />
           <View style={{flex: 1}}>
             <Text style={styles.captain_name}>
@@ -86,8 +92,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   clubImg: {
-    width: 120,
-    height: 120,
+    width: 110,
+    height: 110,
     borderRadius: 10,
     marginRight: 10,
   },
@@ -115,10 +121,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   cardTitle: {
-    flex: 1,
-    alignContent: 'center',
+    // flex: 1,
+    width: Width * 0.28,
+    // alignContent: 'center',
+    paddingLeft: Width * 0.06,
     fontSize: 20,
     fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gray_card_title: {
     flex: 1,
