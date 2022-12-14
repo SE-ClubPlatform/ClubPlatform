@@ -1,9 +1,11 @@
 package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.Board.Anonymous;
+import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.dto.Board.AnonymousDto;
 import SW_Engineering.Group3.dto.Board.AnonymousUpdateDto;
 import SW_Engineering.Group3.repository.Board.AnonymousRepository;
+import SW_Engineering.Group3.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AnonymousService {
+
+    private final MemberRepository memberRepository;
     private final AnonymousRepository anonymousRepository;
 
     public List<Anonymous> getAllAnonymous() {
@@ -21,8 +25,14 @@ public class AnonymousService {
     }
 
     @Transactional
-    public Long createAnonymous(AnonymousDto anonymousDto) {
-        Anonymous anonymous = anonymousDto.toAnonymous();
+    public Long createAnonymous(AnonymousDto anonymousDto, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElse(null);
+
+        if(member == null) {
+            return null;
+        }
+
+        Anonymous anonymous = anonymousDto.toAnonymous(member);
         return anonymousRepository.save(anonymous).getBoardID();
     }
 
@@ -44,6 +54,7 @@ public class AnonymousService {
     public AnonymousDto searchById(Long id) {
         Anonymous anonymous = anonymousRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
-        return new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(), anonymous.getContent(), anonymous.getIsAnonymous());
+        return new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(), anonymous.getAuthor().getUserName(),
+                anonymous.getContent(), anonymous.getIsAnonymous());
     }
 }

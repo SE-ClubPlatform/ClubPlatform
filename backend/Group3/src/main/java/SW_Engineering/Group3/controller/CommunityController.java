@@ -11,6 +11,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class CommunityController {
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
         List<CommunityDto> allCommunity = communityService.getAllCommunity().stream()
                 .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
-                        community.getContent(), community.getCategory()))
+                        community.getAuthor().getUserName(), community.getContent(), community.getCategory()))
                 .collect(Collectors.toList());
 
         return allCommunity;
@@ -62,8 +63,15 @@ public class CommunityController {
             @ApiResponse(code = 200, message = "소모임 게시글 작성")
     })
     @PostMapping("/club/{club_id}/community")
-    public Long writeCommunity(@PathVariable("club_id") Long clubId, @RequestBody CommunityDto communityDto) {
-        return communityService.createCommunity(communityDto);
+    public Long writeCommunity(Principal principal,
+                               @PathVariable("club_id") Long clubId, @RequestBody CommunityDto communityDto) {
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(memberId == null) {
+            return null;
+        }
+
+        return communityService.createCommunity(communityDto, memberId);
     }
 
     @ApiOperation(

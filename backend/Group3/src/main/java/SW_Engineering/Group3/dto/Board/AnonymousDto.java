@@ -15,18 +15,21 @@ public class AnonymousDto {
 
     private Long anonymousId;
     private String title;
+    private String author;
     private String content;
     private Boolean isAnonymous;
 
-    public AnonymousDto(Long anonymousId, String title, String content, Boolean isAnonymous) {
+    public AnonymousDto(Long anonymousId, String title, String author, String content, Boolean isAnonymous) {
         this.anonymousId = anonymousId;
         this.title = title;
+        this.author = author;
         this.content = content;
         this.isAnonymous = isAnonymous;
     }
 
-    public Anonymous toAnonymous() {
+    public Anonymous toAnonymous(Member member) {
         return Anonymous.builder()
+                .author(member)
                 .title(title)
                 .content(content)
                 .isAnonymous(isAnonymous)

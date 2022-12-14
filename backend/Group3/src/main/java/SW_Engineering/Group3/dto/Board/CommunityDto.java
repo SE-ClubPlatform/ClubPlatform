@@ -16,18 +16,21 @@ public class CommunityDto {
 
     private Long communityId;
     private String title;
+    private String author;
     private String content;
     private Category category;
 
-    public CommunityDto(Long communityId, String title, String content, Category category) {
+    public CommunityDto(Long communityId, String title, String author, String content, Category category) {
         this.communityId = communityId;
         this.title = title;
+        this.author = author;
         this.content = content;
         this.category = category;
     }
 
-    public Community toCommunity() {
+    public Community toCommunity(Member member) {
         return Community.builder()
+                .author(member)
                 .title(title)
                 .content(content)
                 .category(category)

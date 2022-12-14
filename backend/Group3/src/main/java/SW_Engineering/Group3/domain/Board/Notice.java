@@ -17,8 +17,8 @@ public class Notice extends Board {
     private Boolean isFinish;
 
     @Builder
-    public Notice(Long boardID, String title, String content, Boolean isFinish) {
-        super(boardID, title, content);
+    public Notice(Member author, Long boardID, String title, String content, Boolean isFinish) {
+        super(author, boardID, title, content);
         this.isFinish = isFinish;
     }
 }

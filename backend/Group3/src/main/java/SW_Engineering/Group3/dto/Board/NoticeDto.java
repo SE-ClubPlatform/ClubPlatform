@@ -16,19 +16,22 @@ public class NoticeDto {
 
     private Long noticeId;
     private String title;
+    private String author;
     private String content;
     private Boolean isFinish;
 
     @Builder
-    public NoticeDto(Long noticeId, String title, String content, Boolean isFinish) {
+    public NoticeDto(Long noticeId, String title, String author, String content, Boolean isFinish) {
         this.noticeId = noticeId;
         this.title = title;
+        this.author = author;
         this.content = content;
         this.isFinish = isFinish;
     }
 
-    public Notice toNotice() {
+    public Notice toNotice(Member author) {
         return Notice.builder()
+                .author(author)
                 .title(title)
                 .content(content)
                 .isFinish(isFinish)

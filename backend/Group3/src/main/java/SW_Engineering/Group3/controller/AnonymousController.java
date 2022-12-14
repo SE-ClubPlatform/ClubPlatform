@@ -11,6 +11,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,8 @@ public class AnonymousController {
     @GetMapping("/club/{club_id}/anonymous")
     public List<AnonymousDto> getAllAnonymous(@PathVariable("club_id") Long clubId) {
         List<AnonymousDto> allAnonymous = anonymousService.getAllAnonymous().stream()
-                .map(anonymous -> new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(), anonymous.getContent(), anonymous.getIsAnonymous())).collect(Collectors.toList());
+                .map(anonymous -> new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(), anonymous.getAuthor().getUserName(),
+                        anonymous.getContent(), anonymous.getIsAnonymous())).collect(Collectors.toList());
 
         return allAnonymous;
     }
@@ -60,8 +62,14 @@ public class AnonymousController {
             @ApiResponse(code = 200, message = "익명 게시글 작성")
     })
     @PostMapping("/club/{club_id}/anonymous")
-    public Long writeCommunity(@PathVariable("club_id") Long clubId, @RequestBody AnonymousDto anonymousDto) {
-        return anonymousService.createAnonymous(anonymousDto);
+    public Long writeCommunity(Principal principal,  @PathVariable("club_id") Long clubId, @RequestBody AnonymousDto anonymousDto) {
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(memberId == null) {
+            return null;
+        }
+
+        return anonymousService.createAnonymous(anonymousDto, memberId);
     }
 
     @ApiOperation(

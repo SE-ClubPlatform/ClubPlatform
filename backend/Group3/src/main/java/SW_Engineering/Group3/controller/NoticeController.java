@@ -15,6 +15,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,8 @@ public class NoticeController {
     @GetMapping("/club/{club_id}/notice")
     public List<NoticeDto> getAllNotice(@PathVariable("club_id") Long clubId) {
         List<NoticeDto> allNotices = noticeService.getAllNotices().stream()
-                .map(notice -> new NoticeDto(notice.getBoardID(), notice.getTitle(), notice.getContent(), notice.getIsFinish()))
+                .map(notice -> new NoticeDto(notice.getBoardID(), notice.getTitle(),
+                        notice.getAuthor().getUserName(), notice.getContent(), notice.getIsFinish()))
                 .collect(Collectors.toList());
         return allNotices;
     }
@@ -65,8 +67,15 @@ public class NoticeController {
             @ApiResponse(code = 200, message = "공지사항 작성")
     })
     @PostMapping("club/{club_id}/notice")
-    public Long writeNotice(@PathVariable("club_id") Long clubId, @RequestBody NoticeDto noticeDto) {
-        return noticeService.createNotice(noticeDto);
+    public Long writeNotice(Principal principal,
+                            @PathVariable("club_id") Long clubId, @RequestBody NoticeDto noticeDto) {
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(memberId == null) {
+            return null;
+        }
+
+        return noticeService.createNotice(noticeDto, memberId);
     }
 
     @ApiOperation(

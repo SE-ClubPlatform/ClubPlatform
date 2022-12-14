@@ -34,7 +34,8 @@ public abstract class Board {
     private String createTime;
 
 
-    public Board(Long boardID, String title, String content) {
+    public Board(Member author, Long boardID, String title, String content) {
+        this.author = author;
         this.boardID = boardID;
         this.title = title;
         this.content = content;

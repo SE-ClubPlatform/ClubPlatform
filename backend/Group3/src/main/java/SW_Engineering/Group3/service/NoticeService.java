@@ -1,9 +1,11 @@
 package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.Board.Notice;
+import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.dto.Board.NoticeDto;
 import SW_Engineering.Group3.dto.Board.NoticeUpdateDto;
 import SW_Engineering.Group3.repository.Board.NoticeRepository;
+import SW_Engineering.Group3.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NoticeService {
+
+    private final MemberRepository memberRepository;
     private final NoticeRepository noticeRepository;
 
     public List<Notice> getAllNotices() {
@@ -26,8 +30,15 @@ public class NoticeService {
     }
 
     @Transactional
-    public Long createNotice(NoticeDto noticeDto) {
-        Notice notice = noticeDto.toNotice();
+    public Long createNotice(NoticeDto noticeDto, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElse(null);
+
+        if(member == null) {
+            return null;
+        }
+
+        Notice notice = noticeDto.toNotice(member);
+
         return noticeRepository.save(notice).getBoardID();
     }
 
@@ -60,6 +71,7 @@ public class NoticeService {
 
     public NoticeDto searchById(Long id) {
         Notice notice = noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        return new NoticeDto(notice.getBoardID(), notice.getTitle(), notice.getContent(), notice.getIsFinish());
+        return new NoticeDto(notice.getBoardID(), notice.getTitle(),
+                notice.getAuthor().getUserName(), notice.getContent(), notice.getIsFinish());
     }
 }
