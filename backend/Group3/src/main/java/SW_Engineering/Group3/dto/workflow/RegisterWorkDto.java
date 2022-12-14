@@ -20,7 +20,7 @@ public class RegisterWorkDto {
     private String introduce; // 개괄적인 활동 설명
 
     @NotNull
-    private LocalDate finishDate; // 업무 수행 기간
+    private String finishDate; // 업무 수행 기간
 
     /**
      *  Author은 Session Or Token 도입 후 삭제 예정

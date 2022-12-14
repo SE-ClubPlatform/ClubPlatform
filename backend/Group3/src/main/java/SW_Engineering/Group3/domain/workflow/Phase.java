@@ -23,7 +23,7 @@ public class Phase {
     @Column private String title;
     @Column private String content;
     @Column private int step;
-    @Column private LocalDate finishDate;
+    @Column private String finishDate;
     @Column private boolean voteActivate;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -31,7 +31,7 @@ public class Phase {
 
     @Builder
     public Phase(Work work, Long clubId, String title, String content,
-                 int step, LocalDate finishDate, boolean voteActivate, Vote vote) {
+                 int step, String finishDate, boolean voteActivate, Vote vote) {
 
         this.work = work;
         this.clubId = clubId;

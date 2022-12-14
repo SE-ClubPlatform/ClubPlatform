@@ -28,12 +28,12 @@ public class Work {
 
     private String title;
     private String introduce;
-    private LocalDate finishDate;
+    private String finishDate;
     private int currentStep;
 
     @Builder
     public Work(Club club, String title, String introduce,
-                LocalDate finishDate, int currentStep) {
+                String finishDate, int currentStep) {
 
         this.club = club;
         this.title = title;
