@@ -39,7 +39,8 @@ public class CommunityController {
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
         List<CommunityDto> allCommunity = communityService.getAllCommunity().stream()
                 .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
-                        community.getAuthor().getUserName(), community.getContent(), community.getCategory()))
+                        community.getAuthor().getUserName(), community.getContent(),
+                        community.getCategory(), community.getCreateTime()))
                 .collect(Collectors.toList());
 
         return allCommunity;

@@ -60,7 +60,8 @@ public class AnonymousService {
     public AnonymousDto searchById(Long id) {
         Anonymous anonymous = anonymousRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
-        return new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(), anonymous.getAuthor().getUserName(),
-                anonymous.getContent(), anonymous.getIsAnonymous());
+        return new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(),
+                anonymous.getAuthor().getUserName(), anonymous.getContent(),
+                anonymous.getIsAnonymous(), anonymous.getCreateTime());
     }
 }

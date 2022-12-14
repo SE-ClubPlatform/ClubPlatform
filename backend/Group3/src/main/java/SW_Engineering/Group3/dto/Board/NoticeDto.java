@@ -19,14 +19,17 @@ public class NoticeDto {
     private String author;
     private String content;
     private Boolean isFinish;
+    private String createTime;
 
     @Builder
-    public NoticeDto(Long noticeId, String title, String author, String content, Boolean isFinish) {
+    public NoticeDto(Long noticeId, String title, String author, String content,
+                     Boolean isFinish, String createTime) {
         this.noticeId = noticeId;
         this.title = title;
         this.author = author;
         this.content = content;
         this.isFinish = isFinish;
+        this.createTime = createTime;
     }
 
     public Notice toNotice(Member author) {

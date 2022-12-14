@@ -60,6 +60,7 @@ public class CommunityService {
         Community community = communityRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
         return new CommunityDto(community.getBoardID(), community.getTitle(),
-                community.getAuthor().getUserName(), community.getContent(), community.getCategory());
+                community.getAuthor().getUserName(), community.getContent(),
+                community.getCategory(), community.getCreateTime());
     }
 }

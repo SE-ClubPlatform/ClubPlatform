@@ -79,7 +79,8 @@ public class NoticeService {
     public NoticeDto searchById(Long id) {
         Notice notice = noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
         return new NoticeDto(notice.getBoardID(), notice.getTitle(),
-                notice.getAuthor().getUserName(), notice.getContent(), notice.getIsFinish());
+                notice.getAuthor().getUserName(), notice.getContent(),
+                notice.getIsFinish(), notice.getCreateTime());
     }
 
     /**
