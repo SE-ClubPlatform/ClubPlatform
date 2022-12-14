@@ -7,6 +7,7 @@ import SW_Engineering.Group3.dto.Comment.AnonymousCommentDto;
 import SW_Engineering.Group3.repository.member.MemberRepository;
 import SW_Engineering.Group3.service.AnonymousCommentService;
 import SW_Engineering.Group3.service.AnonymousService;
+import SW_Engineering.Group3.service.MemberService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class AnonymousController {
     private final AnonymousService anonymousService;
     private final AnonymousCommentService anonymousCommentService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @ApiOperation(
             value = "익명 게시글의 모든 정보 반환"
@@ -174,11 +175,17 @@ public class AnonymousController {
 
     @ApiOperation(value = "댓글 작성", notes = "게시글에 달린 댓글을 작성합니다.")
     @PostMapping("/club/{club_id}/anonymous/{id}/comments")
-    public Long writeComment(@PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody AnonymousCommentDto anonymousCommentDto) {
+    public Long writeComment(Principal principal,
+                             @PathVariable("club_id") Long clubId, @PathVariable("id") Long id, @RequestBody AnonymousCommentDto anonymousCommentDto) {
 
         // 로그인 한 멤버 아이디를 넣어야 하는데 방법을 잘 모르겠어요 ㅠㅠ
-        Member member = memberRepository.findById(1L).get();
-        return anonymousCommentService.writeComment(id, anonymousCommentDto, member);
+        Long memberId = Long.parseLong(principal.getName());
+
+        if(memberId == null) {
+            return null;
+        }
+
+        return anonymousCommentService.writeComment(id, anonymousCommentDto, memberService.findMemberById(memberId));
     }
 
     @ApiOperation(value = "댓글 삭제", notes = "게시글에 달린 댓글을 삭제합니다.")
