@@ -26,8 +26,9 @@ function Home({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [clubId, setClubId] = useState()
   const [clubInfo, setClubInfo] = useState()
+  const [noticeList, setNoticeList] = useState([])
 
-  async function getData(token, clubId) {
+  async function getClubInfo(token, clubId) {
     try {
       const response = await axios.get(
         "http://sogong-group3.kro.kr/club/" + clubId + "/mainpage",
@@ -44,10 +45,31 @@ function Home({navigation}) {
       // console.log(e);
     }
   }
+
+  async function getNotice(token, clubId) {
+    try {
+      const response = await axios.get(
+        "http://sogong-group3.kro.kr/club/" + clubId + "/work",
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      )
+      setNoticeList(response.data)
+    } catch (e) {
+      // alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      // setLoading(false);
+      // console.log(e);
+    }
+  }
+
   useEffect(() => {
-    getData(`Bearer ${userToken_R}`, 1);
+    getClubInfo(`Bearer ${userToken_R}`, 1);
+    getNotice(`Bearer ${userToken_R}`, 1);
   }, []);
   console.log(clubInfo)
+  console.log(noticeList)
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -204,45 +226,7 @@ function Home({navigation}) {
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <ScrollView>
-      <View style={styles.card}>
-          <View style={styles.container}>
-            <Text style={styles.cardTitle}>{clubInfo.clubName}</Text>
-            <View style={styles.container_right}>
-              <View style={styles.gray_card}>
-                <View>
-                  <Text style={styles.gray_card_title}>회장</Text>
-                </View>
-                <View>
-                  <Text style={styles.gray_card_content}>{clubInfo.presidentName}</Text>
-                </View>
-              </View>
-
-              <TouchableOpacity
-                style={styles.gray_card}
-                onPress={() => navigation.navigate('MemberList')}>
-                <View>
-                  <Text style={styles.gray_card_title}>부원</Text>
-                </View>
-                <View>
-                  <Text style={styles.gray_card_content}>{clubInfo.memberCounts}명</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.container}>
-            <Image
-              style={styles.clubImg}
-              resizeMode="stretch"
-              source={require('../../images/DoiT.png')}
-            />
-            <View style={{flex: 1}}>
-              <Text style={styles.captain_name}>
-                {clubInfo.introduce}
-              </Text>
-            </View>
-          </View>
-        </View>
-        {/* <Home_Profile navigation={navigation} clubInfo= {clubInfo} /> */}
+        <Home_Profile navigation={navigation} clubInfo= {clubInfo} />
         <Home_Contents
           title="공지사항"
           location="Notice"
