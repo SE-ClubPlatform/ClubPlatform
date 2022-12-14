@@ -37,29 +37,76 @@ function IndexList() {
 }
 function BodyList(bodyData) {
   const [selectedNumber, setUser] = useState(0);
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [member, setManagerAuth] = useState();
   const [isVisible, setVisible] = useState(true);
+
   const infoData = bodyData && bodyData.bodyData;
 
   const selectMember = key => {
     setUser(selectedNumber => (selectedNumber = key));
   };
 
-  const giveAuth = () =>
+  async function getAuth(token, clubId, studentId) {
+    console.log(
+      'http://sogong-group3.kro.kr/club/' +
+        clubId +
+        '/members/' +
+        studentId +
+        '/changeAuthority',
+    );
+    try {
+      const response = await axios.get(
+        'http://sogong-group3.kro.kr/club/' +
+          clubId +
+          '/members/' +
+          studentId +
+          '/changeAuthority',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      setManagerAuth(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async function deleteMember(token, clubId, studentId) {
+    try {
+      const response = await axios.delete(
+        'http://sogong-group3.kro.kr/club/' + clubId + '/members/' + studentId,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  const alertGiveAuth = id => {
     Alert.alert('해당 회원에게 동아리 임원 권한을 주시겠습니까?', null, [
       {
         text: '아니요',
         onPress: () => null,
       },
-      {text: '네', onPress: () => null},
+      {text: '네', onPress: () => getAuth(userToken_R, 1, id)},
     ]);
-  const deleteMember = () =>
+  };
+
+  const alertDeleteMember = id =>
     Alert.alert('해당 회원을 동아리에서 삭제하시겠습니까?', null, [
       {
         text: '아니요',
         onPress: () => null,
       },
-      {text: '네', onPress: () => null},
+      {text: '네', onPress: () => deleteMember(userToken_R, 1, id)},
     ]);
+
+  useEffect(() => {});
 
   return (
     <View style={styles.bodyWrapper}>
@@ -93,7 +140,7 @@ function BodyList(bodyData) {
                     <View style={styles.apply_button_container}>
                       <TouchableOpacity
                         style={[styles.apply_button, {width: Width * 0.3}]}
-                        onPress={() => deleteMember()}>
+                        onPress={() => alertDeleteMember(data.studentId)}>
                         <Text style={styles.apply_button_text}>부원 삭제</Text>
                       </TouchableOpacity>
                     </View>
@@ -103,7 +150,7 @@ function BodyList(bodyData) {
                           styles.apply_button,
                           {backgroundColor: '#d9d9d9'},
                         ]}
-                        onPress={() => giveAuth()}>
+                        onPress={() => alertGiveAuth(data.studentId)}>
                         <Text style={styles.apply_button_text}>
                           동아리 임원 지정
                         </Text>
