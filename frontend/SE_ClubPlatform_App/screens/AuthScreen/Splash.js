@@ -25,6 +25,7 @@ const Splash = ({navigation}) => {
           console.log(value2);
           setUserToken_R(value2);
           navigation.replace(value === null ? 'Auth' : 'HomeStack');
+          //navigation.replace('Auth');
         });
       });
     }, 3000);

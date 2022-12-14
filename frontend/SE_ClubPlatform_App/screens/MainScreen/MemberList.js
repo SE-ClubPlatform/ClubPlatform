@@ -14,12 +14,55 @@ import Topbar from '../Bar/Topbar';
 import JoinBlock from '../SubScreen/MemberList/JoinComponent';
 import MemberListBlock from '../SubScreen/MemberList/TableComponent';
 import {ScrollView} from 'react-native-gesture-handler';
+import axios, {AxiosHeaders} from 'axios';
+import {useRecoilState} from 'recoil';
+import userToken from '../../recoils/userToken';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function MemberList({navigation}) {
   const [isList, SetTag] = useState(true);
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [applyMemberList, setApplyMemberList] = useState([]);
+  const [memberList, setMemberList] = useState([]);
+
+  async function getMemberList(token, clubId) {
+    try {
+      const response = await axios.get(
+        'http://sogong-group3.kro.kr/club/' + clubId + '/members',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      setMemberList(response.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async function getApplyMemberList(token, clubId) {
+    try {
+      const response = await axios.get(
+        'http://sogong-group3.kro.kr/club/' + clubId + '/application-members',
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      setApplyMemberList(response.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getApplyMemberList(`Bearer ${userToken_R}`, 1);
+    getMemberList(`Bearer ${userToken_R}`, 1);
+  }, [userToken_R]);
+
   const TrueTag = () => {
     SetTag(CurTag => true);
   };
@@ -71,34 +114,15 @@ function MemberList({navigation}) {
         )}
       </View>
       {isList ? (
-        <MemberListBlock />
+        <MemberListBlock bodyData={memberList && memberList.content} />
       ) : (
-        <ScrollView style={styles.context_container}>
-          <JoinBlock />
-          <JoinBlock />
-          <JoinBlock />
-          <JoinBlock />
-          <JoinBlock />
-          <JoinBlock />
-          <JoinBlock />
-        </ScrollView>
+        <JoinBlock applyData={applyMemberList && applyMemberList} />
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  context_container: {
-    backgroundColor: '#ffffff',
-    flex: 1,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 40,
-    marginTop: 24,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
-  },
   fontStyle: {
     fontSize: 28,
     marginBottom: Height * 0.03,

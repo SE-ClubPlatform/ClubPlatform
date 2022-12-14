@@ -14,19 +14,23 @@ import {back} from 'react-native/Libraries/Animated/Easing';
 import Topbar from '../Bar/Topbar';
 
 function Home_Profile({navigation, clubInfo}) {
-  console.log(clubInfo)
+  console.log(clubInfo);
   return (
     <View>
       <View style={styles.card}>
         <View style={styles.container}>
-          <Text style={styles.cardTitle}>{clubInfo?clubInfo.clubName:null}</Text>
+          <Text style={styles.cardTitle}>
+            {clubInfo ? clubInfo.clubName : null}
+          </Text>
           <View style={styles.container_right}>
             <View style={styles.gray_card}>
               <View>
                 <Text style={styles.gray_card_title}>회장</Text>
               </View>
               <View>
-                <Text style={styles.gray_card_content}>{clubInfo?clubInfo.presidentName:null}</Text>
+                <Text style={styles.gray_card_content}>
+                  {clubInfo ? clubInfo.presidentName : null}
+                </Text>
               </View>
             </View>
 
@@ -37,7 +41,9 @@ function Home_Profile({navigation, clubInfo}) {
                 <Text style={styles.gray_card_title}>부원</Text>
               </View>
               <View>
-                <Text style={styles.gray_card_content}>{clubInfo?clubInfo.memberCounts:null}명</Text>
+                <Text style={styles.gray_card_content}>
+                  {clubInfo ? clubInfo.memberCounts : null}명
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -50,7 +56,7 @@ function Home_Profile({navigation, clubInfo}) {
           />
           <View style={{flex: 1}}>
             <Text style={styles.captain_name}>
-              {clubInfo?clubInfo.introduce:null}
+              {clubInfo ? clubInfo.introduce : null}
             </Text>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
 import axios, {AxiosHeaders} from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {back} from 'react-native/Libraries/Animated/Easing';
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import userToken from '../../recoils/userToken';
 import Topbar from '../Bar/Topbar';
 import Home_Contents from '../Container/Home_Contents';
@@ -24,21 +24,21 @@ const Width = Dimensions.get('window').width;
 
 function Home({navigation}) {
   const [userToken_R, setUserToken] = useRecoilState(userToken);
-  const [clubId, setClubId] = useState()
-  const [clubInfo, setClubInfo] = useState()
-  const [noticeList, setNoticeList] = useState([])
+  const [clubId, setClubId] = useState();
+  const [clubInfo, setClubInfo] = useState();
+  const [noticeList, setNoticeList] = useState([]);
 
   async function getClubInfo(token, clubId) {
     try {
       const response = await axios.get(
-        "http://sogong-group3.kro.kr/club/" + clubId + "/mainpage",
+        'http://sogong-group3.kro.kr/club/' + clubId + '/mainpage',
         {
           headers: {
             Authorization: token,
           },
         },
-      )
-      setClubInfo(response.data)
+      );
+      setClubInfo(response.data);
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
@@ -49,14 +49,14 @@ function Home({navigation}) {
   async function getNotice(token, clubId) {
     try {
       const response = await axios.get(
-        "http://sogong-group3.kro.kr/club/" + clubId + "/work",
+        'http://sogong-group3.kro.kr/club/' + clubId + '/work',
         {
           headers: {
             Authorization: token,
           },
         },
-      )
-      setNoticeList(response.data)
+      );
+      setNoticeList(response.data);
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
@@ -68,8 +68,8 @@ function Home({navigation}) {
     getClubInfo(`Bearer ${userToken_R}`, 1);
     getNotice(`Bearer ${userToken_R}`, 1);
   }, []);
-  console.log(clubInfo)
-  console.log(noticeList)
+  console.log(clubInfo);
+  console.log(noticeList);
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -226,7 +226,7 @@ function Home({navigation}) {
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
       <ScrollView>
-        <Home_Profile navigation={navigation} clubInfo= {clubInfo} />
+        <Home_Profile navigation={navigation} clubInfo={clubInfo} />
         <Home_Contents
           title="공지사항"
           location="Notice"
