@@ -105,6 +105,8 @@ const postData3 = [
 function Board({navigation, data, boardType}) {
   const postData = data;
 
+  console.log(data);
+
   function Title() {
     if (boardType === 'anonymous') {
       return (
@@ -141,6 +143,7 @@ function Board({navigation, data, boardType}) {
       postType={boardType}
       title={post.title}
       author={post.author}
+      content={post.content}
       date={post.createTime}
       // time={post.time}
       // commentCount={post.commentCount}

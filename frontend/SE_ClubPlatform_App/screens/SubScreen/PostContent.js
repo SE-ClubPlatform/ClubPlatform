@@ -38,10 +38,12 @@ function PostContent({navigation, route}) {
               source={require('../../icons/User.png')}
             />
             <View>
-              <Text style={{fontWeight: 'bold'}}>{name}</Text>
-              <Text>
-                {date} {time}
+              <Text style={{fontWeight: 'bold'}}>
+                {route.params.PostType === 'anonymous'
+                  ? '익명'
+                  : route.params.Author}
               </Text>
+              <Text>{route.params.Date}</Text>
             </View>
           </View>
           <View style={styles.postBottom}>
@@ -52,9 +54,9 @@ function PostContent({navigation, route}) {
                 fontFamily: 'NanumSquareNeoTTF-bRg',
                 marginBottom: Height * 0.02,
               }}>
-              {title}
+              {route.params.Title}
             </Text>
-            <Image
+            {/* <Image
               style={{
                 width: Width * 0.9,
                 height: Width * 0.9,
@@ -62,8 +64,8 @@ function PostContent({navigation, route}) {
                 marginBottom: Height * 0.01,
               }}
               source={require('../../images/notice.png')}
-            />
-            <Text style={{fontSize: 16}}>{content}</Text>
+            /> */}
+            <Text style={{fontSize: 16}}>{route.params.Content}</Text>
           </View>
         </View>
         <View style={styles.commentArea}>
