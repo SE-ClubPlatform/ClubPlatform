@@ -21,8 +21,8 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final ClubService clubService;
 
-    public List<Community> getAllCommunity() {
-        return communityRepository.findAll();
+    public List<Community> getAllCommunity(Long clubId) {
+        return communityRepository.findArticlesByClub(clubId);
     }
 
     public Long createCommunity(CommunityDto communityDto, Long clubId, Long memberId) {

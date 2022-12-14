@@ -37,7 +37,7 @@ public class CommunityController {
     })
     @GetMapping("/club/{club_id}/community")
     public List<CommunityDto> getAllCommunity(@PathVariable("club_id") Long clubId) {
-        List<CommunityDto> allCommunity = communityService.getAllCommunity().stream()
+        List<CommunityDto> allCommunity = communityService.getAllCommunity(clubId).stream()
                 .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
                         community.getAuthor().getUserName(), community.getContent(),
                         community.getCategory(), community.getCreateTime()))

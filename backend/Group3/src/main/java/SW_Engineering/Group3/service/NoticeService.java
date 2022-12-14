@@ -25,8 +25,9 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final ClubService clubService;
 
-    public List<Notice> getAllNotices() {
-        return noticeRepository.findAll();
+    public List<Notice> getAllNotices(Long clubId) {
+        System.out.println("clubId = " + clubId);
+        return noticeRepository.findArticlesByClub(clubId);
     }
 
     public Notice getNoticeInfo(Long boardID) {

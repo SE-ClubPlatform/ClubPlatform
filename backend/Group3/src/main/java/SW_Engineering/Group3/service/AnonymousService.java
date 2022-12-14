@@ -22,8 +22,8 @@ public class AnonymousService {
     private final AnonymousRepository anonymousRepository;
     private final ClubService clubService;
 
-    public List<Anonymous> getAllAnonymous() {
-        return anonymousRepository.findAll();
+    public List<Anonymous> getAllAnonymous(Long clubId) {
+        return anonymousRepository.findArticlesByClub(clubId);
     }
 
     @Transactional

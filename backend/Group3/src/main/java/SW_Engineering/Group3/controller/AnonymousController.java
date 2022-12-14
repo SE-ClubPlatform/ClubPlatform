@@ -37,7 +37,7 @@ public class AnonymousController {
     })
     @GetMapping("/club/{club_id}/anonymous")
     public List<AnonymousDto> getAllAnonymous(@PathVariable("club_id") Long clubId) {
-        List<AnonymousDto> allAnonymous = anonymousService.getAllAnonymous().stream()
+        List<AnonymousDto> allAnonymous = anonymousService.getAllAnonymous(clubId).stream()
                 .map(anonymous -> new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(),
                         anonymous.getAuthor().getUserName(), anonymous.getContent(),
                         anonymous.getIsAnonymous(), anonymous.getCreateTime())).collect(Collectors.toList());
