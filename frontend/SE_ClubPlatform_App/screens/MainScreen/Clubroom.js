@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,9 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {set} from 'react-native-reanimated';
 import Topbar from '../Bar/Topbar';
+import userToken from '../../recoils/userToken';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import axios from 'axios';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -20,6 +23,55 @@ const Width = Dimensions.get('window').width;
 function Clubroom({navigation}) {
   const [userCount, setUserCount] = useState(5);
   const [out, setOut] = useState(true);
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [clublog, setClubLog] = useState();
+
+  async function getData(token, clubId) {
+    try {
+      console.log(token);
+      console.log(clubId);
+      const response = await axios.get(
+        `http://sogong-group3.kro.kr/clubRoom/${clubId}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      // setClubInfo(response.data);
+      console.log(response.data.data);
+      setClubLog(response.data.data);
+      console.log(clublog);
+    } catch (e) {
+      // alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      // setLoading(false);
+      console.log(e);
+    }
+  }
+
+  async function putData(token, clubId) {
+    try {
+      console.log(token);
+      console.log(clubId);
+      const response = await axios.post(
+        `http://sogong-group3.kro.kr/clubRoom/${clubId}`,
+        {
+          body: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response.data) {
+        console.log(response);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getData(`Bearer ${userToken_R}`, 1);
+  }, []);
 
   return (
     <View
@@ -33,7 +85,7 @@ function Clubroom({navigation}) {
         <View style={{alignItems: 'center', marginBottom: Height * 0.03}}>
           <View style={styles.countArea}>
             <Text style={{}}>현재 입장 인원</Text>
-            <Text>{userCount}명</Text>
+            <Text>{clublog ? clublog.length : 0}명</Text>
           </View>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
@@ -41,7 +93,10 @@ function Clubroom({navigation}) {
                 ...styles.exitButton,
                 backgroundColor: out ? '#4d53c1' : '#F3F3F3',
               }}
-              onPress={() => (out === false ? setOut(!out) : null)}
+              onPress={() => {
+                out === false ? setOut(!out) : null;
+                putData(`Bearer ${userToken_R}`, 1);
+              }}
               activeOpacity={0.85}>
               <Image
                 style={styles.exitIcon}
@@ -58,7 +113,10 @@ function Clubroom({navigation}) {
                 ...styles.exitButton,
                 backgroundColor: out ? '#F3F3F3' : '#4d53c1',
               }}
-              onPress={() => (out === true ? setOut(!out) : null)}
+              onPress={() => {
+                out === true ? setOut(!out) : null;
+                putData(`Bearer ${userToken_R}`, 1);
+              }}
               activeOpacity={0.85}>
               <Image
                 style={styles.exitIcon}
@@ -83,10 +141,82 @@ function Clubroom({navigation}) {
           </Text>
           <ScrollView
             style={{
-              height: Height * 0.35,
+              height: Height * 0.3,
               borderWidth: 0.1,
               borderRadius: 5,
-            }}></ScrollView>
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                paddingVertical: Height * 0.02,
+                paddingHorizontal: Width * 0.04,
+              }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  marginRight: Width * 0.215,
+                }}>
+                일시
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  marginRight: Width * 0.09,
+                }}>
+                학번
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  marginRight: Width * 0.06,
+                }}>
+                이름
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                }}>
+                상태
+              </Text>
+            </View>
+            <View style={{paddingHorizontal: Width * 0.04}}>
+              {clublog
+                ? clublog.map(log => (
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end',
+                        marginBottom: Height * 0.002,
+                      }}>
+                      <Text style={{marginRight: Width * 0.02}}>
+                        {log.clubRoomId}
+                      </Text>
+                      <Text style={{marginRight: Width * 0.025}}>
+                        {log.time}
+                      </Text>
+                      <Text style={{marginRight: Width * 0.025}}>
+                        {log.studentId}
+                      </Text>
+                      <Text style={{marginRight: Width * 0.05}}>
+                        {log.name}
+                      </Text>
+                      <Text
+                        style={{
+                          marginRight: Width * 0.002,
+                          color: log.type === '입장' ? 'blue' : 'red',
+                        }}>
+                        {log.type}
+                      </Text>
+                    </View>
+                  ))
+                : null}
+            </View>
+          </ScrollView>
         </View>
       </View>
     </View>
