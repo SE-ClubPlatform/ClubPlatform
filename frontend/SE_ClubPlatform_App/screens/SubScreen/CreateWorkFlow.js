@@ -14,6 +14,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import { useRecoilState } from 'recoil';
 import userToken from '../../recoils/userToken';
 import Topbar from '../Bar/Topbar';
+import axios from 'axios';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -25,6 +26,40 @@ function PostActivity({navigation}) {
   const [introduce, setIntroduce] = useState();
   const [finishDate, setFinishDate] = useState();
   const [userToken_R, setUserToken_R] = useRecoilState(userToken);
+
+  async function postWork(token, clubId, title, introduce, finishDate) {
+    
+    try {
+      const response = await axios.post(
+        "http://sogong-group3.kro.kr/club/" + clubId + "/work",
+        {
+          headers: {
+            Authorization: token,
+          },
+          title,
+          introduce,
+          finishDate,
+        },
+      );
+      console.log(response.data.state)
+      // if (response.data.state === 200) {
+      //   AsyncStorage.setItem('user_id', email);
+      //   AsyncStorage.setItem(`${userId}_token`, response.data.data.accessToken);
+
+      //   setUserId_R(email);
+      //   setUserToken_R(response.data.data.accessToken);
+      //   setLoading(false);
+      //   navigation.replace('HomeStack');
+      // } else {
+      //   alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      //   setLoading(false);
+      // }
+    } catch (e) {
+      alert('아이디와 비밀번호를 다시 확인해주세요 .');
+      setLoading(false);
+      console.log(e);
+    }
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -84,7 +119,7 @@ function PostActivity({navigation}) {
           }}>
           <TouchableOpacity 
           style={styles.registerButton}
-          onPress={()=> console.log(finishDate, introduce, title)}>
+          onPress={()=> postWork(userToken_R, 1, finishDate, introduce, title)}>
             <Text>등록하기</Text>
           </TouchableOpacity>
         </View>
