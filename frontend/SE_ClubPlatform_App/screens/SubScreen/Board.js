@@ -141,34 +141,6 @@ function Board({navigation, data, boardType}) {
       isFinish={post.isFinish}></PostComponent>
   ));
 
-  // const postList2 = postData2.map(post => (
-  //   <PostComponent
-  //     key={post.post_id}
-  //     navigation={navigation}
-  //     post_id={post.post_id}
-  //     postType={boardType}
-  //     title={post.title}
-  //     author={post.author}
-  //     date={post.date}
-  //     time={post.time}
-  //     commentCount={post.commentCount}
-  //     isFinish={post.isFinish}></PostComponent>
-  // ));
-
-  // const postList3 = postData3.map(post => (
-  //   <PostComponent
-  //     key={post.post_id}
-  //     navigation={navigation}
-  //     post_id={post.post_id}
-  //     postType={boardType}
-  //     title={post.title}
-  //     author={post.author}
-  //     date={post.date}
-  //     time={post.time}
-  //     commentCount={post.commentCount}
-  //     isFinish={post.isFinish}></PostComponent>
-  // ));
-
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
