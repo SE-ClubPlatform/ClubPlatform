@@ -15,24 +15,29 @@ import * as Progress from 'react-native-progress';
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
-function ActivityCard() {
+function ActivityCard({workInfo}) {
     const [voteVisible, setVoteVisible] = useState(false)
+    const [voteActivate, setVoteActivate] = useState(false)
     const [checked, setChecked] = useState('first')
+    
+    useEffect(()=>{
+      setVoteActivate(workInfo?workInfo.voteActivate:false)
+    }, [])
     return(
     <View style={styles.card}>
         <View style={styles.container_title}>
-        <Text style={styles.cardTitle}>활동 11</Text>
+        <Text style={styles.cardTitle}>{workInfo?workInfo.title:null}</Text>
         <View style={styles.gray_card}>
             <View>
                 <Text style={styles.gray_card_title}>진행단계</Text>
             </View>
             <View>
-                <Text style={styles.gray_card_content}>인원모집</Text>
+                <Text style={styles.gray_card_content}>{workInfo?workInfo.phaseName:null}</Text>
             </View>
             </View>
         </View>
         <View style={styles.container_sub}>
-            <Text>동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. 동아리 활동에 대한 개괄적인 설명이 기재되는 칸입니다. </Text>
+            <Text>{workInfo?workInfo.introduce:null} </Text>
         </View>
         <View style={styles.container_sub}>
         <TouchableOpacity
@@ -48,7 +53,12 @@ function ActivityCard() {
         </TouchableOpacity>
         </View>
         <Progress.Bar 
-        progress={0.8}
+        progress={workInfo?
+          workInfo.phaseName=="기획"?0.2:
+          workInfo.phaseName=="수요조사"?0.4:
+          workInfo.phaseName=="내부검토"?0.6:
+          workInfo.phaseName=="활동인원모집"?0.8:
+          workInfo.phaseName=="활동실시"?1:null:null}
         width={Width*0.8} 
         height={Height*0.012} 
         borderRadius={10}
