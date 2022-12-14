@@ -9,19 +9,13 @@ import {
   Image,
 } from 'react-native';
 import Topbar from '../Bar/Topbar';
+import CommentComponent from './CommentComponent';
+import axios from 'axios';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
 function PostContent({navigation, route}) {
-  const [name, setName] = useState('GM우현');
-  const [date, setDate] = useState('2022/11/04');
-  const [time, setTime] = useState('09:15');
-  const [title, setTitle] = useState('동아리방 사용 관련 공지사항');
-  const [content, setContent] = useState(
-    ' 안녕하세요 아주대학교 Do-iT 동아리 입니다. 동아리방 사용에 관한 공지사항 내용입니다 읽어주셔서 감사합니다 :) ',
-  );
-
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Topbar navigation={navigation} />
@@ -56,48 +50,11 @@ function PostContent({navigation, route}) {
               }}>
               {route.params.Title}
             </Text>
-            {/* <Image
-              style={{
-                width: Width * 0.9,
-                height: Width * 0.9,
-                resizeMode: 'stretch',
-                marginBottom: Height * 0.01,
-              }}
-              source={require('../../images/notice.png')}
-            /> */}
             <Text style={{fontSize: 16}}>{route.params.Content}</Text>
           </View>
         </View>
         <View style={styles.commentArea}>
-          <View
-            style={{
-              marginVertical: Height * 0.01,
-              backgroundColor: '#f2f2f2',
-              borderRadius: 10,
-              padding: 10,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: Height * 0.01,
-              }}>
-              <Image
-                style={{
-                  width: Width * 0.07,
-                  height: Width * 0.07,
-                  resizeMode: 'stretch',
-                  marginRight: Width * 0.01,
-                }}
-                source={require('../../icons/User.png')}
-              />
-              <Text>GM지영</Text>
-            </View>
-            <View>
-              <Text>넵 확인하였습니다 !</Text>
-              <Text style={{fontSize: 14}}>11/05 18:53</Text>
-            </View>
-          </View>
+          <CommentComponent />
         </View>
       </ScrollView>
     </View>
