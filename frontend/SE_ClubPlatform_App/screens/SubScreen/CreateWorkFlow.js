@@ -29,7 +29,7 @@ function PostActivity({navigation}) {
   const [finishDate, setFinishDate] = useState();
   const [content, setContent]= useState();
   const [userToken_R, setUserToken_R] = useRecoilState(userToken);
-  const [voteActivity, setVoteActivity] = useState(true);
+  const [voteActivate, setVoteActivity] = useState(true);
   
 
   async function postWork(token, clubId, title, introduce, finishDate) {
@@ -47,8 +47,7 @@ function PostActivity({navigation}) {
       );
       console.log(response.data.state)
       if (response.data.state === 200) {
-        console.log(response.data.message)
-        navigation.replace('WorkFlow');
+        console.log(response.data)
       } else {
         alert('내용을 확인해주세요');
       }
@@ -56,7 +55,7 @@ function PostActivity({navigation}) {
       console.log(e);
     }
   }
-  async function postWork(token, clubId, title, introduce, finishDate) {
+  async function postPhase(token, clubId, workId, title, introduce, finishDate, voteActivate) {
     try {
       const response = await axios.post(
         "http://sogong-group3.kro.kr/club/" + clubId + "/work/" + workId + "/phase",
@@ -65,8 +64,9 @@ function PostActivity({navigation}) {
             Authorization: token,
           },
           title,
-          introduce,
+          content,
           finishDate,
+          voteActivate,
         },
       );
       console.log(response.data.state)
@@ -109,7 +109,7 @@ function PostActivity({navigation}) {
               }}
               placeholder="내용을 입력해주세요"
               autoCapitalize="none"
-              onChangeText={(text) => setIntroduce(text)}
+              onChangeText={(text) => {setIntroduce(text); setContent(text);}}
               multiline={true}></TextInput>
             <View style={styles.voteContainer}>
             <BouncyCheckbox
@@ -117,7 +117,7 @@ function PostActivity({navigation}) {
               fillColor="#a49ee5"
               unfillColor="#fff"
               iconStyle={{ borderColor: "red" }}
-              onPress={() => {setVoteActivity(!voteActivity)}}/>
+              onPress={() => {setVoteActivity(!voteActivate); console.log(voteActivate);}}/>
             </View>
             <View style={styles.horizontalLine}></View>
             <TextInput
@@ -134,8 +134,10 @@ function PostActivity({navigation}) {
           }}>
           <TouchableOpacity 
           style={styles.registerButton}
-          onPress={()=> postWork(userToken_R, 1, finishDate, introduce, title)
-          
+          onPress={()=> {
+            postWork(userToken_R, 1, title, introduce, finishDate); 
+            postPhase(userToken_R, 1, workId, title, introduce, finishDate, voteActivate);
+          }
         }>
             <Text>등록하기</Text>
           </TouchableOpacity>
