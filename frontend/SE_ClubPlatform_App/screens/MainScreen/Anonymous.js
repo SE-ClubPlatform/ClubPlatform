@@ -2,26 +2,49 @@ import React from 'react';
 import {View, Text, Button} from 'react-native';
 import Topbar from '../Bar/Topbar';
 import Board from '../SubScreen/Board';
-
-const postData = [
-  {
-    title: '동아리방 사용 관련 공지사항',
-    author: 'GM우현',
-    date: '2022/11/04',
-    time: '09:15',
-    commentCount: 5,
-  },
-  {
-    title: '동아리방 사용 관련 공지사항',
-    author: 'GM우현',
-    date: '2022/11/04',
-    time: '09:15',
-    commentCount: 5,
-  },
-];
+import userToken from '../../recoils/userToken';
+import axios from 'axios';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {useState} from 'react';
+import {useEffect} from 'react';
 
 function Anonymous({navigation}) {
-  return <Board navigation={navigation} boardType={'anonymous'} />;
+  const [userToken_R, setUserToken] = useRecoilState(userToken);
+  const [postData, setPostData] = useState();
+
+  async function getData(token, clubId) {
+    try {
+      console.log(token);
+      console.log(clubId);
+      const response = await axios.get(
+        `http://sogong-group3.kro.kr/club/${clubId}/anonymous`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response) {
+        console.log('Hello!');
+        console.log(response.data);
+        setPostData(response.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getData(`Bearer ${userToken_R}`, 1);
+  }, []);
+
+  return postData ? (
+    <Board navigation={navigation} data={postData} boardType={'anonymous'} />
+  ) : (
+    <View style={{flex: 1, backgroundColor: 'white'}}>
+      <Topbar />
+    </View>
+  );
 }
 
 export default Anonymous;

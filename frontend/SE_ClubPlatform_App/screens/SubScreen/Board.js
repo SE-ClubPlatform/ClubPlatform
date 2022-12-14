@@ -15,54 +15,6 @@ import PostComponent from './PostComponent';
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
 
-const postData = [
-  {
-    post_id: 1, // 게시물 ID(인덱스)
-    title: '동아리방 사용 관련 공지사항', // 게시물 제목
-    author: 'GM우현', // 게시물 작성자
-    date: '2022/11/04', // 게시물 작성 날짜
-    time: '09:15', // 게시물 작성 시간
-    commentCount: 5, // 게시물 댓글 수
-    isFinish: false, // 게시물 모집완료 여부
-  },
-  {
-    post_id: 2,
-    title: 'MT 관련 공지사항',
-    author: 'GM준수',
-    date: '2022/10/25',
-    time: '11:10',
-    commentCount: 10,
-    isFinish: false,
-  },
-  {
-    post_id: 3,
-    title: '대여사업 관련 공지사항',
-    author: 'GM지영',
-    date: '2022/10/11',
-    time: '16:17',
-    commentCount: 3,
-    isFinish: false,
-  },
-  {
-    post_id: 4,
-    title: '개강총회 관련 공지사항',
-    author: 'GM우진',
-    date: '2022/10/09',
-    time: '12:11',
-    commentCount: 14,
-    isFinish: false,
-  },
-  {
-    post_id: 5,
-    title: '정기모임 관련 공지사항',
-    author: 'GM상훈',
-    date: '2022/07/21',
-    time: '10:12',
-    commentCount: 10,
-    isFinish: false,
-  },
-];
-
 const postData2 = [
   {
     post_id: 6,
@@ -150,7 +102,9 @@ const postData3 = [
   },
 ];
 
-function Board({navigation, club_id, boardType}) {
+function Board({navigation, data, boardType}) {
+  const postData = data;
+
   function Title() {
     if (boardType === 'anonymous') {
       return (
@@ -175,45 +129,45 @@ function Board({navigation, club_id, boardType}) {
 
   const postList = postData.map(post => (
     <PostComponent
-      key={post.post_id}
+      key={post.noticeId}
       navigation={navigation}
-      post_id={post.post_id}
+      post_id={post.noticeId}
       postType={boardType}
       title={post.title}
       author={post.author}
-      date={post.date}
-      time={post.time}
-      commentCount={post.commentCount}
+      date={post.createTime}
+      // time={post.time}
+      // commentCount={post.commentCount}
       isFinish={post.isFinish}></PostComponent>
   ));
 
-  const postList2 = postData2.map(post => (
-    <PostComponent
-      key={post.post_id}
-      navigation={navigation}
-      post_id={post.post_id}
-      postType={boardType}
-      title={post.title}
-      author={post.author}
-      date={post.date}
-      time={post.time}
-      commentCount={post.commentCount}
-      isFinish={post.isFinish}></PostComponent>
-  ));
+  // const postList2 = postData2.map(post => (
+  //   <PostComponent
+  //     key={post.post_id}
+  //     navigation={navigation}
+  //     post_id={post.post_id}
+  //     postType={boardType}
+  //     title={post.title}
+  //     author={post.author}
+  //     date={post.date}
+  //     time={post.time}
+  //     commentCount={post.commentCount}
+  //     isFinish={post.isFinish}></PostComponent>
+  // ));
 
-  const postList3 = postData3.map(post => (
-    <PostComponent
-      key={post.post_id}
-      navigation={navigation}
-      post_id={post.post_id}
-      postType={boardType}
-      title={post.title}
-      author={post.author}
-      date={post.date}
-      time={post.time}
-      commentCount={post.commentCount}
-      isFinish={post.isFinish}></PostComponent>
-  ));
+  // const postList3 = postData3.map(post => (
+  //   <PostComponent
+  //     key={post.post_id}
+  //     navigation={navigation}
+  //     post_id={post.post_id}
+  //     postType={boardType}
+  //     title={post.title}
+  //     author={post.author}
+  //     date={post.date}
+  //     time={post.time}
+  //     commentCount={post.commentCount}
+  //     isFinish={post.isFinish}></PostComponent>
+  // ));
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -234,13 +188,7 @@ function Board({navigation, club_id, boardType}) {
           <Title />
         </View>
         <View style={{flex: 1}}>
-          <ScrollView style={{flex: 0.9}}>
-            {boardType === 'notice'
-              ? postList
-              : boardType === 'group'
-              ? postList2
-              : postList3}
-          </ScrollView>
+          <ScrollView style={{flex: 0.9}}>{postList}</ScrollView>
           <View
             style={{
               flex: 0.1,
@@ -257,7 +205,9 @@ function Board({navigation, club_id, boardType}) {
                 borderRadius: 8,
                 flexDirection: 'row',
               }}
-              onPress={() => navigation.navigate('Post')}>
+              onPress={() =>
+                navigation.navigate('Post', {boardtype: boardType})
+              }>
               <Image
                 style={{
                   width: Width * 0.05,
