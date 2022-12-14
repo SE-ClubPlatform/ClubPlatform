@@ -45,6 +45,7 @@ function WorkFlow({navigation}) {
 
   useEffect(()=>{
     getWork(userToken_R, 1)
+    console.log(workList?workList[0]:"Hi")
   }, [])
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
