@@ -29,6 +29,8 @@ function Home({navigation}) {
 
   async function getData(token, clubId) {
     try {
+      console.log(token);
+      console.log(clubId);
       const response = await axios.get(
         'http://sogong-group3.kro.kr/club/' + clubId + '/mainpage',
         {
@@ -41,13 +43,13 @@ function Home({navigation}) {
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
-      // console.log(e);
+      console.log(e);
     }
   }
   useEffect(() => {
     getData(`Bearer ${userToken_R}`, 1);
   }, []);
-  console.log(clubInfo);
+  // console.log(clubInfo);
   const postData = [
     {
       post_id: 1, // 게시물 ID(인덱스)
@@ -206,7 +208,9 @@ function Home({navigation}) {
       <ScrollView>
         <View style={styles.card}>
           <View style={styles.container}>
-            <Text style={styles.cardTitle}>{clubInfo.clubName}</Text>
+            <Text style={styles.cardTitle}>
+              {clubInfo ? clubInfo.clubName : null}
+            </Text>
             <View style={styles.container_right}>
               <View style={styles.gray_card}>
                 <View>
@@ -214,7 +218,7 @@ function Home({navigation}) {
                 </View>
                 <View>
                   <Text style={styles.gray_card_content}>
-                    {clubInfo.presidentName}
+                    {clubInfo ? clubInfo.presidentName : null}
                   </Text>
                 </View>
               </View>
@@ -227,7 +231,7 @@ function Home({navigation}) {
                 </View>
                 <View>
                   <Text style={styles.gray_card_content}>
-                    {clubInfo.memberCounts}명
+                    {clubInfo ? clubInfo.memberCounts : null}명
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -240,7 +244,9 @@ function Home({navigation}) {
               source={require('../../images/DoiT.png')}
             />
             <View style={{flex: 1}}>
-              <Text style={styles.captain_name}>{clubInfo.introduce}</Text>
+              <Text style={styles.captain_name}>
+                {clubInfo ? clubInfo.introduce : null}
+              </Text>
             </View>
           </View>
         </View>

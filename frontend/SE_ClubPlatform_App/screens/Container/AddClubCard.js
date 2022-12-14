@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
+import {AxiosHeaders} from 'axios';
 import userToken from '../../recoils/userToken';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
