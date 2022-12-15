@@ -138,8 +138,13 @@ function Main({navigation}) {
             <Image
               style={styles.clubImage}
               resizeMode="stretch"
-              source={require('../../images/Ggong.png')}
+              source={{
+                uri: clubList
+                  ? 'data:image/png;base64,' + clubList[1].image
+                  : null,
+              }}
             />
+            <Text>{clubList ? clubList[1].clubName : null}</Text>
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row'}}>

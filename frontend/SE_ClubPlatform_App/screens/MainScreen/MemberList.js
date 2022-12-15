@@ -75,7 +75,7 @@ function MemberList({navigation}) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fafafa',
+        backgroundColor: 'white',
       }}>
       <Topbar navigation={navigation} />
       <View style={{padding: Width * 0.05, paddingBottom: Width * 0.02}}>

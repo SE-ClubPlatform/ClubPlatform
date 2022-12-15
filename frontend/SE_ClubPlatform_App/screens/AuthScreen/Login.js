@@ -135,7 +135,7 @@ function Login({navigation}) {
           </TouchableOpacity>
         </View>
 
-        <View
+        {/* <View
           style={{
             ...styles.btnArea,
             borderTopWidth: 0.2,
@@ -152,7 +152,7 @@ function Login({navigation}) {
               source={require('../../icons/googleLogin.png')}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
       <View style={{flex: 3}} />
     </LinearGradient>

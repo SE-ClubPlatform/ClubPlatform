@@ -16,6 +16,7 @@ import Topbar from '../Bar/Topbar';
 import userToken from '../../recoils/userToken';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import axios from 'axios';
+import {useIsFocused} from '@react-navigation/native';
 
 const Height = Dimensions.get('window').height;
 const Width = Dimensions.get('window').width;
@@ -25,6 +26,8 @@ function Clubroom({navigation}) {
   const [out, setOut] = useState(true);
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [clublog, setClubLog] = useState();
+
+  const isFocused = useIsFocused();
 
   async function getData(token, clubId) {
     try {
@@ -38,10 +41,23 @@ function Clubroom({navigation}) {
           },
         },
       );
-      // setClubInfo(response.data);
-      console.log(response.data.data);
-      setClubLog(response.data.data);
-      console.log(clublog);
+      if (response) {
+        console.log(response.data.data);
+        setClubLog(response.data.data);
+      }
+
+      const response2 = await axios.get(
+        `http://sogong-group3.kro.kr/clubRoom/${clubId}/current-members`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+      if (response2) {
+        console.log('Here');
+        console.log(response.data);
+      }
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
@@ -53,10 +69,10 @@ function Clubroom({navigation}) {
     try {
       console.log(token);
       console.log(clubId);
-      const response = await axios.put(
-        `http://sogong-group3.kro.kr/clubRoom/${clubId}`,
+      const response = await axios.get(
+        `http://sogong-group3.kro.kr/clubRoom/${clubId}/toggle`,
         {
-          body: {
+          headers: {
             Authorization: token,
           },
         },
@@ -71,7 +87,7 @@ function Clubroom({navigation}) {
 
   useEffect(() => {
     getData(`Bearer ${userToken_R}`, 1);
-  }, []);
+  }, [isFocused]);
 
   return (
     <View
