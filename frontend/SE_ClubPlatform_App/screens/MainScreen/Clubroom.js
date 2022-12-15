@@ -23,9 +23,10 @@ const Width = Dimensions.get('window').width;
 
 function Clubroom({navigation}) {
   const [userCount, setUserCount] = useState(5);
-  const [out, setOut] = useState(true);
+  const [out, setOut] = useState(false);
   const [userToken_R, setUserToken] = useRecoilState(userToken);
   const [clublog, setClubLog] = useState();
+  const [count, setCount] = useState(0);
 
   const isFocused = useIsFocused();
 
@@ -46,18 +47,19 @@ function Clubroom({navigation}) {
         setClubLog(response.data.data);
       }
 
-      const response2 = await axios.get(
-        `http://sogong-group3.kro.kr/clubRoom/${clubId}/current-members`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        },
-      );
-      if (response2) {
-        console.log('Here');
-        console.log(response.data);
-      }
+      // const response2 = await axios.get(
+      //   `http://sogong-group3.kro.kr/clubRoom/${clubId}/current-members`,
+      //   {
+      //     headers: {
+      //       Authorization: token,
+      //     },
+      //   },
+      // );
+      // if (response2) {
+      //   console.log('Here');
+      //   console.log(response2.data.data);
+      //   setCount(response2.data.data);
+      // }
     } catch (e) {
       // alert('아이디와 비밀번호를 다시 확인해주세요 .');
       // setLoading(false);
@@ -101,7 +103,7 @@ function Clubroom({navigation}) {
         <View style={{alignItems: 'center', marginBottom: Height * 0.03}}>
           <View style={styles.countArea}>
             <Text style={{}}>현재 입장 인원</Text>
-            <Text>{clublog ? clublog.length : 0}명</Text>
+            <Text>{count}명</Text>
           </View>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
@@ -110,6 +112,7 @@ function Clubroom({navigation}) {
                 backgroundColor: out ? '#4d53c1' : '#F3F3F3',
               }}
               onPress={() => {
+                out === false ? setCount(count + 1) : null;
                 out === false ? setOut(!out) : null;
                 putData(`Bearer ${userToken_R}`, 1);
               }}
@@ -130,6 +133,7 @@ function Clubroom({navigation}) {
                 backgroundColor: out ? '#F3F3F3' : '#4d53c1',
               }}
               onPress={() => {
+                out === true ? setCount(count => count - 1) : null;
                 out === true ? setOut(!out) : null;
                 putData(`Bearer ${userToken_R}`, 1);
               }}
