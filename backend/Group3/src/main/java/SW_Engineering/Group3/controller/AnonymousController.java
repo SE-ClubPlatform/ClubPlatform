@@ -3,6 +3,7 @@ package SW_Engineering.Group3.controller;
 import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.dto.Board.AnonymousDto;
 import SW_Engineering.Group3.dto.Board.AnonymousUpdateDto;
+import SW_Engineering.Group3.dto.Board.CommunityDto;
 import SW_Engineering.Group3.dto.Comment.AnonymousCommentDto;
 import SW_Engineering.Group3.repository.member.MemberRepository;
 import SW_Engineering.Group3.service.AnonymousCommentService;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +42,9 @@ public class AnonymousController {
         List<AnonymousDto> allAnonymous = anonymousService.getAllAnonymous(clubId).stream()
                 .map(anonymous -> new AnonymousDto(anonymous.getBoardID(), anonymous.getTitle(),
                         anonymous.getAuthor(), anonymous.getContent(),
-                        anonymous.getIsAnonymous(), anonymous.getCreateTime())).collect(Collectors.toList());
+                        anonymous.getIsAnonymous(), anonymous.getCreateTime()))
+                .sorted(Comparator.comparing(AnonymousDto:: getAnonymousId).reversed())
+                .collect(Collectors.toList());
 
         return allAnonymous;
     }

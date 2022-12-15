@@ -39,23 +39,17 @@ public class WorkFlowController {
      */
     @PostMapping()
     public ResponseEntity registerWork(@Validated @RequestBody RegisterWorkDto registerWorkDto, BindingResult bindingResult,
-                                       Principal principal, @PathVariable("club_id") Long clubId){
+                                       @PathVariable("club_id") Long clubId){
 
-        Long memberId = Long.parseLong(principal.getName());
-
-        if(clubService.checkUserClubAuthority(memberId, clubId, Authority.ROLE_MANAGER)) {
-            if (bindingResult.hasErrors()) {
-                return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
-            }
-
-            Club club = clubService.findClubById(clubId);
-
-            Long workId = workService.register(registerWorkDto.toWork(club));
-
-            return response.success(workId, "업무 저장에 성공했습니다.", HttpStatus.OK);
+        if (bindingResult.hasErrors()) {
+            return response.fail("입력 정보가 올바른지 확인해 주세요", HttpStatus.BAD_REQUEST);
         }
 
-        return response.fail("작성 권한이 없는 유저입니다.", HttpStatus.FORBIDDEN);
+        Club club = clubService.findClubById(clubId);
+
+        Long workId = workService.register(registerWorkDto.toWork(club));
+
+        return response.success(workId, "업무 저장에 성공했습니다.", HttpStatus.OK);
     }
 
     /**

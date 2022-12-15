@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,7 @@ public class CommunityController {
                 .map(community -> new CommunityDto(community.getBoardID(), community.getTitle(),
                         community.getAuthor(), community.getContent(),
                         community.getCategory(), community.getCreateTime()))
+                .sorted(Comparator.comparing(CommunityDto :: getCommunityId).reversed())
                 .collect(Collectors.toList());
 
         return allCommunity;

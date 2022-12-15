@@ -1,5 +1,6 @@
 package SW_Engineering.Group3.controller;
 
+import SW_Engineering.Group3.domain.clubroom.ClubRoom;
 import SW_Engineering.Group3.dto.Response;
 import SW_Engineering.Group3.dto.clubroom.ClubRoomLogDto;
 import SW_Engineering.Group3.service.ClubRoomService;
@@ -49,5 +50,19 @@ public class ClubRoomController {
         }
 
         return response.success(dtos);
+    }
+
+    /**
+     * 동아리방 현재 인원 불러옴
+     */
+    @GetMapping("/{club_id}/current-members")
+    public ResponseEntity<?> getClubRoomCurrentState(@PathVariable(value = "club_id") Long clubId) {
+        ClubRoom clubRoom = clubRoomService.getClubRoomByClub(clubId);
+
+        if(clubRoom == null) {
+            return response.fail("올바르지 않은 동아리 번호입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        return response.success(clubRoom.getCurrentMembers());
     }
 }

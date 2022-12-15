@@ -2,6 +2,7 @@ package SW_Engineering.Group3.controller;
 
 import SW_Engineering.Group3.domain.auth.Member;
 import SW_Engineering.Group3.domain.comment.NoticeComment;
+import SW_Engineering.Group3.dto.Board.CommunityDto;
 import SW_Engineering.Group3.dto.Board.NoticeDto;
 import SW_Engineering.Group3.dto.Board.NoticeUpdateDto;
 import SW_Engineering.Group3.dto.Comment.AnonymousCommentDto;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +47,7 @@ public class NoticeController {
                 .map(notice -> new NoticeDto(notice.getBoardID(), notice.getTitle(),
                         notice.getAuthor(), notice.getContent(),
                         notice.getIsFinish(), notice.getCreateTime()))
+                .sorted(Comparator.comparing(NoticeDto:: getNoticeId).reversed())
                 .collect(Collectors.toList());
         return allNotices;
     }

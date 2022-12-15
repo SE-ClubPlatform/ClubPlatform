@@ -1,6 +1,7 @@
 package SW_Engineering.Group3.service;
 
 import SW_Engineering.Group3.domain.auth.Member;
+import SW_Engineering.Group3.domain.club.Club;
 import SW_Engineering.Group3.domain.clubroom.ClubRoom;
 import SW_Engineering.Group3.domain.clubroom.ClubRoomLog;
 import SW_Engineering.Group3.dto.clubroom.ClubRoomLogDto;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class ClubRoomService {
 
     private final MemberService memberService;
+    private final ClubService clubService;
     private final ClubRoomLogRepository clubRoomLogRepository;
     private final ClubRoomRepository clubRoomRepository;
 
@@ -52,6 +54,9 @@ public class ClubRoomService {
                             .localDateTime(LocalDateTime.now())
                             .type("입장")
                             .build());
+
+            clubRoom.addCount();
+
         } else { // 4. 가장 최근 활동이 입장이면 퇴장 기록을 만듬
             clubRoomLogRepository.save(ClubRoomLog.builder()
                     .clubRoom(clubRoom)
@@ -59,6 +64,8 @@ public class ClubRoomService {
                     .localDateTime(LocalDateTime.now())
                     .type("퇴장")
                     .build());
+
+            clubRoom.minusCount();
         }
 
         return true;
@@ -85,6 +92,15 @@ public class ClubRoomService {
                 .map(c -> ClubRoomLogDto.createClubRoomLogsDto(c))
                 .collect(Collectors.toList());
 
+    }
+
+    /**
+     * 동아리 정보를 이용해 동아리방 정보를 얻어온다
+     */
+    public ClubRoom getClubRoomByClub(Long clubId) {
+        Club club = clubService.findClubById(clubId);
+
+        return club.getClubRoom();
     }
 
 }
